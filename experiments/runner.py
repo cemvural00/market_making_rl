@@ -1,4 +1,4 @@
-def evaluate_agent(env, agent, n_episodes=1000):
+def evaluate_agent(env, agent, n_episodes=100):
     pnls = []
     qs = []
 
@@ -41,7 +41,7 @@ def run_experiment(
     env_config={},
     agent_config={},
     train=True,
-    n_eval_episodes=1000,
+    n_eval_episodes=100,
     save_path="results",
     save_model=False,
     model_save_path="models"

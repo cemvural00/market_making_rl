@@ -87,7 +87,7 @@ python scripts/run_full_pipeline.py --aggregate
 # Custom options
 python scripts/run_full_pipeline.py --full \
     --train-eval-episodes 100 \
-    --compare-eval-episodes 1000
+    --compare-eval-episodes 100
 ```
 
 ## Workflow

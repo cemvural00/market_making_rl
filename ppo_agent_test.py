@@ -56,7 +56,7 @@ as_agent = ASClosedFormAgent(config={
 })
 
 
-def rollout(env, agent, n_episodes=1000):
+def rollout(env, agent, n_episodes=100):
     pnls = []
     qs = []
     for _ in range(n_episodes):
@@ -73,8 +73,8 @@ def rollout(env, agent, n_episodes=1000):
     return np.array(pnls), np.array(qs)
 
 
-rl_pnls, rl_qs = rollout(env_eval, ppo_agent, n_episodes=1000)
-as_pnls, as_qs = rollout(env_eval, as_agent, n_episodes=1000)
+rl_pnls, rl_qs = rollout(env_eval, ppo_agent, n_episodes=100)
+as_pnls, as_qs = rollout(env_eval, as_agent, n_episodes=100)
 
 print("RL   mean PnL:", rl_pnls.mean(), "std:", rl_pnls.std())
 print("AS   mean PnL:", as_pnls.mean(), "std:", as_pnls.std())

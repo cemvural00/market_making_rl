@@ -4,6 +4,7 @@ from agents.base_agent import BaseAgent
 from sb3_contrib import RecurrentPPO
 from stable_baselines3.common.vec_env import DummyVecEnv
 
+import torch
 import torch.nn as nn
 
 
@@ -102,6 +103,15 @@ class LSTMPPOAgent(BaseAgent):
         ppo_kwargs = self.config.copy()
         ppo_kwargs.setdefault("verbose", 0)
         ppo_kwargs["policy_kwargs"] = policy_kwargs
+        
+        # RecurrentPPO with MLP layers is faster on CPU than GPU/MPS
+        # Similar to PPO, on-policy algorithms with MLP don't benefit from GPU
+        device = "cpu"
+        ppo_kwargs["device"] = device
+        
+        verbose_level = ppo_kwargs.get("verbose", 0)
+        if verbose_level > 0:
+            print(f"LSTMPPOAgent: Using device: {device} (CPU recommended for MLP policies)")
 
         self.model = RecurrentPPO(
             policy="MlpLstmPolicy",
@@ -216,7 +226,7 @@ class LSTMPPOAgent(BaseAgent):
                     mode=es_config.get("mode", "max"),
                     best_model_save_path=es_config.get("best_model_path", None),
                     verbose=es_config.get("verbose", 1),
-                    eval_freq=es_config.get("eval_freq", max(getattr(self.model, 'n_steps', 512), 10000)),
+                    eval_freq=es_config.get("eval_freq", 2 * getattr(self.model, 'n_steps', 512)),  # Every 2 rollouts
                     n_eval_episodes=es_config.get("n_eval_episodes", 10),
                 )
             else:

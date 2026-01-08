@@ -4,6 +4,7 @@ from agents.base_agent import BaseAgent
 from stable_baselines3 import SAC
 from stable_baselines3.common.vec_env import DummyVecEnv
 
+import torch
 import torch.nn as nn
 
 
@@ -115,6 +116,15 @@ class LSTMSACAgent(BaseAgent):
         sac_kwargs = self.config.copy()
         sac_kwargs.setdefault("verbose", 0)
         sac_kwargs["policy_kwargs"] = policy_kwargs
+        
+        # SAC with MLP policies is faster on CPU than GPU/MPS
+        # Similar to PPO, small MLP networks don't benefit from GPU overhead
+        device = "cpu"
+        sac_kwargs["device"] = device
+        
+        verbose_level = sac_kwargs.get("verbose", 0)
+        if verbose_level > 0:
+            print(f"LSTMSACAgent: Using device: {device} (CPU recommended for MLP policies)")
 
         self.model = SAC(
             policy="MlpPolicy",
@@ -195,7 +205,7 @@ class LSTMSACAgent(BaseAgent):
                     mode=es_config.get("mode", "max"),
                     best_model_save_path=es_config.get("best_model_path", None),
                     verbose=es_config.get("verbose", 1),
-                    eval_freq=es_config.get("eval_freq", 10000),
+                    eval_freq=es_config.get("eval_freq", 2048),  # Every 2048 steps (reasonable default for SAC)
                     n_eval_episodes=es_config.get("n_eval_episodes", 10),
                 )
             else:

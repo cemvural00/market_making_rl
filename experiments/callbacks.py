@@ -7,6 +7,7 @@ and evaluation metrics (reward, PnL, etc.).
 
 from stable_baselines3.common.callbacks import BaseCallback, EvalCallback
 from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common.monitor import Monitor
 import numpy as np
 import os
 import tempfile
@@ -75,8 +76,24 @@ class RewardBasedEarlyStopping(EvalCallback):
         os.makedirs(os.path.dirname(best_model_save_path) if os.path.dirname(best_model_save_path) else ".", exist_ok=True)
         
         # Wrap eval_env if needed (EvalCallback expects VecEnv)
+        # Also wrap with Monitor to track episode statistics properly
         if hasattr(eval_env, 'step') and not hasattr(eval_env, 'num_envs'):  # Single env
-            eval_env_vec = DummyVecEnv([lambda: eval_env])
+            # Store env class and kwargs for proper closure in lambda
+            env_class = type(eval_env)
+            env_kwargs = {
+                'S0': getattr(eval_env, 'S0', 100.0),
+                'T': getattr(eval_env, 'T', 1.0),
+                'dt': getattr(eval_env, 'dt', 0.0001),
+                'A': getattr(eval_env, 'A', 5.0),
+                'k': getattr(eval_env, 'k', 1.5),
+                'base_delta': getattr(eval_env, 'base_delta', 1.0),
+                'max_inventory': getattr(eval_env, 'max_inventory', 20),
+                'inv_penalty': getattr(eval_env, 'inv_penalty', 0.01),
+            }
+            # Wrap with Monitor - create new instance in lambda to avoid closure issues
+            eval_env_vec = DummyVecEnv([
+                lambda cls=env_class, kwargs=env_kwargs: Monitor(cls(seed=None, **kwargs))
+            ])
         else:  # Already a VecEnv
             eval_env_vec = eval_env
         
@@ -103,6 +120,7 @@ class RewardBasedEarlyStopping(EvalCallback):
         self.wait = 0  # Number of evaluations without improvement
         self.stopped_epoch = 0
         self.best_eval_timestep = 0
+        self._should_stop = False  # Flag to signal early stopping
         
         # Store PnL history for computing metrics
         self._pnl_history = []
@@ -119,11 +137,24 @@ class RewardBasedEarlyStopping(EvalCallback):
         bool
             True to continue training, False to stop
         """
+        # Check flag BEFORE calling parent (in case it was set in previous evaluation)
+        if self._should_stop:
+            if self.verbose > 0:
+                print(f"EarlyStopping: Stopping training (flag set) at step {self.num_timesteps}")
+            return False
+        
         # Call parent to perform evaluation
+        # This will call _on_evaluation which updates self.wait and may set _should_stop
         continue_training = super()._on_step()
         
         # If parent stopped evaluation callback, respect that
         if not continue_training:
+            return False
+        
+        # Check flag AFTER evaluation (in case it was just set in _on_evaluation)
+        if self._should_stop:
+            if self.verbose > 0:
+                print(f"EarlyStopping: Stopping training (flag set after evaluation) at step {self.num_timesteps}")
             return False
             
         return True
@@ -220,27 +251,36 @@ class RewardBasedEarlyStopping(EvalCallback):
         else:
             improved = current_value < (self.best_value - self.min_delta)
         
+        # Special case: first evaluation always updates best_value
+        # This ensures best_value gets updated from -np.inf to actual value
+        if self.best_eval_timestep == 0:
+            improved = True
+            if self.verbose > 0:
+                print(f"EarlyStopping: Evaluation #{len(self._reward_history)} - First evaluation recorded ({self.monitor}={current_value:.6f} at step {self.num_timesteps})")
+        
         if improved:
             self.best_value = current_value
             self.wait = 0
             self.best_eval_timestep = self.num_timesteps
             
             if self.verbose > 0:
-                print(f"EarlyStopping: {self.monitor} improved to {current_value:.6f} "
-                      f"at step {self.num_timesteps}")
+                print(f"EarlyStopping: Evaluation #{len(self._reward_history)} - {self.monitor} improved to {current_value:.6f} "
+                      f"at step {self.num_timesteps} (wait reset to 0)")
         else:
             self.wait += 1
-            if self.verbose > 0 and self.wait % 2 == 0:
-                print(f"EarlyStopping: No improvement for {self.wait} evaluations "
+            if self.verbose > 0:
+                print(f"EarlyStopping: No improvement for {self.wait}/{self.patience} evaluations "
                       f"(best: {self.best_value:.6f}, current: {current_value:.6f})")
         
-        # Check if we should stop
+        # Check if we should stop - set flag immediately
         if self.wait >= self.patience:
+            self._should_stop = True  # Set flag to stop training
             self.stopped_epoch = self.num_timesteps
             if self.verbose > 0:
-                print(f"\nEarlyStopping: Stopping training at step {self.num_timesteps}")
+                print(f"\nEarlyStopping: Patience exceeded! Stopping training at step {self.num_timesteps}")
                 print(f"  Best {self.monitor}: {self.best_value:.6f} at step {self.best_eval_timestep}")
                 print(f"  Final {self.monitor}: {current_value:.6f}")
+                print(f"  Total evaluations: {len(self._reward_history)}")
     
     def _check_save_best_model(self) -> bool:
         """
@@ -265,7 +305,26 @@ class RewardBasedEarlyStopping(EvalCallback):
             else:
                 print(f"Training completed normally")
             
-            print(f"Best {self.monitor}: {self.best_value:.6f} at step {self.best_eval_timestep}")
+            # Check if any evaluation actually happened
+            if self.last_mean_reward is None:
+                print(f"Warning: No evaluations occurred during training.")
+                print(f"  This may happen if eval_freq ({self.eval_freq}) is higher than total training steps.")
+                print(f"  Best model may not reflect best performance.")
+            elif self.best_eval_timestep == 0:
+                # Evaluation happened but no improvement was recorded
+                # This means the first evaluation was the best (or only one)
+                if len(self._reward_history) > 0:
+                    # Use the first evaluation as best
+                    self.best_value = self._reward_history[0]
+                    self.best_eval_timestep = self.num_timesteps  # Use current timestep as approximation
+                    print(f"Best {self.monitor}: {self.best_value:.6f} (from first evaluation at step {self.num_timesteps})")
+                else:
+                    # Fallback to last_mean_reward
+                    self.best_value = self.last_mean_reward
+                    print(f"Best {self.monitor}: {self.best_value:.6f} (single evaluation)")
+            else:
+                print(f"Best {self.monitor}: {self.best_value:.6f} at step {self.best_eval_timestep}")
+                print(f"  Total evaluations: {len(self._reward_history)}")
         
         # The best model should already be saved by parent EvalCallback
         # The model's best weights are automatically used when best_model_save_path is set

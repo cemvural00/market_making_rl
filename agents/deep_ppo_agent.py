@@ -3,6 +3,7 @@ from agents.base_agent import BaseAgent
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
+import torch
 import torch.nn as nn
 
 
@@ -93,6 +94,15 @@ class DeepPPOAgent(BaseAgent):
         ppo_kwargs = self.config.copy()
         ppo_kwargs.setdefault("verbose", 0)
         ppo_kwargs["policy_kwargs"] = policy_kwargs
+        
+        # PPO with MLP policies is faster on CPU than GPU/MPS
+        # See: https://github.com/DLR-RM/stable-baselines3/issues/1245
+        device = "cpu"
+        ppo_kwargs["device"] = device
+        
+        verbose_level = ppo_kwargs.get("verbose", 0)
+        if verbose_level > 0:
+            print(f"DeepPPOAgent: Using device: {device} (CPU recommended for MLP policies)")
 
         self.model = PPO(
             policy="MlpPolicy",
@@ -176,7 +186,7 @@ class DeepPPOAgent(BaseAgent):
                     mode=es_config.get("mode", "max"),
                     best_model_save_path=es_config.get("best_model_path", None),
                     verbose=es_config.get("verbose", 1),
-                    eval_freq=es_config.get("eval_freq", max(getattr(self.model, 'n_steps', 1024), 10000)),
+                    eval_freq=es_config.get("eval_freq", 2 * getattr(self.model, 'n_steps', 1024)),  # Every 2 rollouts
                     n_eval_episodes=es_config.get("n_eval_episodes", 10),
                 )
             else:

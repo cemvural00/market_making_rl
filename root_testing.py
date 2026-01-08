@@ -83,7 +83,7 @@
 #     action = env.action_space.sample()
 #     obs, reward, term, trunc, info = env.step(action)
 #     print(obs, reward)
-
+"""
 from agents.base_agent import BaseAgent
 
 try:
@@ -91,3 +91,30 @@ try:
     agent.act([0,0,0,0])
 except NotImplementedError:
     print("BaseAgent is correctly abstract.")
+"""
+import sys
+import os
+
+# Add project root
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from scripts.train_all_rl_agents import train_single   # adjust filename if needed
+
+# Import envs
+from envs.abm_vanilla import ABMVanillaEnv
+from envs.abm_jump import ABMJumpEnv
+
+# Import agent
+from agents.lstm_sac_agent import LSTMSACAgent
+
+
+if __name__ == "__main__":
+    # Example: SAC on ABM Vanilla
+    train_single(
+        env_class=ABMVanillaEnv,
+        env_config_key="abm_vanilla",
+        agent_class=LSTMSACAgent,
+        agent_config_key="lstm_sac",
+        n_eval_episodes=100,
+        skip_if_exists=False
+    )

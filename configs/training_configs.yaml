@@ -10,7 +10,7 @@
 # ============================================================
 
 evaluation:
-  n_eval_episodes: 1000      # Number of episodes for evaluation
+  n_eval_episodes: 100      # Number of episodes for evaluation
   save_path: "results"       # Base directory for saving results
   save_plots: true           # Whether to save PnL distribution plots
   save_raw_data: true        # Whether to save raw PnL and inventory arrays
@@ -24,7 +24,7 @@ evaluation_quick:
 
 evaluation_full:
   # Full evaluation (for final thesis results)
-  n_eval_episodes: 10000
+  n_eval_episodes: 100
   save_path: "results"
   save_plots: true
   save_raw_data: true
@@ -55,7 +55,7 @@ training_with_save:
 experiment_basic:
   # Basic experiment settings
   train: true
-  n_eval_episodes: 1000
+  n_eval_episodes: 100
   save_path: "results"
   seed: 123
 

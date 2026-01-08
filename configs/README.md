@@ -38,7 +38,7 @@ run_experiment(
     env_config=env_cfg,
     agent_config=agent_cfg,
     train=True,
-    n_eval_episodes=1000
+    n_eval_episodes=100
 )
 ```
 
@@ -56,7 +56,7 @@ run_experiment(
     env_config={"S0": 100, "sigma": 2.0, "dt": 0.01, "T": 1.0},
     agent_config={"gamma": 0.1, "sigma": 2.0, "k": 1.5},
     train=False,
-    n_eval_episodes=2000
+    n_eval_episodes=100
 )
 ```
 
@@ -118,7 +118,7 @@ agent_cfg["total_timesteps"] = 50000  # Override training steps
 
 - `evaluation` - Standard evaluation settings
 - `evaluation_quick` - Quick evaluation (100 episodes)
-- `evaluation_full` - Full evaluation (10000 episodes)
+- `evaluation_full` - Full evaluation (100 episodes)
 - `training` - Basic training settings
 - `training_with_save` - Training with model saving
 - `experiment_basic` - Basic experiment settings
@@ -148,7 +148,7 @@ run_experiment(
     env_config=env_cfg,
     agent_config=ppo_cfg,
     train=True,
-    n_eval_episodes=1000
+    n_eval_episodes=100
 )
 
 # Run AS experiment
@@ -158,7 +158,7 @@ run_experiment(
     env_config=env_cfg,
     agent_config=as_cfg,
     train=False,
-    n_eval_episodes=1000
+    n_eval_episodes=100
 )
 ```
 
@@ -190,7 +190,7 @@ for env_name, (env_class, env_key) in envs.items():
         env_config=env_cfg,
         agent_config=agent_cfg,
         train=False,
-        n_eval_episodes=1000
+        n_eval_episodes=100
     )
 ```
 

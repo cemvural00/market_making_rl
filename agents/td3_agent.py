@@ -3,6 +3,7 @@ from .base_agent import BaseAgent
 
 from stable_baselines3 import TD3
 from stable_baselines3.common.vec_env import DummyVecEnv
+import torch
 
 
 class TD3Agent(BaseAgent):
@@ -74,6 +75,15 @@ class TD3Agent(BaseAgent):
         # Safe defaults if not provided
         if "verbose" not in td3_kwargs:
             td3_kwargs["verbose"] = 0
+        
+        # TD3 with MLP policies is faster on CPU than GPU/MPS
+        # Similar to PPO, small MLP networks don't benefit from GPU overhead
+        device = "cpu"
+        td3_kwargs["device"] = device
+        
+        verbose_level = td3_kwargs.get("verbose", 0)
+        if verbose_level > 0:
+            print(f"TD3Agent: Using device: {device} (CPU recommended for MLP policies)")
 
         self.model = TD3(
             policy="MlpPolicy",
@@ -159,7 +169,7 @@ class TD3Agent(BaseAgent):
                     mode=es_config.get("mode", "max"),
                     best_model_save_path=es_config.get("best_model_path", None),
                     verbose=es_config.get("verbose", 1),
-                    eval_freq=es_config.get("eval_freq", 10000),
+                    eval_freq=es_config.get("eval_freq", 2048),  # Every 2048 steps (reasonable default for TD3)
                     n_eval_episodes=es_config.get("n_eval_episodes", 10),
                 )
             else:

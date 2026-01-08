@@ -16,7 +16,7 @@
 
 ppo_basic:
   # Standard PPO agent with default MLP policy
-  total_timesteps: 200000
+  total_timesteps: 150000  # Reduced - early stopping handles convergence
   use_vec_env: false
   
   # PPO hyperparameters
@@ -24,7 +24,7 @@ ppo_basic:
   gamma: 1.0              # No discounting (finite horizon episodic)
   n_steps: 1024           # Steps per update
   batch_size: 256
-  n_epochs: 10             # Optimization epochs per update
+  n_epochs: 5             # Optimization epochs per update (reduced for faster training)
   ent_coef: 0.01          # Entropy coefficient
   vf_coef: 0.5            # Value function coefficient
   clip_range: 0.2         # PPO clipping range
@@ -35,12 +35,12 @@ ppo_basic:
     enabled: true
     monitor_type: "reward"      # "reward" (recommended) or "loss"
     monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
-    patience: 10                # Number of evaluations/episodes without improvement
+    patience: 6                 # Number of evaluations without improvement (reduced for faster stopping)
     min_delta: 0.0              # Minimum change to qualify as improvement
     mode: "max"                 # "max" for reward/PnL, "min" for loss
     verbose: 1
-    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
-    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    eval_freq: 10000            # Evaluate every 10k steps (reduced frequency for faster training)
+    n_eval_episodes: 5         # Number of episodes per evaluation (reduced for faster training)
     best_model_path: null       # Path to save best model (None = temp directory)
   
   # Logging
@@ -49,14 +49,14 @@ ppo_basic:
 
 ppo_deep:
   # PPO with deeper network (3 layers of 256 units)
-  total_timesteps: 300000
+  total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
   
   learning_rate: 0.0003
   gamma: 1.0
   n_steps: 1024
   batch_size: 256
-  n_epochs: 10
+  n_epochs: 5             # Optimization epochs per update (reduced for faster training)
   ent_coef: 0.01
   vf_coef: 0.5
   clip_range: 0.2
@@ -72,12 +72,12 @@ ppo_deep:
     enabled: true
     monitor_type: "reward"      # "reward" (recommended) or "loss"
     monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
-    patience: 10                # Number of evaluations/episodes without improvement
+    patience: 6                 # Number of evaluations without improvement (reduced for faster stopping)
     min_delta: 0.0              # Minimum change to qualify as improvement
     mode: "max"                 # "max" for reward/PnL, "min" for loss
     verbose: 1
-    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
-    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    eval_freq: 10000            # Evaluate every 10k steps (reduced frequency for faster training)
+    n_eval_episodes: 5         # Number of episodes per evaluation (reduced for faster training)
     best_model_path: null       # Path to save best model (None = temp directory)
   
   verbose: 1
@@ -105,14 +105,14 @@ ppo_fast:
 ppo_with_early_stopping:
   # PPO with early stopping enabled
   # Example configuration showing how to use early stopping
-  total_timesteps: 300000
+  total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
   
   learning_rate: 0.0003
   gamma: 1.0
   n_steps: 1024
   batch_size: 256
-  n_epochs: 10
+  n_epochs: 5             # Optimization epochs per update (reduced for faster training)
   ent_coef: 0.01
   vf_coef: 0.5
   clip_range: 0.2
@@ -123,12 +123,12 @@ ppo_with_early_stopping:
     enabled: true
     monitor_type: "reward"      # "reward" (recommended) or "loss"
     monitor: "mean_reward"
-    patience: 10                # Stop if no improvement for 10 evaluations
+    patience: 6                 # Number of evaluations without improvement (reduced for faster stopping)
     min_delta: 0.001            # Require at least 0.001 improvement
     mode: "max"
     verbose: 1
-    eval_freq: 10000
-    n_eval_episodes: 10
+    eval_freq: 10000            # Evaluate every 10k steps (reduced frequency for faster training)
+    n_eval_episodes: 5         # Number of episodes per evaluation (reduced for faster training)
     best_model_path: null
   
   verbose: 1
@@ -140,7 +140,7 @@ ppo_with_early_stopping:
 
 lstm_ppo:
   # LSTM-based PPO for temporal dependencies
-  total_timesteps: 300000
+  total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
   
   # PPO hyperparameters
@@ -148,7 +148,7 @@ lstm_ppo:
   gamma: 1.0
   n_steps: 512            # Must be <= episode length for RecurrentPPO
   batch_size: 128
-  n_epochs: 10
+  n_epochs: 5             # Optimization epochs per update (reduced for faster training)
   ent_coef: 0.0           # Often set to 0 for LSTM
   vf_coef: 0.5
   clip_range: 0.2
@@ -167,12 +167,12 @@ lstm_ppo:
     enabled: true
     monitor_type: "reward"      # "reward" (recommended) or "loss"
     monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
-    patience: 10                # Number of evaluations/episodes without improvement
+    patience: 6                 # Number of evaluations without improvement (reduced for faster stopping)
     min_delta: 0.0              # Minimum change to qualify as improvement
     mode: "max"                 # "max" for reward/PnL, "min" for loss
     verbose: 1
-    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
-    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    eval_freq: 5000             # Evaluate every 5k steps (reduced frequency for faster training)
+    n_eval_episodes: 5         # Number of episodes per evaluation (reduced for faster training)
     best_model_path: null       # Path to save best model (None = temp directory)
   
   verbose: 1
@@ -180,14 +180,14 @@ lstm_ppo:
 
 lstm_ppo_large:
   # Larger LSTM network
-  total_timesteps: 400000
+  total_timesteps: 250000  # Reduced - early stopping handles convergence
   use_vec_env: false
   
   learning_rate: 0.0003
   gamma: 1.0
   n_steps: 512
   batch_size: 128
-  n_epochs: 10
+  n_epochs: 5             # Optimization epochs per update (reduced for faster training)
   ent_coef: 0.0
   vf_coef: 0.5
   clip_range: 0.2
@@ -209,7 +209,7 @@ lstm_ppo_large:
 
 sac_basic:
   # Standard SAC agent with default MLP policy
-  total_timesteps: 300000
+  total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
   
   # SAC hyperparameters
@@ -228,12 +228,12 @@ sac_basic:
     enabled: true
     monitor_type: "reward"      # "reward" (recommended) or "loss"
     monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
-    patience: 10                # Number of evaluations/episodes without improvement
+    patience: 6                 # Number of evaluations without improvement (reduced for faster stopping)
     min_delta: 0.0              # Minimum change to qualify as improvement
     mode: "max"                 # "max" for reward/PnL, "min" for loss
     verbose: 1
-    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
-    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    eval_freq: 10000            # Evaluate every 10k steps (reduced frequency for faster training)
+    n_eval_episodes: 5         # Number of episodes per evaluation (reduced for faster training)
     best_model_path: null       # Path to save best model (None = temp directory)
   
   verbose: 1
@@ -241,7 +241,7 @@ sac_basic:
 
 sac_large_buffer:
   # SAC with larger replay buffer
-  total_timesteps: 300000
+  total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
   
   learning_rate: 0.0003
@@ -259,12 +259,12 @@ sac_large_buffer:
     enabled: true
     monitor_type: "reward"      # "reward" (recommended) or "loss"
     monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
-    patience: 10                # Number of evaluations/episodes without improvement
+    patience: 6                 # Number of evaluations without improvement (reduced for faster stopping)
     min_delta: 0.0              # Minimum change to qualify as improvement
     mode: "max"                 # "max" for reward/PnL, "min" for loss
     verbose: 1
-    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
-    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    eval_freq: 10000            # Evaluate every 10k steps (reduced frequency for faster training)
+    n_eval_episodes: 5         # Number of episodes per evaluation (reduced for faster training)
     best_model_path: null       # Path to save best model (None = temp directory)
   
   verbose: 1
@@ -276,7 +276,7 @@ sac_large_buffer:
 
 td3_basic:
   # Standard TD3 agent
-  total_timesteps: 300000
+  total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
   
   # TD3 hyperparameters
@@ -297,12 +297,12 @@ td3_basic:
     enabled: true
     monitor_type: "reward"      # "reward" (recommended) or "loss"
     monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
-    patience: 10                # Number of evaluations/episodes without improvement
+    patience: 6                 # Number of evaluations without improvement (reduced for faster stopping)
     min_delta: 0.0              # Minimum change to qualify as improvement
     mode: "max"                 # "max" for reward/PnL, "min" for loss
     verbose: 1
-    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
-    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    eval_freq: 10000            # Evaluate every 10k steps (reduced frequency for faster training)
+    n_eval_episodes: 5         # Number of episodes per evaluation (reduced for faster training)
     best_model_path: null       # Path to save best model (None = temp directory)
   
   verbose: 1
@@ -315,7 +315,7 @@ td3_basic:
 lstm_sac:
   # SAC with deep networks (LSTM-SAC workaround)
   # Note: RecurrentSAC not available in sb3-contrib, using deep SAC instead
-  total_timesteps: 300000
+  total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
   
   # SAC hyperparameters
@@ -339,12 +339,12 @@ lstm_sac:
     enabled: true
     monitor_type: "reward"      # "reward" (recommended) or "loss"
     monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
-    patience: 10                # Number of evaluations/episodes without improvement
+    patience: 6                 # Number of evaluations without improvement (reduced for faster stopping)
     min_delta: 0.0              # Minimum change to qualify as improvement
     mode: "max"                 # "max" for reward/PnL, "min" for loss
     verbose: 1
-    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
-    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    eval_freq: 10000            # Evaluate every 10k steps (reduced frequency for faster training)
+    n_eval_episodes: 5         # Number of episodes per evaluation (reduced for faster training)
     best_model_path: null       # Path to save best model (None = temp directory)
   
   verbose: 1
@@ -352,7 +352,7 @@ lstm_sac:
 
 lstm_sac_deep:
   # Very deep SAC network (alternative to LSTM-SAC)
-  total_timesteps: 400000
+  total_timesteps: 250000  # Reduced - early stopping handles convergence
   use_vec_env: false
   
   learning_rate: 0.0003
@@ -375,12 +375,12 @@ lstm_sac_deep:
     enabled: true
     monitor_type: "reward"      # "reward" (recommended) or "loss"
     monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
-    patience: 10                # Number of evaluations/episodes without improvement
+    patience: 6                 # Number of evaluations without improvement (reduced for faster stopping)
     min_delta: 0.0              # Minimum change to qualify as improvement
     mode: "max"                 # "max" for reward/PnL, "min" for loss
     verbose: 1
-    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
-    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    eval_freq: 10000            # Evaluate every 10k steps (reduced frequency for faster training)
+    n_eval_episodes: 5         # Number of episodes per evaluation (reduced for faster training)
     best_model_path: null       # Path to save best model (None = temp directory)
   
   verbose: 1
