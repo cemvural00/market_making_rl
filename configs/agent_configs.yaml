@@ -1,0 +1,523 @@
+# ============================================================
+# Agent Configuration Presets
+# ============================================================
+# This file contains preset configurations for different
+# agent types. Use these for reproducible experiments.
+#
+# Usage:
+#   from configs.config_loader import load_yaml_config
+#   agent_cfg = load_yaml_config("configs/agent_configs.yaml")["ppo_basic"]
+#   agent = PPOAgent(env, config=agent_cfg)
+# ============================================================
+
+# ============================================================
+# RL Agents: PPO (Proximal Policy Optimization)
+# ============================================================
+
+ppo_basic:
+  # Standard PPO agent with default MLP policy
+  total_timesteps: 200000
+  use_vec_env: false
+  
+  # PPO hyperparameters
+  learning_rate: 0.0003
+  gamma: 1.0              # No discounting (finite horizon episodic)
+  n_steps: 1024           # Steps per update
+  batch_size: 256
+  n_epochs: 10             # Optimization epochs per update
+  ent_coef: 0.01          # Entropy coefficient
+  vf_coef: 0.5            # Value function coefficient
+  clip_range: 0.2         # PPO clipping range
+  gae_lambda: 0.95        # GAE lambda
+  
+  # Early stopping (optional)
+  early_stopping:
+    enabled: true
+    monitor_type: "reward"      # "reward" (recommended) or "loss"
+    monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
+    patience: 10                # Number of evaluations/episodes without improvement
+    min_delta: 0.0              # Minimum change to qualify as improvement
+    mode: "max"                 # "max" for reward/PnL, "min" for loss
+    verbose: 1
+    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
+    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    best_model_path: null       # Path to save best model (None = temp directory)
+  
+  # Logging
+  verbose: 1
+  tensorboard_log: null   # Set to "logs/ppo_basic" to enable TensorBoard
+
+ppo_deep:
+  # PPO with deeper network (3 layers of 256 units)
+  total_timesteps: 300000
+  use_vec_env: false
+  
+  learning_rate: 0.0003
+  gamma: 1.0
+  n_steps: 1024
+  batch_size: 256
+  n_epochs: 10
+  ent_coef: 0.01
+  vf_coef: 0.5
+  clip_range: 0.2
+  gae_lambda: 0.95
+  
+  # Deep network architecture
+  policy_kwargs:
+    net_arch: [256, 256, 256]
+    activation_fn: ReLU
+  
+  # Early stopping (optional)
+  early_stopping:
+    enabled: true
+    monitor_type: "reward"      # "reward" (recommended) or "loss"
+    monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
+    patience: 10                # Number of evaluations/episodes without improvement
+    min_delta: 0.0              # Minimum change to qualify as improvement
+    mode: "max"                 # "max" for reward/PnL, "min" for loss
+    verbose: 1
+    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
+    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    best_model_path: null       # Path to save best model (None = temp directory)
+  
+  verbose: 1
+  tensorboard_log: null
+
+ppo_fast:
+  # Faster training (fewer steps, smaller batch)
+  # Useful for quick tests and debugging
+  total_timesteps: 50000
+  use_vec_env: false
+  
+  learning_rate: 0.0003
+  gamma: 1.0
+  n_steps: 512
+  batch_size: 128
+  n_epochs: 5
+  ent_coef: 0.01
+  vf_coef: 0.5
+  clip_range: 0.2
+  gae_lambda: 0.95
+  
+  verbose: 1
+  tensorboard_log: null
+
+ppo_with_early_stopping:
+  # PPO with early stopping enabled
+  # Example configuration showing how to use early stopping
+  total_timesteps: 300000
+  use_vec_env: false
+  
+  learning_rate: 0.0003
+  gamma: 1.0
+  n_steps: 1024
+  batch_size: 256
+  n_epochs: 10
+  ent_coef: 0.01
+  vf_coef: 0.5
+  clip_range: 0.2
+  gae_lambda: 0.95
+  
+  # Early stopping enabled
+  early_stopping:
+    enabled: true
+    monitor_type: "reward"      # "reward" (recommended) or "loss"
+    monitor: "mean_reward"
+    patience: 10                # Stop if no improvement for 10 evaluations
+    min_delta: 0.001            # Require at least 0.001 improvement
+    mode: "max"
+    verbose: 1
+    eval_freq: 10000
+    n_eval_episodes: 10
+    best_model_path: null
+  
+  verbose: 1
+  tensorboard_log: null
+
+# ============================================================
+# RL Agents: LSTM-PPO (Recurrent PPO)
+# ============================================================
+
+lstm_ppo:
+  # LSTM-based PPO for temporal dependencies
+  total_timesteps: 300000
+  use_vec_env: false
+  
+  # PPO hyperparameters
+  learning_rate: 0.0003
+  gamma: 1.0
+  n_steps: 512            # Must be <= episode length for RecurrentPPO
+  batch_size: 128
+  n_epochs: 10
+  ent_coef: 0.0           # Often set to 0 for LSTM
+  vf_coef: 0.5
+  clip_range: 0.2
+  gae_lambda: 0.95
+  
+  # LSTM architecture
+  policy_kwargs:
+    lstm_hidden_size: 128
+    n_lstm_layers: 1
+    shared_lstm: false    # Separate actor & critic LSTM
+    net_arch: [64, 64]    # MLP layers after LSTM
+    activation_fn: ReLU
+  
+  # Early stopping (optional)
+  early_stopping:
+    enabled: true
+    monitor_type: "reward"      # "reward" (recommended) or "loss"
+    monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
+    patience: 10                # Number of evaluations/episodes without improvement
+    min_delta: 0.0              # Minimum change to qualify as improvement
+    mode: "max"                 # "max" for reward/PnL, "min" for loss
+    verbose: 1
+    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
+    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    best_model_path: null       # Path to save best model (None = temp directory)
+  
+  verbose: 1
+  tensorboard_log: null
+
+lstm_ppo_large:
+  # Larger LSTM network
+  total_timesteps: 400000
+  use_vec_env: false
+  
+  learning_rate: 0.0003
+  gamma: 1.0
+  n_steps: 512
+  batch_size: 128
+  n_epochs: 10
+  ent_coef: 0.0
+  vf_coef: 0.5
+  clip_range: 0.2
+  gae_lambda: 0.95
+  
+  policy_kwargs:
+    lstm_hidden_size: 256
+    n_lstm_layers: 2
+    shared_lstm: false
+    net_arch: [128, 128]
+    activation_fn: ReLU
+  
+  verbose: 1
+  tensorboard_log: null
+
+# ============================================================
+# RL Agents: SAC (Soft Actor-Critic)
+# ============================================================
+
+sac_basic:
+  # Standard SAC agent with default MLP policy
+  total_timesteps: 300000
+  use_vec_env: false
+  
+  # SAC hyperparameters
+  learning_rate: 0.0003
+  gamma: 1.0              # No discounting (finite horizon episodic)
+  buffer_size: 100000     # Replay buffer size
+  learning_starts: 100    # Steps before learning begins
+  batch_size: 256
+  tau: 0.005              # Soft update coefficient
+  train_freq: 1           # Update every step
+  gradient_steps: 1       # Gradient steps per update
+  ent_coef: "auto"        # Entropy coefficient (auto-tuned)
+  
+  # Early stopping (optional)
+  early_stopping:
+    enabled: true
+    monitor_type: "reward"      # "reward" (recommended) or "loss"
+    monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
+    patience: 10                # Number of evaluations/episodes without improvement
+    min_delta: 0.0              # Minimum change to qualify as improvement
+    mode: "max"                 # "max" for reward/PnL, "min" for loss
+    verbose: 1
+    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
+    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    best_model_path: null       # Path to save best model (None = temp directory)
+  
+  verbose: 1
+  tensorboard_log: null
+
+sac_large_buffer:
+  # SAC with larger replay buffer
+  total_timesteps: 300000
+  use_vec_env: false
+  
+  learning_rate: 0.0003
+  gamma: 1.0
+  buffer_size: 500000     # Larger buffer for more diverse samples
+  learning_starts: 1000   # More exploration before learning
+  batch_size: 256
+  tau: 0.005
+  train_freq: 1
+  gradient_steps: 1
+  ent_coef: "auto"
+  
+  # Early stopping (optional)
+  early_stopping:
+    enabled: true
+    monitor_type: "reward"      # "reward" (recommended) or "loss"
+    monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
+    patience: 10                # Number of evaluations/episodes without improvement
+    min_delta: 0.0              # Minimum change to qualify as improvement
+    mode: "max"                 # "max" for reward/PnL, "min" for loss
+    verbose: 1
+    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
+    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    best_model_path: null       # Path to save best model (None = temp directory)
+  
+  verbose: 1
+  tensorboard_log: null
+
+# ============================================================
+# RL Agents: TD3 (Twin Delayed DDPG)
+# ============================================================
+
+td3_basic:
+  # Standard TD3 agent
+  total_timesteps: 300000
+  use_vec_env: false
+  
+  # TD3 hyperparameters
+  learning_rate: 0.0003
+  gamma: 1.0              # No discounting (finite horizon episodic)
+  buffer_size: 100000     # Replay buffer size
+  learning_starts: 100    # Steps before learning begins
+  batch_size: 256
+  tau: 0.005              # Soft update coefficient
+  train_freq: 1           # Update every step
+  gradient_steps: 1       # Gradient steps per update
+  policy_delay: 2         # TD3-specific: delay policy updates
+  target_policy_noise: 0.2
+  target_noise_clip: 0.5
+  
+  # Early stopping (optional)
+  early_stopping:
+    enabled: true
+    monitor_type: "reward"      # "reward" (recommended) or "loss"
+    monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
+    patience: 10                # Number of evaluations/episodes without improvement
+    min_delta: 0.0              # Minimum change to qualify as improvement
+    mode: "max"                 # "max" for reward/PnL, "min" for loss
+    verbose: 1
+    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
+    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    best_model_path: null       # Path to save best model (None = temp directory)
+  
+  verbose: 1
+  tensorboard_log: null
+
+# ============================================================
+# RL Agents: LSTM-SAC (Recurrent SAC)
+# ============================================================
+
+lstm_sac:
+  # SAC with deep networks (LSTM-SAC workaround)
+  # Note: RecurrentSAC not available in sb3-contrib, using deep SAC instead
+  total_timesteps: 300000
+  use_vec_env: false
+  
+  # SAC hyperparameters
+  learning_rate: 0.0003
+  gamma: 1.0
+  buffer_size: 100000
+  learning_starts: 100
+  batch_size: 256
+  tau: 0.005
+  train_freq: 1
+  gradient_steps: 1
+  ent_coef: "auto"
+  
+  # Deep network architecture (compensates for lack of LSTM)
+  policy_kwargs:
+    net_arch: [256, 256, 128]  # Deep network for pattern recognition
+    activation_fn: ReLU
+  
+  # Early stopping (optional)
+  early_stopping:
+    enabled: true
+    monitor_type: "reward"      # "reward" (recommended) or "loss"
+    monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
+    patience: 10                # Number of evaluations/episodes without improvement
+    min_delta: 0.0              # Minimum change to qualify as improvement
+    mode: "max"                 # "max" for reward/PnL, "min" for loss
+    verbose: 1
+    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
+    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    best_model_path: null       # Path to save best model (None = temp directory)
+  
+  verbose: 1
+  tensorboard_log: null
+
+lstm_sac_deep:
+  # Very deep SAC network (alternative to LSTM-SAC)
+  total_timesteps: 400000
+  use_vec_env: false
+  
+  learning_rate: 0.0003
+  gamma: 1.0
+  buffer_size: 100000
+  learning_starts: 100
+  batch_size: 256
+  tau: 0.005
+  train_freq: 1
+  gradient_steps: 1
+  ent_coef: "auto"
+  
+  # Very deep network architecture
+  policy_kwargs:
+    net_arch: [512, 512, 256, 128]  # Very deep network
+    activation_fn: ReLU
+  
+  # Early stopping (optional)
+  early_stopping:
+    enabled: true
+    monitor_type: "reward"      # "reward" (recommended) or "loss"
+    monitor: "mean_reward"      # "mean_reward", "mean_pnl", or loss metric name
+    patience: 10                # Number of evaluations/episodes without improvement
+    min_delta: 0.0              # Minimum change to qualify as improvement
+    mode: "max"                 # "max" for reward/PnL, "min" for loss
+    verbose: 1
+    eval_freq: 10000            # Evaluate every N steps (for reward-based only)
+    n_eval_episodes: 10         # Number of episodes per evaluation (for reward-based only)
+    best_model_path: null       # Path to save best model (None = temp directory)
+  
+  verbose: 1
+  tensorboard_log: null
+
+# ============================================================
+# Heuristic Agents: Avellaneda-Stoikov (AS)
+# ============================================================
+
+as_closed_form:
+  # AS closed-form optimal agent
+  # Note: These parameters must match the environment!
+  gamma: 0.1              # Risk aversion parameter
+  sigma: 2.0              # Must match env.sigma (for ABM/OU)
+  k: 1.5                  # Must match env.k (order flow decay)
+  base_delta: 1.0         # Must match env.base_delta
+  max_inventory: 20       # Must match env.max_inventory
+  T: 1.0                  # Must match env.T
+
+as_closed_form_gbm:
+  # AS agent for GBM environments
+  # Note: For GBM, sigma is percentage-based
+  gamma: 0.1
+  sigma: 0.02             # 2% volatility (matches gbm_vanilla)
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  T: 1.0
+
+as_simple_heuristic:
+  # Simple AS-inspired heuristic (not closed-form)
+  gamma: 0.1              # Inventory sensitivity
+  min_spread_factor: 0.2
+  max_spread_factor: 0.8
+  max_inventory: 20
+
+# ============================================================
+# Heuristic Agents: Fixed Spread
+# ============================================================
+
+fixed_spread:
+  # Fixed spread agent (symmetric quotes)
+  fixed_multiplier: 1.0    # delta = multiplier * base_delta
+  base_delta: 1.0         # Should match env.base_delta
+
+fixed_spread_wide:
+  # Wider fixed spread
+  fixed_multiplier: 1.5
+  base_delta: 1.0
+
+fixed_spread_narrow:
+  # Narrower fixed spread
+  fixed_multiplier: 0.5
+  base_delta: 1.0
+
+# ============================================================
+# Heuristic Agents: Inventory-Based
+# ============================================================
+
+inventory_shift:
+  # Inventory-based quote shifting
+  beta: 0.05              # Skew sensitivity
+  max_inventory: 20
+
+inventory_shift_aggressive:
+  # More aggressive inventory management
+  beta: 0.1
+  max_inventory: 20
+
+inventory_shift_conservative:
+  # More conservative inventory management
+  beta: 0.02
+  max_inventory: 20
+
+inventory_spread_scaler:
+  # Spread increases with inventory
+  alpha: 0.05              # Spread sensitivity to inventory
+  max_inventory: 20
+  base_delta: 1.0         # Should match env.base_delta
+
+# ============================================================
+# Heuristic Agents: Trend/Momentum-Based
+# ============================================================
+
+last_look:
+  # Last-look quoting based on short-term momentum
+  trend_sensitivity: 0.5   # Controls how strongly agent reacts to dS
+
+mid_price_follow:
+  # Mid-price-following agent (signal-based)
+  trend_sensitivity: 0.5   # Strength of reaction to dS
+  max_skew: 1.0            # Max allowed skew before clipping
+
+# ============================================================
+# Heuristic Agents: Market Orders
+# ============================================================
+
+market_order_only:
+  # Market-order-only behavior (emulated via minimal spread)
+  max_inventory: 20
+
+# ============================================================
+# Heuristic Agents: Noise Traders
+# ============================================================
+
+noise_trader_normal:
+  # Noise agent drawing spread/skew from Gaussian distributions
+  spread_std: 0.3          # Standard deviation for spread factor
+  skew_std: 0.3            # Standard deviation for skew factor
+
+# Note: noise_trader_uniform and zero_intelligence use defaults (no config needed)
+
+# ============================================================
+# Quick Test Configs (for debugging)
+# ============================================================
+
+ppo_test:
+  # Minimal config for quick tests
+  total_timesteps: 1000
+  use_vec_env: false
+  learning_rate: 0.0003
+  gamma: 1.0
+  n_steps: 64
+  batch_size: 32
+  verbose: 1
+
+lstm_ppo_test:
+  # Minimal LSTM config for quick tests
+  total_timesteps: 1000
+  use_vec_env: false
+  learning_rate: 0.0003
+  gamma: 1.0
+  n_steps: 64
+  batch_size: 32
+  policy_kwargs:
+    lstm_hidden_size: 32
+    n_lstm_layers: 1
+    shared_lstm: false
+    net_arch: [16, 16]
+  verbose: 1

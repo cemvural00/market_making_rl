@@ -1,0 +1,76 @@
+# ============================================================
+# Training Configuration Presets
+# ============================================================
+# Common training settings that can be reused across experiments.
+# These are typically combined with agent and env configs.
+# ============================================================
+
+# ============================================================
+# Evaluation Settings
+# ============================================================
+
+evaluation:
+  n_eval_episodes: 1000      # Number of episodes for evaluation
+  save_path: "results"       # Base directory for saving results
+  save_plots: true           # Whether to save PnL distribution plots
+  save_raw_data: true        # Whether to save raw PnL and inventory arrays
+
+evaluation_quick:
+  # Quick evaluation (for testing)
+  n_eval_episodes: 100
+  save_path: "results"
+  save_plots: true
+  save_raw_data: false
+
+evaluation_full:
+  # Full evaluation (for final thesis results)
+  n_eval_episodes: 10000
+  save_path: "results"
+  save_plots: true
+  save_raw_data: true
+
+# ============================================================
+# Training Settings
+# ============================================================
+
+training:
+  train: true                # Whether to train the agent
+  save_model: false          # Whether to save trained model
+  model_save_path: "models"  # Directory for saved models
+  resume_training: false     # Whether to resume from checkpoint
+  checkpoint_path: null      # Path to checkpoint (if resuming)
+
+training_with_save:
+  # Training with model saving
+  train: true
+  save_model: true
+  model_save_path: "models"
+  resume_training: false
+  checkpoint_path: null
+
+# ============================================================
+# Experiment Settings
+# ============================================================
+
+experiment_basic:
+  # Basic experiment settings
+  train: true
+  n_eval_episodes: 1000
+  save_path: "results"
+  seed: 123
+
+experiment_reproducible:
+  # Settings for reproducible experiments
+  train: true
+  n_eval_episodes: 2000
+  save_path: "results"
+  seed: 42
+  save_model: true
+  model_save_path: "models"
+
+experiment_quick_test:
+  # Quick test settings (for debugging)
+  train: false
+  n_eval_episodes: 100
+  save_path: "results/test"
+  seed: 123

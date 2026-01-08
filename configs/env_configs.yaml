@@ -1,0 +1,296 @@
+# ============================================================
+# Environment Configuration Presets
+# ============================================================
+# This file contains preset configurations for different
+# environment types. Use these for reproducible experiments.
+#
+# Usage:
+#   from configs.config_loader import load_yaml_config
+#   env_cfg = load_yaml_config("configs/env_configs.yaml")["abm_vanilla"]
+#   env = ABMVanillaEnv(**env_cfg)
+# ============================================================
+
+# ============================================================
+# ABM (Arithmetic Brownian Motion) Environments
+# ============================================================
+
+abm_vanilla:
+  # Basic ABM: dS = μ·dt + σ·dW
+  S0: 100.0
+  T: 1.0              # One trading day/episode
+  dt: 0.0001          # Time step (10000 steps per episode)
+  sigma: 20.0         # Absolute volatility (units: price per sqrt(time))
+  mu: 0.0             # Drift (drift-free by default)
+  
+  # Fill model parameters
+  A: 5.0              # Baseline order arrival intensity
+  k: 1.5              # Order flow decay parameter
+  
+  # Execution parameters
+  base_delta: 1.0     # Base half-spread
+  max_inventory: 20   # Maximum inventory position
+  inv_penalty: 0.01   # Inventory penalty coefficient
+  
+  seed: 123
+
+abm_jump:
+  # ABM with jump diffusion: dS = μ·dt + σ·dW + J·dN
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  sigma: 20.0
+  mu: 0.0
+  
+  # Jump parameters
+  jump_intensity: 0.1    # Expected jumps per unit time
+  jump_mean: 0.0         # Mean jump size (absolute)
+  jump_std: 5.0          # Std dev of jump size (absolute)
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
+
+abm_regime:
+  # ABM with regime-switching volatility
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  mu: 0.0
+  
+  # Regime parameters
+  sigma_low: 10.0        # Low volatility regime
+  sigma_high: 40.0       # High volatility regime
+  transition_matrix:     # Markov transition matrix
+    - [0.95, 0.05]       # [P(stay low), P(switch to high)]
+    - [0.10, 0.90]       # [P(switch to low), P(stay high)]
+  initial_regime: 0      # Start in low-vol regime
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
+
+abm_jump_regime:
+  # ABM with jumps + regime-switching
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  mu: 0.0
+  
+  # Regime parameters
+  sigma_low: 10.0
+  sigma_high: 40.0
+  transition_matrix:
+    - [0.95, 0.05]
+    - [0.10, 0.90]
+  initial_regime: 0
+  
+  # Jump parameters
+  jump_intensity: 0.1
+  jump_mean: 0.0
+  jump_std: 5.0
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
+
+# ============================================================
+# GBM (Geometric Brownian Motion) Environments
+# ============================================================
+# Note: GBM uses PERCENTAGE volatility (σ is dimensionless)
+# For S0=100, σ=0.02 ≈ 2% volatility ≈ ABM σ=2.0 in magnitude
+
+gbm_vanilla:
+  # Basic GBM: dS = μ·S·dt + σ·S·dW
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  sigma: 0.2           # Percentage volatility (20% = 0.2)
+  mu: 0.0             # Percentage drift
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
+
+gbm_jump:
+  # GBM with multiplicative (log-normal) jumps
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  sigma: 0.2
+  mu: 0.0
+  
+  # Jump parameters (log-jump size)
+  jump_intensity: 0.1
+  jump_mean: 0.0         # Mean of log-jump size
+  jump_std: 0.05         # Std dev of log-jump size (5% log-volatility)
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
+
+gbm_regime:
+  # GBM with regime-switching volatility
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  mu: 0.0
+  
+  # Regime parameters (percentage volatility)
+  sigma_low: 0.1         # 10% volatility
+  sigma_high: 0.5        # 50% volatility
+  transition_matrix:
+    - [0.95, 0.05]
+    - [0.10, 0.90]
+  initial_regime: 0
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
+
+gbm_jump_regime:
+  # GBM with jumps + regime-switching
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  mu: 0.0
+  
+  # Regime parameters
+  sigma_low: 0.1
+  sigma_high: 0.5
+  transition_matrix:
+    - [0.95, 0.05]
+    - [0.10, 0.90]
+  initial_regime: 0
+  
+  # Jump parameters
+  jump_intensity: 0.1
+  jump_mean: 0.0
+  jump_std: 0.05
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
+
+# ============================================================
+# OU (Ornstein-Uhlenbeck) Environments
+# ============================================================
+
+ou_vanilla:
+  # Basic OU: dS = κ·(μ - S)·dt + σ·dW
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  sigma: 20.0         # Absolute volatility
+  kappa: 1.0          # Mean-reversion speed
+  mu: 100.0           # Long-run mean (matches S0)
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
+
+ou_jump:
+  # OU with jump diffusion
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  sigma: 20.0
+  kappa: 1.0
+  mu: 100.0
+  
+  # Jump parameters
+  jump_intensity: 0.1
+  jump_mean: 0.0
+  jump_std: 5.0
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
+
+ou_regime:
+  # OU with regime-switching volatility
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  kappa: 1.0
+  mu: 100.0
+  
+  # Regime parameters
+  sigma_low: 10.0
+  sigma_high: 40.0
+  transition_matrix:
+    - [0.95, 0.05]
+    - [0.10, 0.90]
+  initial_regime: 0
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
+
+ou_jump_regime:
+  # OU with jumps + regime-switching
+  S0: 100.0
+  T: 1.0
+  dt: 0.0001
+  kappa: 1.0
+  mu: 100.0
+  
+  # Regime parameters
+  sigma_low: 10.0
+  sigma_high: 40.0
+  transition_matrix:
+    - [0.95, 0.05]
+    - [0.10, 0.90]
+  initial_regime: 0
+  
+  # Jump parameters
+  jump_intensity: 0.1
+  jump_mean: 0.0
+  jump_std: 5.0
+  
+  # Fill model
+  A: 5.0
+  k: 1.5
+  base_delta: 1.0
+  max_inventory: 20
+  inv_penalty: 0.01
+  seed: 123
