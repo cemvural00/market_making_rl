@@ -1,0 +1,63 @@
+{
+    "env_class": "OUJumpRegimeEnv",
+    "agent_class": "PPOAgent",
+    "env_config": {
+        "S0": 100.0,
+        "T": 1.0,
+        "dt": 0.0001,
+        "kappa": 1.0,
+        "mu": 100.0,
+        "sigma_low": 10.0,
+        "sigma_high": 40.0,
+        "transition_matrix": [
+            [
+                0.95,
+                0.05
+            ],
+            [
+                0.1,
+                0.9
+            ]
+        ],
+        "initial_regime": 0,
+        "jump_intensity": 0.1,
+        "jump_mean": 0.0,
+        "jump_std": 5.0,
+        "A": 5.0,
+        "k": 1.5,
+        "base_delta": 1.0,
+        "max_inventory": 20,
+        "inv_penalty": 0.01,
+        "seed": 123
+    },
+    "agent_config": {
+        "total_timesteps": 150000,
+        "use_vec_env": false,
+        "learning_rate": 0.0003,
+        "gamma": 1.0,
+        "n_steps": 1024,
+        "batch_size": 256,
+        "n_epochs": 5,
+        "ent_coef": 0.01,
+        "vf_coef": 0.5,
+        "clip_range": 0.2,
+        "gae_lambda": 0.95,
+        "early_stopping": {
+            "enabled": true,
+            "monitor_type": "reward",
+            "monitor": "mean_reward",
+            "patience": 6,
+            "min_delta": 0.0,
+            "mode": "max",
+            "verbose": 1,
+            "eval_freq": 10000,
+            "n_eval_episodes": 5,
+            "best_model_path": null
+        },
+        "verbose": 1,
+        "tensorboard_log": null
+    },
+    "total_timesteps": 150000,
+    "trained_at": "2026-01-10T04:22:13.259584",
+    "model_path": "models/OUJumpRegimeEnv/PPOAgent/model"
+}
