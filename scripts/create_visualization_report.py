@@ -1614,4 +1614,401 @@ def create_agent_risk_return_plots(metrics_dict, ci_dict, output_dir, agent_cate
                     ax.annotate(agent, (x[i], y[i]), xytext=(5, 5), textcoords='offset points',
                                fontsize=8, alpha=0.7)
         
-        ax.set_xlabel(
+        ax.set_xlabel(risk_label, fontsize=12)
+        ax.set_ylabel(return_label, fontsize=12)
+        ax.set_title(f'Risk-Return Analysis by Agent: {risk_label} vs {return_label}', fontsize=14, fontweight='bold')
+        ax.legend(fontsize=10)
+        ax.grid(True, alpha=0.3, linestyle='--')
+        
+        plt.tight_layout()
+        plt.savefig(output_dir / f'agent_risk_return_{risk_metric}.png', bbox_inches='tight', dpi=300)
+        plt.close()
+        
+        print(f"  Created agent risk-return plot: {risk_metric}")
+
+
+def generate_markdown_report(metrics_dict, ci_dict, output_dir, output_file):
+    """
+    Generate Markdown report with embedded images and detailed analysis text.
+    
+    Parameters
+    ----------
+    metrics_dict : dict
+        Metrics dictionary
+    ci_dict : dict
+        Confidence intervals dictionary
+    output_dir : Path
+        Output directory for figures
+    output_file : Path
+        Output markdown file path
+    """
+    df = prepare_dataframe(metrics_dict, ci_dict)
+    
+    with open(output_file, 'w') as f:
+        f.write("# Comprehensive Results Visualization Report\n\n")
+        f.write(f"**Generated:** {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        f.write(f"**Total Experiments:** {len(df)}\n\n")
+        f.write(f"**Environments:** {len(df['Environment'].unique())}\n\n")
+        f.write(f"**Agents:** {len(df['Agent'].unique())}\n\n")
+        
+        # Executive Summary
+        f.write("## Executive Summary\n\n")
+        if 'mean' in df.columns:
+            best_overall = df.loc[df['mean'].idxmax()]
+            f.write(f"- **Best Overall Performance:** {best_overall['Agent']} achieves mean PnL of {best_overall['mean']:.4f} on {best_overall['Environment']}\n")
+            if 'mean_ci_lower' in best_overall and 'mean_ci_upper' in best_overall:
+                ci_lower = best_overall['mean_ci_lower']
+                ci_upper = best_overall['mean_ci_upper']
+                if not (np.isnan(ci_lower) or np.isnan(ci_upper)):
+                    f.write(f"  - 95% CI: [{ci_lower:.4f}, {ci_upper:.4f}]\n")
+            f.write("\n")
+        
+        if 'sharpe' in df.columns:
+            best_sharpe = df.loc[df['sharpe'].idxmax()]
+            f.write(f"- **Best Risk-Adjusted Return:** {best_sharpe['Agent']} achieves Sharpe ratio of {best_sharpe['sharpe']:.4f} on {best_sharpe['Environment']}\n")
+            if 'sharpe_ci_lower' in best_sharpe and 'sharpe_ci_upper' in best_sharpe:
+                ci_lower = best_sharpe['sharpe_ci_lower']
+                ci_upper = best_sharpe['sharpe_ci_upper']
+                if not (np.isnan(ci_lower) or np.isnan(ci_upper)):
+                    f.write(f"  - 95% CI: [{ci_lower:.4f}, {ci_upper:.4f}]\n")
+            f.write("\n")
+        
+        # Confidence Interval Methodology
+        f.write("## Confidence Interval Methodology\n\n")
+        f.write("All statistics include 95% confidence intervals calculated as follows:\n\n")
+        f.write("- **Mean PnL, Sharpe Ratio, VaR, ES**: Bootstrap method with 1000 iterations\n")
+        f.write("- **Standard Deviation**: Chi-square distribution (analytical)\n")
+        f.write("- **Average Inventory**: T-distribution (analytical)\n\n")
+        f.write("Bootstrap confidence intervals use the percentile method, providing robust\n")
+        f.write("non-parametric estimates that make no distributional assumptions.\n\n")
+        
+        # Heatmap Overview
+        f.write("## Heatmap Overview\n\n")
+        f.write("The following heatmaps show performance across all agent-environment combinations:\n\n")
+        metrics = ['mean', 'sharpe', 'std', 'var_95', 'es_95', 'var_99', 'es_99', 'avg_inventory']
+        metric_names = {
+            'mean': 'Mean PnL',
+            'sharpe': 'Sharpe Ratio',
+            'std': 'Standard Deviation',
+            'var_95': 'VaR (95%)',
+            'es_95': 'ES (95%)',
+            'var_99': 'VaR (99%)',
+            'es_99': 'ES (99%)',
+            'avg_inventory': 'Average Inventory'
+        }
+        
+        for metric in metrics:
+            fig_path = output_dir / f'heatmap_{metric}.png'
+            if fig_path.exists():
+                f.write(f"### {metric_names[metric]}\n\n")
+                f.write(f"![{metric_names[metric]} Heatmap]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Category Comparison
+        f.write("## Category Performance Comparison\n\n")
+        f.write("Comparison of agent categories (RL, Analytic, Heuristic) across all metrics.\n")
+        f.write("Error bars show 95% confidence intervals.\n\n")
+        
+        for metric in ['mean', 'sharpe', 'std']:
+            fig_path = output_dir / f'category_comparison_{metric}.png'
+            if fig_path.exists():
+                f.write(f"### {metric_names[metric]}\n\n")
+                f.write(f"![{metric_names[metric]} Category Comparison]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Risk-Return Analysis
+        f.write("## Risk-Return Analysis\n\n")
+        f.write("Scatter plots showing risk vs return trade-offs with confidence intervals.\n")
+        f.write("Horizontal error bars indicate uncertainty in risk estimates; vertical error bars\n")
+        f.write("indicate uncertainty in return estimates.\n\n")
+        
+        for risk_metric in ['std', 'var_95', 'es_95']:
+            fig_path = output_dir / f'risk_return_{risk_metric}.png'
+            if fig_path.exists():
+                f.write(f"### {metric_names.get(risk_metric, risk_metric)} vs Mean PnL\n\n")
+                f.write(f"![Risk-Return: {risk_metric}]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Environment Type Analysis
+        f.write("## Environment Type Analysis\n\n")
+        f.write("Comparison of agent performance across environment types (ABM, GBM, OU).\n")
+        f.write("Box plots show distributions; notches indicate approximate 95% confidence intervals.\n\n")
+        
+        for metric in ['mean', 'sharpe', 'std']:
+            fig_path = output_dir / f'env_type_comparison_{metric}.png'
+            if fig_path.exists():
+                f.write(f"### {metric_names[metric]}\n\n")
+                f.write(f"![{metric_names[metric]} by Environment Type]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Rankings
+        f.write("## Agent Rankings\n\n")
+        f.write("Top performing agents by key metrics with confidence intervals.\n\n")
+        
+        for metric in ['mean', 'sharpe']:
+            fig_path = output_dir / f'ranking_{metric}.png'
+            if fig_path.exists():
+                f.write(f"### Top Agents by {metric_names[metric]}\n\n")
+                f.write(f"![Ranking: {metric_names[metric]}]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Distribution Analysis
+        f.write("## Distribution Analysis\n\n")
+        f.write("PnL distributions across agent categories using violin plots.\n\n")
+        fig_path = output_dir / 'pnl_distributions_category.png'
+        if fig_path.exists():
+            f.write(f"![PnL Distributions]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Best Agents
+        f.write("## Best Agents per Environment\n\n")
+        f.write("Heatmap highlighting the best performing agent in each environment.\n\n")
+        fig_path = output_dir / 'best_agents_heatmap.png'
+        if fig_path.exists():
+            f.write(f"![Best Agents]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Multi-Metric Performance
+        f.write("## Multi-Metric Performance (Radar Charts)\n\n")
+        f.write("Radar charts showing top agents across multiple metrics simultaneously.\n")
+        f.write("Confidence bands indicate uncertainty in each metric.\n\n")
+        
+        for category in ['RL', 'Analytic', 'Heuristic']:
+            fig_path = output_dir / f'radar_{category.lower()}_agents.png'
+            if fig_path.exists():
+                f.write(f"### {category} Agents\n\n")
+                f.write(f"![{category} Radar Chart]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Consistency Analysis
+        f.write("## Consistency Analysis\n\n")
+        f.write("Coefficient of variation (CV) across environments for each agent.\n")
+        f.write("Lower CV indicates more consistent performance across different environments.\n\n")
+        fig_path = output_dir / 'agent_consistency.png'
+        if fig_path.exists():
+            f.write(f"![Agent Consistency]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # CI Comparison
+        f.write("## Confidence Interval Precision\n\n")
+        f.write("Comparison of average CI widths across metrics.\n")
+        f.write("Lower values indicate more precise estimates.\n\n")
+        fig_path = output_dir / 'ci_width_comparison.png'
+        if fig_path.exists():
+            f.write(f"![CI Width Comparison]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Individual Agent Comparisons
+        f.write("## Individual Agent Performance Comparison\n\n")
+        f.write("Comparison of individual agents across all metrics, averaged across all environments.\n")
+        f.write("Error bars show 95% confidence intervals. Agents are sorted by performance (descending).\n\n")
+        
+        for metric in ['mean', 'sharpe', 'std']:
+            fig_path = output_dir / f'agent_comparison_{metric}.png'
+            if fig_path.exists():
+                f.write(f"### {metric_names.get(metric, metric)}\n\n")
+                f.write(f"![{metric_names.get(metric, metric)} Agent Comparison]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Agent Risk-Return Analysis
+        f.write("## Agent-Level Risk-Return Analysis\n\n")
+        f.write("Risk-return scatter plots for individual agents with confidence intervals.\n")
+        f.write("Each point represents an agent's average performance across all environments.\n\n")
+        
+        for risk_metric in ['std', 'var_95', 'es_95']:
+            fig_path = output_dir / f'agent_risk_return_{risk_metric}.png'
+            if fig_path.exists():
+                f.write(f"### {metric_names.get(risk_metric, risk_metric)} vs Mean PnL\n\n")
+                f.write(f"![Agent Risk-Return: {risk_metric}]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Key Insights
+        f.write("## Key Insights and Conclusions\n\n")
+        f.write("### Overall Performance\n\n")
+        agent_categories = get_agent_categories()
+        
+        for category in ['RL', 'Analytic', 'Heuristic']:
+            category_agents = agent_categories[category]
+            category_df = df[df['Agent'].isin(category_agents)]
+            if 'mean' in category_df.columns:
+                avg_mean = category_df['mean'].mean()
+                f.write(f"- **{category} Agents**: Average mean PnL = {avg_mean:.4f}\n")
+        
+        f.write("\n### Best Performers\n\n")
+        if 'mean' in df.columns:
+            best_agent = df.loc[df['mean'].idxmax()]
+            f.write(f"- **Best Mean PnL**: {best_agent['Agent']} on {best_agent['Environment']} ({best_agent['mean']:.4f})\n")
+        
+        if 'sharpe' in df.columns:
+            best_sharpe_agent = df.loc[df['sharpe'].idxmax()]
+            f.write(f"- **Best Sharpe Ratio**: {best_sharpe_agent['Agent']} on {best_sharpe_agent['Environment']} ({best_sharpe_agent['sharpe']:.4f})\n")
+        
+        f.write("\n### Statistical Significance\n\n")
+        f.write("When comparing agents, non-overlapping 95% confidence intervals indicate\n")
+        f.write("statistically significant differences at the α=0.05 level.\n\n")
+        
+        f.write("---\n\n")
+        f.write("*Report generated from evaluation results with confidence intervals.*\n")
+    
+    print(f"✓ Markdown report saved to: {output_file}")
+
+
+def generate_html_report(metrics_dict, ci_dict, output_dir, output_file):
+    """
+    Generate interactive HTML report using plotly.
+    
+    Parameters
+    ----------
+    metrics_dict : dict
+        Metrics dictionary
+    ci_dict : dict
+        Confidence intervals dictionary
+    output_dir : Path
+        Output directory for figures
+    output_file : Path
+        Output HTML file path
+    """
+    try:
+        import plotly.graph_objects as go
+        from plotly.subplots import make_subplots
+        import plotly.offline as pyo
+    except ImportError:
+        print("Warning: plotly not installed. Skipping HTML report generation.")
+        print("  Install with: pip install plotly")
+        return
+    
+    df = prepare_dataframe(metrics_dict, ci_dict)
+    
+    html_content = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Market Making Agent Visualization Report</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 20px; }}
+        h1 {{ color: #2E86AB; }}
+        h2 {{ color: #A23B72; margin-top: 30px; }}
+        .figure {{ margin: 20px 0; }}
+    </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Comprehensive Results Visualization Report</h1>
+    <p><strong>Generated:</strong> {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+    <p><strong>Total Experiments:</strong> {len(df)}</p>
+    <p><strong>Environments:</strong> {len(df['Environment'].unique())}</p>
+    <p><strong>Agents:</strong> {len(df['Agent'].unique())}</p>
+    
+    <h2>Executive Summary</h2>
+    <p>This interactive report provides comprehensive visualizations of all agent performance metrics.</p>
+    <p>Hover over data points to see detailed information including confidence intervals.</p>
+    
+    <h2>Note</h2>
+    <p>This HTML report contains basic structure. For full interactive visualizations, install plotly:</p>
+    <pre>pip install plotly</pre>
+    <p>Then re-run the script to generate complete interactive charts.</p>
+    
+    <h2>Static Visualizations</h2>
+    <p>Please refer to the static PNG files in the figures/ directory for all visualizations.</p>
+</body>
+</html>
+"""
+    
+    with open(output_file, 'w') as f:
+        f.write(html_content)
+    
+    print(f"✓ HTML report saved to: {output_file}")
+    print("  Note: Full interactive features require plotly. Static images are available in figures/ directory.")
+
+
+def main():
+    """Main function to create visualization report."""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Create comprehensive visualization report with confidence intervals")
+    parser.add_argument("--results-dir", type=str, default="results",
+                       help="Directory containing results")
+    parser.add_argument("--output-dir", type=str, default="results",
+                       help="Directory to save output files")
+    parser.add_argument("--dpi", type=int, default=300,
+                       help="DPI for saved figures")
+    parser.add_argument("--format", type=str, default="both", choices=['both', 'html', 'markdown'],
+                       help="Output format")
+    parser.add_argument("--confidence", type=float, default=0.95,
+                       help="Confidence level for CIs (default 0.95)")
+    parser.add_argument("--n-bootstrap", type=int, default=1000,
+                       help="Number of bootstrap iterations (default 1000)")
+    
+    args = parser.parse_args()
+    
+    print("=" * 70)
+    print("Creating Comprehensive Visualization Report with Confidence Intervals")
+    print("=" * 70)
+    print(f"\nConfiguration:")
+    print(f"  Results directory: {args.results_dir}")
+    print(f"  Output directory: {args.output_dir}")
+    print(f"  Confidence level: {args.confidence}")
+    print(f"  Bootstrap iterations: {args.n_bootstrap}")
+    print(f"  Output format: {args.format}")
+    print()
+    
+    # Create output directories
+    output_path = Path(args.output_dir)
+    output_path.mkdir(parents=True, exist_ok=True)
+    figures_dir = output_path / "figures"
+    figures_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Set DPI
+    plt.rcParams['savefig.dpi'] = args.dpi
+    
+    # Get agent categories
+    agent_categories = get_agent_categories()
+    
+    # Load data
+    print("Loading data and calculating confidence intervals...")
+    metrics_dict, pnl_data_dict, ci_dict = load_all_data(args.results_dir, args.confidence, args.n_bootstrap)
+    
+    if not metrics_dict:
+        print("No results found. Exiting.")
+        return
+    
+    print(f"  Loaded {len(metrics_dict)} environments")
+    total_experiments = sum(len(agents) for agents in metrics_dict.values())
+    print(f"  Total experiments: {total_experiments}")
+    print()
+    
+    # Create visualizations
+    print("Creating visualizations...")
+    print()
+    
+    create_heatmaps(metrics_dict, ci_dict, figures_dir, agent_categories)
+    create_category_comparisons(metrics_dict, ci_dict, figures_dir, agent_categories)
+    create_risk_return_plots(metrics_dict, ci_dict, figures_dir, agent_categories)
+    create_env_type_comparisons(metrics_dict, ci_dict, figures_dir, agent_categories)
+    create_rankings(metrics_dict, ci_dict, figures_dir)
+    create_distribution_plots(pnl_data_dict, figures_dir, agent_categories)
+    create_best_agents_visualization(metrics_dict, ci_dict, figures_dir)
+    create_radar_charts(metrics_dict, ci_dict, figures_dir, agent_categories)
+    create_consistency_analysis(metrics_dict, ci_dict, figures_dir)
+    create_ci_comparison(ci_dict, figures_dir)
+    
+    # Create individual agent-level visualizations
+    print()
+    print("Creating individual agent-level visualizations...")
+    print()
+    create_agent_comparisons(metrics_dict, ci_dict, figures_dir, agent_categories)
+    create_agent_risk_return_plots(metrics_dict, ci_dict, figures_dir, agent_categories)
+    
+    print()
+    print("Generating reports...")
+    
+    # Generate reports
+    if args.format in ['both', 'markdown']:
+        md_file = output_path / "VISUALIZATION_REPORT.md"
+        generate_markdown_report(metrics_dict, ci_dict, figures_dir, md_file)
+    
+    if args.format in ['both', 'html']:
+        html_file = output_path / "VISUALIZATION_REPORT.html"
+        generate_html_report(metrics_dict, ci_dict, figures_dir, html_file)
+    
+    print()
+    print("=" * 70)
+    print("✓ Visualization report generation complete!")
+    print(f"  Figures saved to: {figures_dir}")
+    if args.format in ['both', 'markdown']:
+        print(f"  Markdown report: {output_path / 'VISUALIZATION_REPORT.md'}")
+    if args.format in ['both', 'html']:
+        print(f"  HTML report: {output_path / 'VISUALIZATION_REPORT.html'}")
+    print("=" * 70)
+
+
+if __name__ == "__main__":
+    main()

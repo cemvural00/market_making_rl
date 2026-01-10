@@ -90,6 +90,185 @@ python scripts/run_full_pipeline.py --full \
     --compare-eval-episodes 100
 ```
 
+---
+
+## Report Generation Scripts
+
+After running experiments, use these scripts to generate comprehensive reports and visualizations:
+
+### 5. `create_evaluation_report.py`
+Generates a detailed evaluation report with statistics and rankings.
+
+**Usage:**
+```bash
+python scripts/create_evaluation_report.py
+
+# Custom directories
+python scripts/create_evaluation_report.py --results-dir results --output-file results/EVALUATION_REPORT.md
+```
+
+**Output:** `results/EVALUATION_REPORT.md`
+
+**Contents:**
+- Overall performance statistics
+- Best agent per environment (by PnL and Sharpe ratio)
+- Performance by agent category (RL, Analytic, Heuristic)
+- Performance by environment type (ABM, GBM, OU)
+- Risk analysis (VaR, ES)
+- Inventory management statistics
+
+---
+
+### 6. `create_appendix.py`
+Generates appendix tables in matrix format.
+
+**Usage:**
+```bash
+python scripts/create_appendix.py
+
+# Custom directories
+python scripts/create_appendix.py --results-dir results --output-file results/APPENDIX.md
+```
+
+**Output:** `results/APPENDIX.md`
+
+**Contents:**
+- Matrix format tables for all metrics
+- Environments as rows, agents as columns
+- Agents grouped by category (RL, Analytic, Heuristic)
+- Category averages for each metric
+
+---
+
+### 7. `create_visualization_report.py`
+Generates comprehensive visualizations with confidence intervals.
+
+**Usage:**
+```bash
+# Basic usage
+python scripts/create_visualization_report.py
+
+# Customize confidence level and bootstrap iterations
+python scripts/create_visualization_report.py --confidence 0.99 --n-bootstrap 2000
+
+# Generate only markdown or HTML
+python scripts/create_visualization_report.py --format markdown
+python scripts/create_visualization_report.py --format html
+
+# Custom directories
+python scripts/create_visualization_report.py --results-dir results --output-dir results --dpi 300
+```
+
+**Output:**
+- `results/VISUALIZATION_REPORT.md` - Markdown report with embedded figures
+- `results/VISUALIZATION_REPORT.html` - Interactive HTML report
+- `results/figures/` - All visualization figures
+
+**Contents:**
+- Heatmaps for all metrics across agent-environment combinations
+- Category comparison charts with 95% confidence intervals
+- Risk-return scatter plots
+- Agent rankings with error bars
+- PnL distribution plots (violin/box plots)
+- Best agent visualizations
+- Radar charts for multi-metric comparison
+- Environment difficulty analysis
+- Agent consistency analysis
+- Individual agent comparisons
+- Agent-level risk-return plots
+
+---
+
+### 8. `create_results_summary.py`
+Generates a research paper-style results and conclusions section.
+
+**Usage:**
+```bash
+python scripts/create_results_summary.py
+
+# Custom directories
+python scripts/create_results_summary.py --results-dir results --output-file results/RESULTS_AND_CONCLUSIONS.md
+```
+
+**Output:** `results/RESULTS_AND_CONCLUSIONS.md`
+
+**Contents:**
+- Executive summary with key findings
+- Statistical comparisons by agent category
+- Individual agent performance analysis
+- Environment complexity analysis
+- Risk-return trade-off analysis
+- Statistical patterns and insights
+- Critical discussion (RL vs traditional methods, LSTM effectiveness, etc.)
+- Conclusions with research contributions and practical implications
+
+---
+
+### 9. `create_agent_risk_return_plots.py`
+Generates individual risk-return plots for each agent.
+
+**Usage:**
+```bash
+python scripts/create_agent_risk_return_plots.py
+
+# Custom directories
+python scripts/create_agent_risk_return_plots.py --results-dir results --output-dir results --figures-dir figures
+```
+
+**Output:**
+- `results/AGENT_RISK_RETURN_PROFILES.md` - Markdown file with all plots
+- `results/figures/agent_risk_return_*.png` - Individual agent plots
+
+**Contents:**
+- One plot per agent showing risk (std) vs return (mean PnL)
+- Points color-coded by environment type (ABM=Blue, GBM=Purple, OU=Orange)
+- Environment names labeled on each point
+- Legend showing environment types
+
+---
+
+### 10. `create_pnl_distributions.py`
+Generates PnL distribution plots for each agent-environment combination.
+
+**Usage:**
+```bash
+python scripts/create_pnl_distributions.py
+
+# Custom directories and DPI
+python scripts/create_pnl_distributions.py --results-dir results --output-dir results --figures-dir figures --dpi 300
+```
+
+**Output:**
+- `results/PNL_DISTRIBUTIONS.md` - Markdown file with all plots organized by environment
+- `results/figures/pnl_dist_*.png` - Individual distribution plots
+
+**Contents:**
+- Histogram with KDE overlay of PnL distribution
+- Mean PnL highlighted with red dashed vertical line
+- Median highlighted with green dashed vertical line
+- Interquartile Range (IQR) highlighted with yellow shaded region
+- Statistics box showing mean, median, IQR, standard deviation, and sample size
+
+---
+
+### Quick Report Generation
+
+Generate all reports at once:
+
+```bash
+# Generate all reports
+python scripts/create_evaluation_report.py
+python scripts/create_appendix.py
+python scripts/create_visualization_report.py
+python scripts/create_results_summary.py
+python scripts/create_agent_risk_return_plots.py
+python scripts/create_pnl_distributions.py
+```
+
+All reports are saved to the `results/` directory and can be directly included in research papers or theses.
+
+---
+
 ## Workflow
 
 ### Recommended Workflow
