@@ -20,9 +20,9 @@ This document evaluates all 12 market-making environments for:
 
 ### GBM (Geometric Brownian Motion) Environments
 - ✅ `GBMVanillaEnv` - Basic GBM: dS = μ·S·dt + σ·S·dW
-- ❌ `GBMJumpEnv` - **BUG: Additive jumps (should be multiplicative)**
+- ✅ `GBMJumpEnv` - GBM with multiplicative (log-normal) jumps
 - ✅ `GBMRegimeEnv` - GBM with regime-switching volatility
-- ❌ `GBMJumpRegimeEnv` - **BUG: Additive jumps (should be multiplicative)**
+- ✅ `GBMJumpRegimeEnv` - GBM with regimes + multiplicative jumps
 
 ### OU (Ornstein-Uhlenbeck) Environments
 - ✅ `OUVanillaEnv` - Basic OU: dS = κ·(μ - S)·dt + σ·dW
@@ -32,18 +32,17 @@ This document evaluates all 12 market-making environments for:
 
 ---
 
-## 2. Critical Bugs Found
+## 2. Bug History and Fixes
 
-### 🚨 BUG #1: GBM Jump Environments - Incorrect Jump Implementation
+### ✅ FIXED: GBM Jump Environments - Jump Implementation
 
 **Files:** `gbm_jump.py`, `gbm_jump_regime.py`
 
-**Problem:**
-GBM environments add jumps **additively**, which is mathematically incorrect for geometric processes.
+**Original Problem (RESOLVED):**
+GBM environments previously added jumps **additively**, which was mathematically incorrect for geometric processes.
 
-**Current (WRONG) code:**
+**Original (WRONG) code:**
 ```python
-# gbm_jump.py line 43-51
 gbm_step = self.S * np.exp((mu - 0.5 * sigma**2) * dt + sigma * dW)
 if self.rng.uniform() < self.jump_intensity * dt:
     J = self._draw_jump()
@@ -52,23 +51,26 @@ else:
 self.S = gbm_step + J  # ❌ WRONG: Additive jump on GBM
 ```
 
-**Correct implementation:**
-For GBM, jumps should be **multiplicative** (log-normal jumps):
+**Fixed Implementation:**
+Jumps are now **multiplicative** (log-normal jumps), which is correct for geometric processes:
 ```python
-gbm_step = self.S * np.exp((mu - 0.5 * sigma**2) * dt + sigma * dW)
+# Current (CORRECT) code in gbm_jump.py
+gbm_diffusion = (mu - 0.5 * sigma**2) * dt + sigma * dW
 if self.rng.uniform() < self.jump_intensity * dt:
-    J = self._draw_jump()  # This should be log-jump size
-    self.S = gbm_step * np.exp(J)  # ✅ Multiplicative
+    J_log = self._draw_jump()  # Log-jump size ~ N(jump_mean, jump_std²)
 else:
-    self.S = gbm_step
+    J_log = 0.0
+self.S = self.S * np.exp(gbm_diffusion + J_log)  # ✅ Multiplicative
 ```
 
-**Impact:** 
-- Price can go negative (impossible for GBM)
-- Jump magnitudes are inconsistent with ABM/OU
-- Breaks financial modeling assumptions
+**Fix Status:** ✅ **FIXED**
+- Ensures price remains positive (S > 0 always)
+- Mathematically consistent with geometric Brownian motion
+- Follows Merton jump-diffusion model with multiplicative (log-normal) jumps
 
-**Fix Required:** ✅ **HIGH PRIORITY**
+**Updated Parameters:**
+- `jump_std` default changed from 1.0 to 0.05 (appropriate for log-jump size in percentage scale)
+- Jumps are now properly scaled for multiplicative processes
 
 ---
 
@@ -108,20 +110,21 @@ else:
 |-------------|----------------|-----------|----------|--------|
 | ABM Jump | 0.1 | 0.0 | 5.0 | Absolute jump size |
 | ABM JumpRegime | 0.1 | 0.0 | 5.0 | Absolute jump size |
-| GBM Jump | 0.1 | 0.0 | 1.0 | **Inconsistent! Should be log-jump** |
-| GBM JumpRegime | 0.1 | 0.0 | 1.0 | **Inconsistent! Should be log-jump** |
+| GBM Jump | 0.1 | 0.0 | 0.05 | Log-jump size (percentage scale) |
+| GBM JumpRegime | 0.1 | 0.0 | 0.05 | Log-jump size (percentage scale) |
 | OU Jump | 0.1 | 0.0 | 5.0 | Absolute jump size |
 | OU JumpRegime | 0.1 | 0.0 | 5.0 | Absolute jump size |
 
-**Issues:**
-1. **GBM jump_std=1.0 vs others=5.0** - Inconsistent magnitude
-2. **GBM jumps are additive** - Should be multiplicative (log-normal)
+**Status:**
+1. ✅ **GBM jumps are now multiplicative** - Correctly implemented as log-normal jumps
+2. ✅ **GBM jump_std=0.05** - Appropriate for log-jump size in percentage scale (fixed from 1.0)
 3. **jump_mean=0.0 everywhere** - No directional bias (reasonable default)
+4. **ABM/OU jump_std=5.0** - Absolute jump size, appropriate for additive processes
 
-**Recommendation:**
-- Fix GBM jump implementation (multiplicative)
-- Standardize jump_std to 5.0 for all (or document why GBM is different)
-- For GBM, consider using log-jump size: J_log ~ N(0, σ_jump²), then S ← S·exp(J_log)
+**Note:**
+- GBM uses **log-jump sizes** (percentage scale) for multiplicative jumps
+- ABM/OU use **absolute jump sizes** for additive jumps
+- These scales are appropriate for their respective process types and are not directly comparable
 
 ### 3.3 Regime Parameters
 
@@ -195,9 +198,10 @@ self.S = self.S + self.kappa * (self.mu - self.S) * self.dt + self.sigma * dW
 - Additive jumps: S ← S + J, where J ~ N(jump_mean, jump_std²)
 - Appropriate for arithmetic processes
 
-**GBM Jumps:** ❌ **WRONG**
-- Currently: S ← S·exp(...) + J (additive)
-- Should be: S ← S·exp(...)·exp(J) = S·exp(... + J) (multiplicative)
+**GBM Jumps:** ✅ **CORRECT**
+- Implementation: S ← S·exp(diffusion + J_log) (multiplicative)
+- J_log ~ N(jump_mean, jump_std²) represents log-jump size
+- Properly ensures S > 0 and follows Merton jump-diffusion model
 
 ---
 
@@ -228,37 +232,36 @@ self.S = self.S + self.kappa * (self.mu - self.S) * self.dt + self.sigma * dW
    - **Document this limitation**
 
 2. **GBM jumps vs others:**
-   - Currently broken (additive instead of multiplicative)
-   - jump_std=1.0 vs 5.0
-   - **Fix required before comparison**
+   - ✅ Fixed: Now correctly multiplicative (log-normal)
+   - Different scales: GBM uses log-jump size (percentage, std=0.05), ABM/OU use absolute jump size (std=5.0)
+   - These are appropriate for their process types but not directly comparable in magnitude
 
 ---
 
 ## 6. Recommendations
 
-### Priority 1: Critical Fixes
+### ✅ Completed Fixes
 
-1. **Fix GBM jump implementations** (gbm_jump.py, gbm_jump_regime.py)
-   - Change from additive to multiplicative jumps
-   - Consider using log-jump sizes for consistency
+1. ✅ **Fixed GBM jump implementations** (gbm_jump.py, gbm_jump_regime.py)
+   - Changed from additive to multiplicative jumps
+   - Now using log-jump sizes (J_log ~ N(jump_mean, jump_std²))
+   - Updated default jump_std from 1.0 to 0.05 (appropriate for log-jump size)
 
-2. **Standardize jump parameters**
-   - Either make GBM jump_std=5.0 (after fixing to multiplicative)
-   - Or document why GBM uses different scale
-
-### Priority 2: Documentation
+### Priority 1: Documentation
 
 1. **Document parameter scales:**
-   - GBM σ is percentage-based (0.02 = 2%)
-   - ABM/OU σ is absolute (2.0 = $2 per unit time)
-   - Clarify when environments are comparable
+   - ✅ GBM σ is percentage-based (0.02 = 2%) - documented in code
+   - ✅ ABM/OU σ is absolute (2.0 = $2 per unit time) - documented in code
+   - ✅ GBM jumps use log-jump size (percentage scale, std=0.05)
+   - ✅ ABM/OU jumps use absolute jump size (std=5.0)
+   - Clarify when environments are comparable (only at S0≈100 for volatility)
 
 2. **Add parameter validation:**
    - Ensure S0 > 0 for GBM
    - Ensure jump_std > 0
    - Validate transition matrix probabilities sum to 1
 
-### Priority 3: Enhancements
+### Priority 2: Enhancements
 
 1. **Add regime information to observations:**
    - Currently regime is hidden from agent
@@ -302,25 +305,35 @@ self.S = self.S + self.kappa * (self.mu - self.S) * self.dt + self.sigma * dW
 | ABMJumpEnv | ✅ | ✅ | None |
 | ABMRegimeEnv | ✅ | ✅ | None |
 | ABMJumpRegimeEnv | ✅ | ✅ | None |
-| GBMVanillaEnv | ✅ | ⚠️ | Different σ scale |
-| GBMJumpEnv | ❌ | ❌ | **Additive jumps (BUG)** |
-| GBMRegimeEnv | ✅ | ⚠️ | Different σ scale |
-| GBMJumpRegimeEnv | ❌ | ❌ | **Additive jumps (BUG)** |
+| GBMVanillaEnv | ✅ | ⚠️ | Different σ scale (percentage vs absolute) |
+| GBMJumpEnv | ✅ | ⚠️ | Different σ/jump scales (percentage vs absolute) |
+| GBMRegimeEnv | ✅ | ⚠️ | Different σ scale (percentage vs absolute) |
+| GBMJumpRegimeEnv | ✅ | ⚠️ | Different σ/jump scales (percentage vs absolute) |
 | OUVanillaEnv | ✅ | ✅ | None |
 | OUJumpEnv | ✅ | ✅ | None |
 | OURegimeEnv | ✅ | ✅ | None |
 | OUJumpRegimeEnv | ✅ | ✅ | None |
 
 **Overall Status:**
-- ✅ 10/12 environments are mathematically correct
-- ❌ 2/12 environments have critical bugs (GBM jumps)
-- ⚠️ Parameter comparability needs documentation
+- ✅ **12/12 environments are mathematically correct**
+- ✅ **All critical bugs have been fixed** (GBM jumps now multiplicative)
+- ⚠️ **Parameter comparability:** GBM uses percentage scales while ABM/OU use absolute scales (only comparable at S0≈100)
 
 ---
 
 ## Next Steps
 
-1. **Immediate:** Fix GBM jump bugs
-2. **Short-term:** Add parameter documentation
-3. **Medium-term:** Add unit tests
-4. **Long-term:** Consider parameter standardization
+1. ✅ **Completed:** Fixed GBM jump bugs (multiplicative jumps implemented)
+2. ✅ **Completed:** Parameter documentation in code (volatility and jump scales)
+3. **Short-term:** Add unit tests for mathematical correctness
+4. **Medium-term:** Add parameter validation (S0 > 0, jump_std > 0, etc.)
+5. **Long-term:** Consider parameter standardization for better comparability (optional)
+
+---
+
+## Update History
+
+- **2026-01-10:** Updated document to reflect fixes to GBM jump implementations
+  - GBM jumps now correctly multiplicative (log-normal)
+  - Updated jump_std defaults from 1.0 to 0.05 for GBM environments
+  - All environments now mathematically correct
