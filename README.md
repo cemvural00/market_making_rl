@@ -388,7 +388,7 @@ If you use this code in your research, please cite:
 
 ## License
 
-[Specify your license here]
+[All rights reserved]
 
 ## Acknowledgments
 
