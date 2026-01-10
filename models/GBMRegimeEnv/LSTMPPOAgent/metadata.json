@@ -1,0 +1,69 @@
+{
+    "env_class": "GBMRegimeEnv",
+    "agent_class": "LSTMPPOAgent",
+    "env_config": {
+        "S0": 100.0,
+        "T": 1.0,
+        "dt": 0.0001,
+        "mu": 0.0,
+        "sigma_low": 0.1,
+        "sigma_high": 0.5,
+        "transition_matrix": [
+            [
+                0.95,
+                0.05
+            ],
+            [
+                0.1,
+                0.9
+            ]
+        ],
+        "initial_regime": 0,
+        "A": 5.0,
+        "k": 1.5,
+        "base_delta": 1.0,
+        "max_inventory": 20,
+        "inv_penalty": 0.01,
+        "seed": 123
+    },
+    "agent_config": {
+        "total_timesteps": 200000,
+        "use_vec_env": false,
+        "learning_rate": 0.0003,
+        "gamma": 1.0,
+        "n_steps": 512,
+        "batch_size": 128,
+        "n_epochs": 5,
+        "ent_coef": 0.0,
+        "vf_coef": 0.5,
+        "clip_range": 0.2,
+        "gae_lambda": 0.95,
+        "policy_kwargs": {
+            "lstm_hidden_size": 128,
+            "n_lstm_layers": 1,
+            "shared_lstm": false,
+            "net_arch": [
+                64,
+                64
+            ],
+            "activation_fn": "ReLU"
+        },
+        "early_stopping": {
+            "enabled": true,
+            "monitor_type": "reward",
+            "monitor": "mean_reward",
+            "patience": 6,
+            "min_delta": 0.0,
+            "mode": "max",
+            "verbose": 1,
+            "eval_freq": 5000,
+            "n_eval_episodes": 5,
+            "best_model_path": null
+        },
+        "verbose": 1,
+        "tensorboard_log": null
+    },
+    "total_timesteps": 200000,
+    "trained_at": "2026-01-09T15:14:43.184698",
+    "model_path": "models/GBMRegimeEnv/LSTMPPOAgent/model"
+}

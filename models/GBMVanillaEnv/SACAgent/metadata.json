@@ -1,0 +1,47 @@
+{
+    "env_class": "GBMVanillaEnv",
+    "agent_class": "SACAgent",
+    "env_config": {
+        "S0": 100.0,
+        "T": 1.0,
+        "dt": 0.0001,
+        "sigma": 0.2,
+        "mu": 0.0,
+        "A": 5.0,
+        "k": 1.5,
+        "base_delta": 1.0,
+        "max_inventory": 20,
+        "inv_penalty": 0.01,
+        "seed": 123
+    },
+    "agent_config": {
+        "total_timesteps": 200000,
+        "use_vec_env": false,
+        "learning_rate": 0.0003,
+        "gamma": 1.0,
+        "buffer_size": 100000,
+        "learning_starts": 100,
+        "batch_size": 256,
+        "tau": 0.005,
+        "train_freq": 1,
+        "gradient_steps": 1,
+        "ent_coef": "auto",
+        "early_stopping": {
+            "enabled": true,
+            "monitor_type": "reward",
+            "monitor": "mean_reward",
+            "patience": 6,
+            "min_delta": 0.0,
+            "mode": "max",
+            "verbose": 1,
+            "eval_freq": 10000,
+            "n_eval_episodes": 5,
+            "best_model_path": null
+        },
+        "verbose": 1,
+        "tensorboard_log": null
+    },
+    "total_timesteps": 200000,
+    "trained_at": "2026-01-09T11:47:48.510400",
+    "model_path": "models/GBMVanillaEnv/SACAgent/model"
+}
