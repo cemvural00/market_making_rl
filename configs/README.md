@@ -10,9 +10,6 @@ configs/
 ├── env_configs.yaml          # Environment presets (ABM, GBM, OU)
 ├── agent_configs.yaml        # Agent presets (PPO, LSTM, AS, heuristics)
 ├── training_configs.yaml     # Training/evaluation settings
-└── hyperparams/              # Detailed hyperparameter configs
-    ├── abm_env.yaml
-    └── lstm_ppo.yaml
 ```
 
 ## Quick Start
