@@ -1304,6 +1304,329 @@ def create_ci_comparison(ci_dict, output_dir):
     print("  Created CI width comparison")
 
 
+def create_agent_comparisons(metrics_dict, ci_dict, output_dir, agent_categories):
+    """
+    Create bar charts comparing individual agents with error bars showing 95% CI.
+    Similar to category comparisons but for each individual agent.
+    
+    Parameters
+    ----------
+    metrics_dict : dict
+        Metrics dictionary
+    ci_dict : dict
+        Confidence intervals dictionary
+    output_dir : Path
+        Output directory for figures
+    agent_categories : dict
+        Agent categories dictionary
+    """
+    df = prepare_dataframe(metrics_dict, ci_dict)
+    metrics = ['mean', 'sharpe', 'std', 'var_95', 'es_95', 'var_99', 'es_99', 'avg_inventory']
+    metric_names = {
+        'mean': 'Mean PnL',
+        'sharpe': 'Sharpe Ratio',
+        'std': 'Standard Deviation',
+        'var_95': 'VaR (95%)',
+        'es_95': 'ES (95%)',
+        'var_99': 'VaR (99%)',
+        'es_99': 'ES (99%)',
+        'avg_inventory': 'Average Inventory'
+    }
+    
+    # Calculate agent averages across all environments
+    agent_avgs = {}
+    agent_cis = {}
+    
+    all_agents = sorted(df['Agent'].unique())
+    
+    for agent in all_agents:
+        agent_df = df[df['Agent'] == agent]
+        
+        agent_avgs[agent] = {}
+        agent_cis[agent] = {}
+        
+        for metric in metrics:
+            if metric not in agent_df.columns:
+                continue
+            
+            # Average across all environments for this agent
+            values = agent_df[metric].values
+            valid_values = values[~np.isnan(values)]
+            if len(valid_values) > 0:
+                agent_avgs[agent][metric] = np.mean(valid_values)
+            else:
+                agent_avgs[agent][metric] = np.nan
+            
+            # Aggregate CI: collect all CI bounds and compute average width
+            ci_lowers = []
+            ci_uppers = []
+            for _, row in agent_df.iterrows():
+                ci_lower_col = f'{metric}_ci_lower'
+                ci_upper_col = f'{metric}_ci_upper'
+                metric_val = row.get(metric, np.nan)
+                
+                if ci_lower_col in row and ci_upper_col in row:
+                    ci_lower = row[ci_lower_col]
+                    ci_upper = row[ci_upper_col]
+                    if not (np.isnan(ci_lower) or np.isnan(ci_upper)) and not np.isnan(metric_val):
+                        ci_lowers.append(ci_lower)
+                        ci_uppers.append(ci_upper)
+            
+            if ci_lowers and len(ci_lowers) > 0:
+                # Use average of CI bounds, centered around agent mean
+                avg_lower = np.mean(ci_lowers)
+                avg_upper = np.mean(ci_uppers)
+                mean_val = agent_avgs[agent][metric]
+                
+                # Ensure CI bounds are reasonable (lower <= mean <= upper)
+                if not np.isnan(mean_val):
+                    # Calculate average CI width
+                    ci_widths = [u - l for l, u in zip(ci_lowers, ci_uppers) if not (np.isnan(l) or np.isnan(u))]
+                    if ci_widths:
+                        avg_width = np.mean(ci_widths) / 2
+                        # Center CI around mean
+                        agent_cis[agent][metric] = (mean_val - avg_width, mean_val + avg_width)
+                    else:
+                        agent_cis[agent][metric] = (avg_lower, avg_upper)
+                else:
+                    agent_cis[agent][metric] = (avg_lower, avg_upper)
+            else:
+                agent_cis[agent][metric] = (np.nan, np.nan)
+    
+    for metric in metrics:
+        if metric not in df.columns:
+            continue
+        
+        fig, ax = plt.subplots(figsize=(16, 8))
+        
+        # Sort agents by metric value (descending)
+        agents_with_vals = [(agent, agent_avgs[agent].get(metric, np.nan)) for agent in all_agents]
+        agents_with_vals = sorted(agents_with_vals, key=lambda x: x[1] if not np.isnan(x[1]) else -np.inf, reverse=True)
+        agents_sorted = [a[0] for a in agents_with_vals]
+        means = [a[1] for a in agents_with_vals]
+        
+        # Extract CI bounds
+        ci_lowers = []
+        ci_uppers = []
+        for agent in agents_sorted:
+            ci = agent_cis[agent].get(metric, (np.nan, np.nan))
+            ci_lowers.append(ci[0])
+            ci_uppers.append(ci[1])
+        
+        # Calculate error bars (ensure non-negative and reasonable)
+        errors_lower = []
+        errors_upper = []
+        for i in range(len(means)):
+            mean_val = means[i]
+            ci_lower = ci_lowers[i]
+            ci_upper = ci_uppers[i]
+            
+            if not np.isnan(mean_val):
+                # If CI is available, use it (but ensure bounds are valid)
+                if not np.isnan(ci_lower) and not np.isnan(ci_upper):
+                    # Ensure CI bounds are around the mean
+                    lower_err = max(0, mean_val - ci_lower) if ci_lower <= mean_val else abs(mean_val) * 0.1
+                    upper_err = max(0, ci_upper - mean_val) if ci_upper >= mean_val else abs(mean_val) * 0.1
+                else:
+                    # Use a default small error (5% of mean)
+                    lower_err = abs(mean_val) * 0.05
+                    upper_err = abs(mean_val) * 0.05
+            else:
+                lower_err = 0
+                upper_err = 0
+            
+            errors_lower.append(lower_err)
+            errors_upper.append(upper_err)
+        
+        # Color bars by category
+        colors = []
+        for agent in agents_sorted:
+            if agent in agent_categories['RL']:
+                colors.append(COLORS['RL'])
+            elif agent in agent_categories['Analytic']:
+                colors.append(COLORS['Analytic'])
+            else:
+                colors.append(COLORS['Heuristic'])
+        
+        # Create bar plot
+        bars = ax.bar(range(len(agents_sorted)), means, color=colors,
+                     yerr=[errors_lower, errors_upper], capsize=5, alpha=0.8, edgecolor='black', linewidth=1)
+        
+        ax.set_title(f'{metric_names[metric]} - Individual Agent Comparison', fontsize=14, fontweight='bold')
+        ax.set_ylabel(metric_names[metric], fontsize=12)
+        ax.set_xlabel('Agent', fontsize=12)
+        ax.set_xticks(range(len(agents_sorted)))
+        ax.set_xticklabels(agents_sorted, rotation=45, ha='right')
+        ax.grid(axis='y', alpha=0.3, linestyle='--')
+        
+        # Add value labels on bars
+        for i, (bar, mean) in enumerate(zip(bars, means)):
+            if not np.isnan(mean):
+                height = bar.get_height()
+                ax.text(bar.get_x() + bar.get_width()/2., height,
+                       f'{mean:.3f}', ha='center', va='bottom', fontsize=9, rotation=0)
+        
+        # Add legend for categories
+        from matplotlib.patches import Patch
+        legend_elements = [
+            Patch(facecolor=COLORS['RL'], label='RL Agents'),
+            Patch(facecolor=COLORS['Analytic'], label='Analytic Agents'),
+            Patch(facecolor=COLORS['Heuristic'], label='Heuristic Agents')
+        ]
+        ax.legend(handles=legend_elements, loc='upper right', fontsize=9)
+        
+        plt.tight_layout()
+        plt.savefig(output_dir / f'agent_comparison_{metric}.png', bbox_inches='tight', dpi=300)
+        plt.close()
+        
+        print(f"  Created agent comparison: {metric}")
+
+
+def create_agent_risk_return_plots(metrics_dict, ci_dict, output_dir, agent_categories):
+    """
+    Create risk-return scatter plots for individual agents with error bars.
+    
+    Parameters
+    ----------
+    metrics_dict : dict
+        Metrics dictionary
+    ci_dict : dict
+        Confidence intervals dictionary
+    output_dir : Path
+        Output directory for figures
+    agent_categories : dict
+        Agent categories dictionary
+    """
+    df = prepare_dataframe(metrics_dict, ci_dict)
+    
+    # Risk metrics to use
+    risk_metrics = {
+        'std': ('Standard Deviation', 'mean', 'Mean PnL'),
+        'var_95': ('VaR (95%)', 'mean', 'Mean PnL'),
+        'es_95': ('ES (95%)', 'mean', 'Mean PnL'),
+    }
+    
+    for risk_metric, (risk_label, return_metric, return_label) in risk_metrics.items():
+        if risk_metric not in df.columns or return_metric not in df.columns:
+            continue
+        
+        fig, ax = plt.subplots(figsize=(14, 10))
+        
+        all_agents = sorted(df['Agent'].unique())
+        
+        # Plot by category with different markers for each agent
+        for category in ['RL', 'Analytic', 'Heuristic']:
+            category_agents = [a for a in agent_categories[category] if a in all_agents]
+            
+            if not category_agents:
+                continue
+            
+            # Average across environments for each agent
+            agent_means_risk = {}
+            agent_means_return = {}
+            agent_cis_risk = {}
+            agent_cis_return = {}
+            
+            for agent in category_agents:
+                agent_df = df[df['Agent'] == agent]
+                
+                # Average risk metric
+                risk_vals = agent_df[risk_metric].dropna().values
+                if len(risk_vals) > 0:
+                    agent_means_risk[agent] = np.mean(risk_vals)
+                else:
+                    agent_means_risk[agent] = np.nan
+                
+                # Average return metric
+                return_vals = agent_df[return_metric].dropna().values
+                if len(return_vals) > 0:
+                    agent_means_return[agent] = np.mean(return_vals)
+                else:
+                    agent_means_return[agent] = np.nan
+                
+                # Average CI bounds
+                risk_cis_lower = agent_df[f'{risk_metric}_ci_lower'].dropna().values
+                risk_cis_upper = agent_df[f'{risk_metric}_ci_upper'].dropna().values
+                if len(risk_cis_lower) > 0 and len(risk_cis_upper) > 0:
+                    agent_cis_risk[agent] = (np.mean(risk_cis_lower), np.mean(risk_cis_upper))
+                else:
+                    agent_cis_risk[agent] = (np.nan, np.nan)
+                
+                return_cis_lower = agent_df[f'{return_metric}_ci_lower'].dropna().values
+                return_cis_upper = agent_df[f'{return_metric}_ci_upper'].dropna().values
+                if len(return_cis_lower) > 0 and len(return_cis_upper) > 0:
+                    agent_cis_return[agent] = (np.mean(return_cis_lower), np.mean(return_cis_upper))
+                else:
+                    agent_cis_return[agent] = (np.nan, np.nan)
+            
+            # Prepare data for plotting
+            x = []
+            y = []
+            xerr_lower = []
+            xerr_upper = []
+            yerr_lower = []
+            yerr_upper = []
+            agent_names = []
+            
+            for agent in category_agents:
+                risk_mean = agent_means_risk.get(agent, np.nan)
+                return_mean = agent_means_return.get(agent, np.nan)
+                
+                if not (np.isnan(risk_mean) or np.isnan(return_mean)):
+                    x.append(risk_mean)
+                    y.append(return_mean)
+                    agent_names.append(agent)
+                    
+                    # Risk CI
+                    risk_ci = agent_cis_risk.get(agent, (np.nan, np.nan))
+                    if not (np.isnan(risk_ci[0]) or np.isnan(risk_ci[1])):
+                        xerr_lower.append(max(0, risk_mean - risk_ci[0]))
+                        xerr_upper.append(max(0, risk_ci[1] - risk_mean))
+                    else:
+                        xerr_lower.append(0)
+                        xerr_upper.append(0)
+                    
+                    # Return CI
+                    return_ci = agent_cis_return.get(agent, (np.nan, np.nan))
+                    if not (np.isnan(return_ci[0]) or np.isnan(return_ci[1])):
+                        yerr_lower.append(max(0, return_mean - return_ci[0]))
+                        yerr_upper.append(max(0, return_ci[1] - return_mean))
+                    else:
+                        yerr_lower.append(0)
+                        yerr_upper.append(0)
+            
+            if x and y:
+                # Size by Sharpe ratio if available (use scalar)
+                category_df = df[df['Agent'].isin(category_agents)]
+                if 'sharpe' in category_df.columns and len(category_df) > 0:
+                    avg_sharpe_size = float(category_df['sharpe'].abs().mean() * 50)
+                    marker_size = max(20, min(200, avg_sharpe_size))
+                else:
+                    marker_size = 100
+                
+                # Plot with error bars
+                ax.errorbar(x, y, xerr=[xerr_lower, xerr_upper], yerr=[yerr_lower, yerr_upper],
+                           fmt='o', label=category, color=COLORS[category], alpha=0.6,
+                           capsize=3, capthick=1.5, markersize=marker_size, markeredgecolor='black', markeredgewidth=0.5)
+                
+                # Add agent labels
+                for i, agent in enumerate(agent_names):
+                    ax.annotate(agent, (x[i], y[i]), xytext=(5, 5), textcoords='offset points',
+                               fontsize=8, alpha=0.7)
+        
+        ax.set_xlabel(risk_label, fontsize=12)
+        ax.set_ylabel(return_label, fontsize=12)
+        ax.set_title(f'Risk-Return Analysis by Agent: {risk_label} vs {return_label}', fontsize=14, fontweight='bold')
+        ax.legend(fontsize=10)
+        ax.grid(True, alpha=0.3, linestyle='--')
+        
+        plt.tight_layout()
+        plt.savefig(output_dir / f'agent_risk_return_{risk_metric}.png', bbox_inches='tight', dpi=300)
+        plt.close()
+        
+        print(f"  Created agent risk-return plot: {risk_metric}")
+
+
 def generate_markdown_report(metrics_dict, ci_dict, output_dir, output_file):
     """
     Generate Markdown report with embedded images and detailed analysis text.
@@ -1464,6 +1787,28 @@ def generate_markdown_report(metrics_dict, ci_dict, output_dir, output_file):
         fig_path = output_dir / 'ci_width_comparison.png'
         if fig_path.exists():
             f.write(f"![CI Width Comparison]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Individual Agent Comparisons
+        f.write("## Individual Agent Performance Comparison\n\n")
+        f.write("Comparison of individual agents across all metrics, averaged across all environments.\n")
+        f.write("Error bars show 95% confidence intervals. Agents are sorted by performance (descending).\n\n")
+        
+        for metric in ['mean', 'sharpe', 'std']:
+            fig_path = output_dir / f'agent_comparison_{metric}.png'
+            if fig_path.exists():
+                f.write(f"### {metric_names.get(metric, metric)}\n\n")
+                f.write(f"![{metric_names.get(metric, metric)} Agent Comparison]({fig_path.relative_to(output_file.parent)})\n\n")
+        
+        # Agent Risk-Return Analysis
+        f.write("## Agent-Level Risk-Return Analysis\n\n")
+        f.write("Risk-return scatter plots for individual agents with confidence intervals.\n")
+        f.write("Each point represents an agent's average performance across all environments.\n\n")
+        
+        for risk_metric in ['std', 'var_95', 'es_95']:
+            fig_path = output_dir / f'agent_risk_return_{risk_metric}.png'
+            if fig_path.exists():
+                f.write(f"### {metric_names.get(risk_metric, risk_metric)} vs Mean PnL\n\n")
+                f.write(f"![Agent Risk-Return: {risk_metric}]({fig_path.relative_to(output_file.parent)})\n\n")
         
         # Key Insights
         f.write("## Key Insights and Conclusions\n\n")
@@ -1634,6 +1979,13 @@ def main():
     create_radar_charts(metrics_dict, ci_dict, figures_dir, agent_categories)
     create_consistency_analysis(metrics_dict, ci_dict, figures_dir)
     create_ci_comparison(ci_dict, figures_dir)
+    
+    # Create individual agent-level visualizations
+    print()
+    print("Creating individual agent-level visualizations...")
+    print()
+    create_agent_comparisons(metrics_dict, ci_dict, figures_dir, agent_categories)
+    create_agent_risk_return_plots(metrics_dict, ci_dict, figures_dir, agent_categories)
     
     print()
     print("Generating reports...")

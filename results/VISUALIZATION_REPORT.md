@@ -1,6 +1,6 @@
 # Comprehensive Results Visualization Report
 
-**Generated:** 2026-01-10 15:37:07
+**Generated:** 2026-01-10 16:03:23
 
 **Total Experiments:** 204
 
@@ -169,6 +169,40 @@ Comparison of average CI widths across metrics.
 Lower values indicate more precise estimates.
 
 ![CI Width Comparison](figures/ci_width_comparison.png)
+
+## Individual Agent Performance Comparison
+
+Comparison of individual agents across all metrics, averaged across all environments.
+Error bars show 95% confidence intervals. Agents are sorted by performance (descending).
+
+### Mean PnL
+
+![Mean PnL Agent Comparison](figures/agent_comparison_mean.png)
+
+### Sharpe Ratio
+
+![Sharpe Ratio Agent Comparison](figures/agent_comparison_sharpe.png)
+
+### Standard Deviation
+
+![Standard Deviation Agent Comparison](figures/agent_comparison_std.png)
+
+## Agent-Level Risk-Return Analysis
+
+Risk-return scatter plots for individual agents with confidence intervals.
+Each point represents an agent's average performance across all environments.
+
+### Standard Deviation vs Mean PnL
+
+![Agent Risk-Return: std](figures/agent_risk_return_std.png)
+
+### VaR (95%) vs Mean PnL
+
+![Agent Risk-Return: var_95](figures/agent_risk_return_var_95.png)
+
+### ES (95%) vs Mean PnL
+
+![Agent Risk-Return: es_95](figures/agent_risk_return_es_95.png)
 
 ## Key Insights and Conclusions
 

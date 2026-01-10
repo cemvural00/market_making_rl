@@ -379,16 +379,18 @@ If you use this code in your research, please cite:
 
 ```bibtex
 @misc{market_making_rl,
-  title={Market Making with Reinforcement Learning},
-  author={Your Name},
-  year={2024},
-  url={https://github.com/yourusername/market_making_rl}
+  title={Reinforcement Learning vs. Stochastic Control Approaches to Optimal Market Making: A
+Controlled Simulation Study},
+  author={Cem Vural},
+  year={2026},
+  url={https://github.com/cemvural00/market_making_rl}
 }
 ```
 
 ## License
 
 [All rights reserved]
+Feel free to contact via e-mail: cemvural2000@icloud.com
 
 ## Acknowledgments
 
