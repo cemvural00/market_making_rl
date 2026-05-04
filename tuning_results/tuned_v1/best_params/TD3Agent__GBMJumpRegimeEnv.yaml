@@ -1,0 +1,23 @@
+agent: TD3Agent
+env: GBMJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 17
+best_sharpe: 2.150164
+best_mean_pnl: 42.07
+best_std_pnl: 19.5659
+search_budget_steps: 10000
+params:
+  learning_rate: 0.0006293939054842928
+  buffer_size: 100000
+  batch_size: 128
+  tau: 0.0020791039810894906
+  gamma: 0.9180265780702369
+  train_freq: 3
+  policy_delay: 2
+  target_policy_noise: 0.3980523142963698
+  target_noise_clip: 0.3531889500467158
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  learning_starts: 100

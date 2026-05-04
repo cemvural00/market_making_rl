@@ -1,0 +1,21 @@
+agent: PPOAgent
+env: GBMVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 6
+best_sharpe: 1.245718
+best_mean_pnl: 11.1489
+best_std_pnl: 8.9498
+search_budget_steps: 30000
+params:
+  learning_rate: 2.284455685002053e-05
+  n_steps: 1024
+  batch_size: 64
+  n_epochs: 2
+  gamma: 0.9107891426993304
+  ent_coef: 0.000124247470836602
+  clip_range: 0.1
+  gae_lambda: 0.9815132947852186
+  total_timesteps: 150000
+  use_vec_env: false
+  verbose: 0

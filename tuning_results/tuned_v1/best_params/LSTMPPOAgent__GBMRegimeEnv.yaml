@@ -1,0 +1,29 @@
+agent: LSTMPPOAgent
+env: GBMRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 3
+best_sharpe: 0.957033
+best_mean_pnl: 8.7563
+best_std_pnl: 9.1494
+search_budget_steps: 30000
+params:
+  learning_rate: 0.009133995846860976
+  n_steps: 256
+  batch_size: 64
+  n_epochs: 8
+  gamma: 0.907404465173409
+  ent_coef: 0.00021181366627251398
+  clip_range: 0.2
+  gae_lambda: 0.8661796049705298
+  total_timesteps: 200000
+  policy_kwargs:
+    lstm_hidden_size: 256
+    n_lstm_layers: 2
+    shared_lstm: false
+    net_arch:
+    - 64
+    - 64
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0

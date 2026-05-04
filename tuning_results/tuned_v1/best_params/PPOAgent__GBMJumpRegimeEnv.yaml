@@ -1,0 +1,21 @@
+agent: PPOAgent
+env: GBMJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 8
+best_sharpe: 1.422706
+best_mean_pnl: 12.1773
+best_std_pnl: 8.5593
+search_budget_steps: 30000
+params:
+  learning_rate: 0.0026443593078398627
+  n_steps: 512
+  batch_size: 512
+  n_epochs: 2
+  gamma: 0.9510747302577566
+  ent_coef: 0.0017874463256238437
+  clip_range: 0.3
+  gae_lambda: 0.9885819407825038
+  total_timesteps: 150000
+  use_vec_env: false
+  verbose: 0

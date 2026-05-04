@@ -1,0 +1,18 @@
+agent: ASClosedFormAgent
+env: GBMRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 40
+best_sharpe: 0.694975
+best_mean_pnl: 12.6357
+best_std_pnl: 18.1815
+search_budget_steps: unknown
+params:
+  gamma: 0.8037417806838624
+  k: 1.569838245497453
+  sigma: 2.0
+  base_delta: 1.0
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

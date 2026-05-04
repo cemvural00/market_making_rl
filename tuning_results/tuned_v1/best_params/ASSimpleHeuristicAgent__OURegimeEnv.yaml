@@ -1,0 +1,17 @@
+agent: ASSimpleHeuristicAgent
+env: OURegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 14
+best_sharpe: 0.571027
+best_mean_pnl: 4.5673
+best_std_pnl: 7.9985
+search_budget_steps: unknown
+params:
+  gamma: 0.17488581251060542
+  min_spread_factor: 0.17374250870256452
+  max_spread_factor: 0.5911429287324143
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

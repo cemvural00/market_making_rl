@@ -1,0 +1,21 @@
+agent: PPOAgent
+env: OURegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 12
+best_sharpe: 1.349789
+best_mean_pnl: 8.2454
+best_std_pnl: 6.1087
+search_budget_steps: 30000
+params:
+  learning_rate: 0.00036840826718842837
+  n_steps: 512
+  batch_size: 512
+  n_epochs: 6
+  gamma: 0.9773724273349799
+  ent_coef: 0.0038312163647116803
+  clip_range: 0.1
+  gae_lambda: 0.9504342444406447
+  total_timesteps: 150000
+  use_vec_env: false
+  verbose: 0

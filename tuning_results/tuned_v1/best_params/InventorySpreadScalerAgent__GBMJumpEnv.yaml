@@ -1,0 +1,15 @@
+agent: InventorySpreadScalerAgent
+env: GBMJumpEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 48
+best_sharpe: 0.530861
+best_mean_pnl: 8.1853
+best_std_pnl: 15.4189
+search_budget_steps: unknown
+params:
+  alpha: 0.07706940550704279
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

@@ -18,7 +18,8 @@ ppo_basic:
   # Standard PPO agent with default MLP policy
   total_timesteps: 150000  # Reduced - early stopping handles convergence
   use_vec_env: false
-  
+  seed: 42                 # Reproducible weight init (passed to SB3)
+
   # PPO hyperparameters
   learning_rate: 0.0003
   gamma: 1.0              # No discounting (finite horizon episodic)
@@ -51,7 +52,8 @@ ppo_deep:
   # PPO with deeper network (3 layers of 256 units)
   total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
-  
+  seed: 42
+
   learning_rate: 0.0003
   gamma: 1.0
   n_steps: 1024
@@ -142,7 +144,8 @@ lstm_ppo:
   # LSTM-based PPO for temporal dependencies
   total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
-  
+  seed: 42
+
   # PPO hyperparameters
   learning_rate: 0.0003
   gamma: 1.0
@@ -211,7 +214,8 @@ sac_basic:
   # Standard SAC agent with default MLP policy
   total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
-  
+  seed: 42
+
   # SAC hyperparameters
   learning_rate: 0.0003
   gamma: 1.0              # No discounting (finite horizon episodic)
@@ -278,7 +282,8 @@ td3_basic:
   # Standard TD3 agent
   total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
-  
+  seed: 42
+
   # TD3 hyperparameters
   learning_rate: 0.0003
   gamma: 1.0              # No discounting (finite horizon episodic)
@@ -317,7 +322,8 @@ lstm_sac:
   # Note: RecurrentSAC not available in sb3-contrib, using deep SAC instead
   total_timesteps: 200000  # Reduced - early stopping handles convergence
   use_vec_env: false
-  
+  seed: 42
+
   # SAC hyperparameters
   learning_rate: 0.0003
   gamma: 1.0

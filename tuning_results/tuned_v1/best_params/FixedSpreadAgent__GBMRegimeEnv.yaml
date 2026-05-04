@@ -1,0 +1,14 @@
+agent: FixedSpreadAgent
+env: GBMRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 11
+best_sharpe: 0.47461
+best_mean_pnl: 26.3126
+best_std_pnl: 55.4404
+search_budget_steps: unknown
+params:
+  fixed_multiplier: 0.30892092878677935
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

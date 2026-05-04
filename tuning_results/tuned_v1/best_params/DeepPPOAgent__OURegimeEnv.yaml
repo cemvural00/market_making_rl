@@ -1,0 +1,27 @@
+agent: DeepPPOAgent
+env: OURegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 27
+best_sharpe: 1.079453
+best_mean_pnl: 21.3239
+best_std_pnl: 19.7544
+search_budget_steps: 30000
+params:
+  learning_rate: 1.6744659266213047e-05
+  n_steps: 2048
+  batch_size: 256
+  n_epochs: 2
+  gamma: 0.9003059842679695
+  ent_coef: 0.0011218226180155762
+  clip_range: 0.1
+  gae_lambda: 0.9745115311139326
+  total_timesteps: 200000
+  policy_kwargs:
+    net_arch:
+    - 256
+    - 256
+    - 256
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0

@@ -1,0 +1,29 @@
+agent: LSTMPPOAgent
+env: OUJumpEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 2
+best_sharpe: 1.030449
+best_mean_pnl: 25.3565
+best_std_pnl: 24.6073
+search_budget_steps: 30000
+params:
+  learning_rate: 0.00036324869566766035
+  n_steps: 1024
+  batch_size: 128
+  n_epochs: 7
+  gamma: 0.9921874235023117
+  ent_coef: 2.1248638632431267e-05
+  clip_range: 0.3
+  gae_lambda: 0.8777354579378964
+  total_timesteps: 200000
+  policy_kwargs:
+    lstm_hidden_size: 64
+    n_lstm_layers: 2
+    shared_lstm: false
+    net_arch:
+    - 64
+    - 64
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0

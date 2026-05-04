@@ -1,0 +1,15 @@
+agent: InventorySpreadScalerAgent
+env: ABMRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 15
+best_sharpe: 0.750896
+best_mean_pnl: 12.6125
+best_std_pnl: 16.7965
+search_budget_steps: unknown
+params:
+  alpha: 0.03997017584227219
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

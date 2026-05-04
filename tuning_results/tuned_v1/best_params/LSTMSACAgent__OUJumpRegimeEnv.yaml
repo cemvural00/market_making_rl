@@ -1,0 +1,26 @@
+agent: LSTMSACAgent
+env: OUJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 15
+best_sharpe: 0.953906
+best_mean_pnl: 14.9079
+best_std_pnl: 15.6283
+search_budget_steps: 10000
+params:
+  learning_rate: 0.0003778879843389628
+  buffer_size: 200000
+  batch_size: 512
+  tau: 0.008154220364352762
+  gamma: 0.9827736188998565
+  train_freq: 3
+  total_timesteps: 200000
+  policy_kwargs:
+    net_arch:
+    - 256
+    - 256
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0
+  ent_coef: auto
+  learning_starts: 100

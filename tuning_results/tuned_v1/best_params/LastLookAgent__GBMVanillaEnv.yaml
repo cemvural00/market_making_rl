@@ -1,0 +1,14 @@
+agent: LastLookAgent
+env: GBMVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 15
+best_sharpe: 0.86275
+best_mean_pnl: 17.358
+best_std_pnl: 20.1194
+search_budget_steps: unknown
+params:
+  trend_sensitivity: 1.7136790840894272
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

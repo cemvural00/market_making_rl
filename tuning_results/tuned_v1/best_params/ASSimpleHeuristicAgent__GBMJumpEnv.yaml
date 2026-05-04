@@ -1,0 +1,17 @@
+agent: ASSimpleHeuristicAgent
+env: GBMJumpEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 23
+best_sharpe: 0.683623
+best_mean_pnl: 6.8286
+best_std_pnl: 9.9888
+search_budget_steps: unknown
+params:
+  gamma: 0.3424752218944693
+  min_spread_factor: 0.2659053583146854
+  max_spread_factor: 0.6492245966593497
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

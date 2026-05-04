@@ -1,0 +1,27 @@
+agent: LSTMSACAgent
+env: OURegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 22
+best_sharpe: 1.667991
+best_mean_pnl: 16.9311
+best_std_pnl: 10.1506
+search_budget_steps: 10000
+params:
+  learning_rate: 0.0011336596323599495
+  buffer_size: 200000
+  batch_size: 128
+  tau: 0.008927237418121955
+  gamma: 0.972137118831924
+  train_freq: 4
+  total_timesteps: 200000
+  policy_kwargs:
+    net_arch:
+    - 256
+    - 256
+    - 256
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0
+  ent_coef: auto
+  learning_starts: 100

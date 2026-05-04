@@ -1,0 +1,18 @@
+agent: ASClosedFormAgent
+env: ABMJumpEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 25
+best_sharpe: 0.612965
+best_mean_pnl: 4.9723
+best_std_pnl: 8.1119
+search_budget_steps: unknown
+params:
+  gamma: 0.11856031417885965
+  k: 3.7018830557876945
+  sigma: 20.0
+  base_delta: 1.0
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

@@ -1,0 +1,21 @@
+agent: SACAgent
+env: OUJumpEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 28
+best_sharpe: 2.823811
+best_mean_pnl: 8.3755
+best_std_pnl: 2.966
+search_budget_steps: 10000
+params:
+  learning_rate: 0.0016007889875793936
+  buffer_size: 50000
+  batch_size: 512
+  tau: 0.04798052477020096
+  gamma: 0.9811951428057081
+  train_freq: 1
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  ent_coef: auto
+  learning_starts: 100

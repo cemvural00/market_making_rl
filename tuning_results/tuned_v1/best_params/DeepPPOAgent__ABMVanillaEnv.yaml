@@ -1,0 +1,26 @@
+agent: DeepPPOAgent
+env: ABMVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 3
+best_sharpe: 1.708984
+best_mean_pnl: 9.733
+best_std_pnl: 5.6952
+search_budget_steps: 30000
+params:
+  learning_rate: 3.872118032174584e-05
+  n_steps: 2048
+  batch_size: 128
+  n_epochs: 6
+  gamma: 0.9140924224974762
+  ent_coef: 0.025502980701628927
+  clip_range: 0.2
+  gae_lambda: 0.8397431363068345
+  total_timesteps: 200000
+  policy_kwargs:
+    net_arch:
+    - 256
+    - 256
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0

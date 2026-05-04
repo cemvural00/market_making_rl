@@ -1,0 +1,26 @@
+agent: LSTMSACAgent
+env: GBMJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 26
+best_sharpe: 1.511197
+best_mean_pnl: 14.2053
+best_std_pnl: 9.4
+search_budget_steps: 10000
+params:
+  learning_rate: 0.00011930751738865629
+  buffer_size: 50000
+  batch_size: 64
+  tau: 0.029873740790647182
+  gamma: 0.9862647176842583
+  train_freq: 3
+  total_timesteps: 200000
+  policy_kwargs:
+    net_arch:
+    - 128
+    - 128
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0
+  ent_coef: auto
+  learning_starts: 100

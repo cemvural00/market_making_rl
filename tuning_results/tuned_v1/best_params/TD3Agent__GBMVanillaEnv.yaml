@@ -1,0 +1,23 @@
+agent: TD3Agent
+env: GBMVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 26
+best_sharpe: 1.941208
+best_mean_pnl: 7.8017
+best_std_pnl: 4.019
+search_budget_steps: 10000
+params:
+  learning_rate: 0.0004195590665789531
+  buffer_size: 200000
+  batch_size: 128
+  tau: 0.002250383240377406
+  gamma: 0.9474555629394985
+  train_freq: 3
+  policy_delay: 4
+  target_policy_noise: 0.32723051179682655
+  target_noise_clip: 0.3892726254813401
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  learning_starts: 100

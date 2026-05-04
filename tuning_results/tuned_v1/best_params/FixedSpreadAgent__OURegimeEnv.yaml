@@ -1,0 +1,14 @@
+agent: FixedSpreadAgent
+env: OURegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 12
+best_sharpe: 0.530407
+best_mean_pnl: 9.5872
+best_std_pnl: 18.0752
+search_budget_steps: unknown
+params:
+  fixed_multiplier: 0.9210563497965513
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

@@ -11,6 +11,8 @@ class GBMVanillaEnv(MarketMakingBaseEnv):
         S <- S * exp( (mu - 0.5*sigma^2)*dt + sigma*sqrt(dt)*N(0,1) )
     """
 
+    _normalize_lags_by_current_price = True
+
     def __init__(self, sigma=0.02, mu=0.0, **kwargs):
         """
         Parameters

@@ -1,0 +1,21 @@
+agent: SACAgent
+env: OURegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 8
+best_sharpe: 2.051393
+best_mean_pnl: 17.6223
+best_std_pnl: 8.5904
+search_budget_steps: 10000
+params:
+  learning_rate: 0.0045881565491609705
+  buffer_size: 200000
+  batch_size: 256
+  tau: 0.0077287168618517844
+  gamma: 0.942754101835855
+  train_freq: 1
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  ent_coef: auto
+  learning_starts: 100

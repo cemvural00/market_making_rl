@@ -1,0 +1,15 @@
+agent: InventoryShiftAgent
+env: ABMJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 45
+best_sharpe: 0.479468
+best_mean_pnl: 8.8938
+best_std_pnl: 18.5493
+search_budget_steps: unknown
+params:
+  beta: 0.01042393755248549
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

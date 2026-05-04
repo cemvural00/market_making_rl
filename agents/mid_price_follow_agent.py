@@ -32,7 +32,7 @@ class MidPriceFollowAgent(BaseAgent):
         """
         obs = [norm_time, S_norm, dS, q_norm]
         """
-        norm_time, S_norm, dS, q_norm = obs
+        norm_time, S_norm, dS, q_norm = obs[:4]
 
         # Spread stays constant
         spread_factor = 0.0

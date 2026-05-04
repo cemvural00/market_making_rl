@@ -1,0 +1,39 @@
+# ============================================================
+# Hyperparameter Tuning Configuration
+# ============================================================
+# Used by scripts/tune_hyperparams.py
+#
+# Objective: mean Sharpe ratio (mean_pnl / std_pnl) averaged
+# across n_eval_episodes per trial. Higher = better.
+# ============================================================
+
+default:
+  n_trials: 30                       # Optuna trials per agent x environment
+  n_train_steps: 30000               # Timesteps per trial for on-policy agents (PPO, LSTM-PPO)
+  n_train_steps_offpolicy: 10000     # Timesteps per trial for off-policy agents (SAC, TD3, LSTMSACAgent)
+                                     # Off-policy agents do 1 gradient update per env step (gradient_steps=1
+                                     # fixed), so 10k steps ≈ 10k gradient updates — already more than PPO
+                                     # gets at 30k steps. Relative config ranking stabilises quickly.
+  n_eval_episodes: 5                 # Episodes per trial (Sharpe averaged over these)
+  tuning_results_dir: "tuning_results"
+  direction: "maximize"              # Maximise Sharpe ratio
+  n_heuristic_trials: 50             # Trials per non-RL agent × env (more is fine: no training cost)
+  n_heuristic_eval_episodes: 20      # Episodes per heuristic trial (20 ep ≈ 2-4 s; cheap)
+
+# Full training timesteps per agent used when exporting best params.
+# These are the budgets for the final retraining run (not the search run).
+full_timesteps:
+  PPOAgent: 150000
+  DeepPPOAgent: 200000
+  LSTMPPOAgent: 200000
+  SACAgent: 200000
+  LSTMSACAgent: 200000
+  TD3Agent: 200000
+
+# Minimal config for smoke tests
+smoke:
+  n_trials: 2
+  n_train_steps: 500
+  n_eval_episodes: 2
+  tuning_results_dir: "tuning_results"
+  direction: "maximize"

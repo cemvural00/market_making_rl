@@ -1,0 +1,18 @@
+agent: ASClosedFormAgent
+env: OUJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 45
+best_sharpe: 0.745998
+best_mean_pnl: 9.0296
+best_std_pnl: 12.104
+search_budget_steps: unknown
+params:
+  gamma: 0.19865373965965227
+  k: 1.1138797799549809
+  sigma: 2.0
+  base_delta: 1.0
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

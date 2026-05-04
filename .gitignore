@@ -59,3 +59,14 @@ Thumbs.db
 # Data
 data/processed/
 data/synthetic/
+
+# Claude Code internal memory (private, machine-specific)
+.claude/
+
+# Optuna SQLite databases (binary, large, only needed locally to resume tuning)
+*.db
+
+# Tuning smoke-test runs (not needed on other machines)
+tuning_results/smoke/
+tuning_results/smoke2/
+tuning_results/smoke_offpol/

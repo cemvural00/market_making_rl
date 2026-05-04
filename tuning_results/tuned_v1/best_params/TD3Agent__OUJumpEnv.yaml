@@ -1,0 +1,23 @@
+agent: TD3Agent
+env: OUJumpEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 20
+best_sharpe: 1.786511
+best_mean_pnl: 15.9656
+best_std_pnl: 8.9368
+search_budget_steps: 10000
+params:
+  learning_rate: 0.0003437528124474409
+  buffer_size: 200000
+  batch_size: 128
+  tau: 0.005454004486044897
+  gamma: 0.9480570188463945
+  train_freq: 3
+  policy_delay: 1
+  target_policy_noise: 0.10348628848826597
+  target_noise_clip: 0.5516053955441674
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  learning_starts: 100

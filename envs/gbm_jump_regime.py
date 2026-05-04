@@ -10,12 +10,14 @@ class GBMJumpRegimeEnv(MarketMakingBaseEnv):
 
     Dynamics:
         S <- S * exp( (mu - 0.5*sigma_regime^2)*dt + sigma_regime*sqrt(dt)*N(0,1) + J )
-    
+
     where:
         - sigma_regime depends on current regime (sigma_low or sigma_high)
         - J is log-jump size (J ~ N(jump_mean, jump_std^2) when jump occurs)
         - Jumps are multiplicative, ensuring S > 0 always
     """
+
+    _normalize_lags_by_current_price = True
 
     def __init__(
         self,

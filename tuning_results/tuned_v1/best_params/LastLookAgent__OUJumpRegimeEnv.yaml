@@ -1,0 +1,14 @@
+agent: LastLookAgent
+env: OUJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 18
+best_sharpe: 0.52887
+best_mean_pnl: 11.5036
+best_std_pnl: 21.7512
+search_budget_steps: unknown
+params:
+  trend_sensitivity: 2.001593381475786
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

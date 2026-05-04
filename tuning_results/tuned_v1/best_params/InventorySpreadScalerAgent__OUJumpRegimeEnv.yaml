@@ -1,0 +1,15 @@
+agent: InventorySpreadScalerAgent
+env: OUJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 24
+best_sharpe: 0.675992
+best_mean_pnl: 12.2633
+best_std_pnl: 18.1412
+search_budget_steps: unknown
+params:
+  alpha: 0.3664207107923837
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

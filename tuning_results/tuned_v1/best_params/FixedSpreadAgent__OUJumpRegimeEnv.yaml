@@ -1,0 +1,14 @@
+agent: FixedSpreadAgent
+env: OUJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 1
+best_sharpe: 0.540443
+best_mean_pnl: 6.2936
+best_std_pnl: 11.6453
+search_budget_steps: unknown
+params:
+  fixed_multiplier: 2.866928627306774
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

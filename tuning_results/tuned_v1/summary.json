@@ -1,0 +1,1406 @@
+{
+  "ASClosedFormAgent__ABMJumpEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 25,
+    "best_sharpe": 0.612965,
+    "best_mean_pnl": 4.9723,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__ABMJumpEnv.yaml"
+  },
+  "ASClosedFormAgent__ABMJumpRegimeEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 8,
+    "best_sharpe": 0.597051,
+    "best_mean_pnl": 12.882,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "ASClosedFormAgent__ABMRegimeEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 26,
+    "best_sharpe": 0.56149,
+    "best_mean_pnl": 15.5354,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__ABMRegimeEnv.yaml"
+  },
+  "ASClosedFormAgent__ABMVanillaEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 20,
+    "best_sharpe": 0.587772,
+    "best_mean_pnl": 4.0787,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__ABMVanillaEnv.yaml"
+  },
+  "ASClosedFormAgent__GBMJumpEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 3,
+    "best_sharpe": 0.559241,
+    "best_mean_pnl": 12.4384,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__GBMJumpEnv.yaml"
+  },
+  "ASClosedFormAgent__GBMJumpRegimeEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 32,
+    "best_sharpe": 0.750443,
+    "best_mean_pnl": 18.3706,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "ASClosedFormAgent__GBMRegimeEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 40,
+    "best_sharpe": 0.694975,
+    "best_mean_pnl": 12.6357,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__GBMRegimeEnv.yaml"
+  },
+  "ASClosedFormAgent__GBMVanillaEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 29,
+    "best_sharpe": 0.590871,
+    "best_mean_pnl": 12.5312,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__GBMVanillaEnv.yaml"
+  },
+  "ASClosedFormAgent__OUJumpEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 18,
+    "best_sharpe": 0.577252,
+    "best_mean_pnl": 6.3686,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__OUJumpEnv.yaml"
+  },
+  "ASClosedFormAgent__OUJumpRegimeEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 45,
+    "best_sharpe": 0.745998,
+    "best_mean_pnl": 9.0296,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__OUJumpRegimeEnv.yaml"
+  },
+  "ASClosedFormAgent__OURegimeEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 15,
+    "best_sharpe": 0.909506,
+    "best_mean_pnl": 9.2704,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__OURegimeEnv.yaml"
+  },
+  "ASClosedFormAgent__OUVanillaEnv": {
+    "agent": "ASClosedFormAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 47,
+    "best_sharpe": 0.534047,
+    "best_mean_pnl": 4.1803,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASClosedFormAgent__OUVanillaEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__ABMJumpEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 22,
+    "best_sharpe": 0.557133,
+    "best_mean_pnl": 5.4892,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__ABMJumpEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__ABMJumpRegimeEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 8,
+    "best_sharpe": 0.491245,
+    "best_mean_pnl": 8.2058,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__ABMRegimeEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 27,
+    "best_sharpe": 0.673356,
+    "best_mean_pnl": 13.7109,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__ABMRegimeEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__ABMVanillaEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 36,
+    "best_sharpe": 0.648706,
+    "best_mean_pnl": 5.624,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__ABMVanillaEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__GBMJumpEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 23,
+    "best_sharpe": 0.683623,
+    "best_mean_pnl": 6.8286,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__GBMJumpEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__GBMJumpRegimeEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 38,
+    "best_sharpe": 0.861393,
+    "best_mean_pnl": 19.4202,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__GBMRegimeEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 3,
+    "best_sharpe": 0.51335,
+    "best_mean_pnl": 12.4427,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__GBMRegimeEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__GBMVanillaEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 3,
+    "best_sharpe": 0.625258,
+    "best_mean_pnl": 5.6076,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__GBMVanillaEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__OUJumpEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 31,
+    "best_sharpe": 0.504841,
+    "best_mean_pnl": 6.2732,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__OUJumpEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__OUJumpRegimeEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 41,
+    "best_sharpe": 0.767489,
+    "best_mean_pnl": 6.9486,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__OUJumpRegimeEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__OURegimeEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 14,
+    "best_sharpe": 0.571027,
+    "best_mean_pnl": 4.5673,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__OURegimeEnv.yaml"
+  },
+  "ASSimpleHeuristicAgent__OUVanillaEnv": {
+    "agent": "ASSimpleHeuristicAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 3,
+    "best_sharpe": 0.619196,
+    "best_mean_pnl": 8.0483,
+    "yaml_path": "tuning_results/tuned_v1/best_params/ASSimpleHeuristicAgent__OUVanillaEnv.yaml"
+  },
+  "DeepPPOAgent__ABMJumpEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 7,
+    "best_sharpe": 1.18935,
+    "best_mean_pnl": 15.3584,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__ABMJumpEnv.yaml"
+  },
+  "DeepPPOAgent__ABMJumpRegimeEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 1,
+    "best_sharpe": 0.988793,
+    "best_mean_pnl": 18.6728,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "DeepPPOAgent__ABMRegimeEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 4,
+    "best_sharpe": 1.473593,
+    "best_mean_pnl": 16.7372,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__ABMRegimeEnv.yaml"
+  },
+  "DeepPPOAgent__ABMVanillaEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 3,
+    "best_sharpe": 1.708984,
+    "best_mean_pnl": 9.733,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__ABMVanillaEnv.yaml"
+  },
+  "DeepPPOAgent__GBMJumpEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 8,
+    "best_sharpe": 1.992432,
+    "best_mean_pnl": 17.2433,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__GBMJumpEnv.yaml"
+  },
+  "DeepPPOAgent__GBMJumpRegimeEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 29,
+    "best_sharpe": 0.962743,
+    "best_mean_pnl": 16.0633,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "DeepPPOAgent__GBMRegimeEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 6,
+    "best_sharpe": 1.880677,
+    "best_mean_pnl": 40.2606,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__GBMRegimeEnv.yaml"
+  },
+  "DeepPPOAgent__GBMVanillaEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 23,
+    "best_sharpe": 1.479859,
+    "best_mean_pnl": 21.0711,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__GBMVanillaEnv.yaml"
+  },
+  "DeepPPOAgent__OUJumpEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 9,
+    "best_sharpe": 1.046501,
+    "best_mean_pnl": 9.7748,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__OUJumpEnv.yaml"
+  },
+  "DeepPPOAgent__OUJumpRegimeEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 27,
+    "best_sharpe": 1.837451,
+    "best_mean_pnl": 4.6518,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__OUJumpRegimeEnv.yaml"
+  },
+  "DeepPPOAgent__OURegimeEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 27,
+    "best_sharpe": 1.079453,
+    "best_mean_pnl": 21.3239,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__OURegimeEnv.yaml"
+  },
+  "DeepPPOAgent__OUVanillaEnv": {
+    "agent": "DeepPPOAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 16,
+    "best_sharpe": 1.109526,
+    "best_mean_pnl": 6.1607,
+    "yaml_path": "tuning_results/tuned_v1/best_params/DeepPPOAgent__OUVanillaEnv.yaml"
+  },
+  "FixedSpreadAgent__ABMJumpEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 43,
+    "best_sharpe": 0.647188,
+    "best_mean_pnl": 11.6555,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__ABMJumpEnv.yaml"
+  },
+  "FixedSpreadAgent__ABMJumpRegimeEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 18,
+    "best_sharpe": 0.679235,
+    "best_mean_pnl": 7.7511,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "FixedSpreadAgent__ABMRegimeEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 19,
+    "best_sharpe": 0.52055,
+    "best_mean_pnl": 6.1083,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__ABMRegimeEnv.yaml"
+  },
+  "FixedSpreadAgent__ABMVanillaEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 29,
+    "best_sharpe": 0.531416,
+    "best_mean_pnl": 5.5223,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__ABMVanillaEnv.yaml"
+  },
+  "FixedSpreadAgent__GBMJumpEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 12,
+    "best_sharpe": 0.509755,
+    "best_mean_pnl": 3.1376,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__GBMJumpEnv.yaml"
+  },
+  "FixedSpreadAgent__GBMJumpRegimeEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 38,
+    "best_sharpe": 0.48964,
+    "best_mean_pnl": 24.5787,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "FixedSpreadAgent__GBMRegimeEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 11,
+    "best_sharpe": 0.47461,
+    "best_mean_pnl": 26.3126,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__GBMRegimeEnv.yaml"
+  },
+  "FixedSpreadAgent__GBMVanillaEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 32,
+    "best_sharpe": 0.580759,
+    "best_mean_pnl": 8.0938,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__GBMVanillaEnv.yaml"
+  },
+  "FixedSpreadAgent__OUJumpEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 12,
+    "best_sharpe": 0.562967,
+    "best_mean_pnl": 6.4176,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__OUJumpEnv.yaml"
+  },
+  "FixedSpreadAgent__OUJumpRegimeEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 1,
+    "best_sharpe": 0.540443,
+    "best_mean_pnl": 6.2936,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__OUJumpRegimeEnv.yaml"
+  },
+  "FixedSpreadAgent__OURegimeEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 12,
+    "best_sharpe": 0.530407,
+    "best_mean_pnl": 9.5872,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__OURegimeEnv.yaml"
+  },
+  "FixedSpreadAgent__OUVanillaEnv": {
+    "agent": "FixedSpreadAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 18,
+    "best_sharpe": 0.575921,
+    "best_mean_pnl": 6.5045,
+    "yaml_path": "tuning_results/tuned_v1/best_params/FixedSpreadAgent__OUVanillaEnv.yaml"
+  },
+  "InventoryShiftAgent__ABMJumpEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 36,
+    "best_sharpe": 0.605479,
+    "best_mean_pnl": 10.7235,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__ABMJumpEnv.yaml"
+  },
+  "InventoryShiftAgent__ABMJumpRegimeEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 45,
+    "best_sharpe": 0.479468,
+    "best_mean_pnl": 8.8938,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "InventoryShiftAgent__ABMRegimeEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 21,
+    "best_sharpe": 0.546499,
+    "best_mean_pnl": 8.0248,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__ABMRegimeEnv.yaml"
+  },
+  "InventoryShiftAgent__ABMVanillaEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 8,
+    "best_sharpe": 0.739269,
+    "best_mean_pnl": 12.9928,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__ABMVanillaEnv.yaml"
+  },
+  "InventoryShiftAgent__GBMJumpEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 28,
+    "best_sharpe": 0.505513,
+    "best_mean_pnl": 8.9865,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__GBMJumpEnv.yaml"
+  },
+  "InventoryShiftAgent__GBMJumpRegimeEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 2,
+    "best_sharpe": 0.566289,
+    "best_mean_pnl": 14.5764,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "InventoryShiftAgent__GBMRegimeEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 4,
+    "best_sharpe": 0.788704,
+    "best_mean_pnl": 14.5267,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__GBMRegimeEnv.yaml"
+  },
+  "InventoryShiftAgent__GBMVanillaEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 29,
+    "best_sharpe": 1.070053,
+    "best_mean_pnl": 9.0998,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__GBMVanillaEnv.yaml"
+  },
+  "InventoryShiftAgent__OUJumpEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 44,
+    "best_sharpe": 0.692261,
+    "best_mean_pnl": 5.7019,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__OUJumpEnv.yaml"
+  },
+  "InventoryShiftAgent__OUJumpRegimeEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 31,
+    "best_sharpe": 0.814356,
+    "best_mean_pnl": 8.4405,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__OUJumpRegimeEnv.yaml"
+  },
+  "InventoryShiftAgent__OURegimeEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 34,
+    "best_sharpe": 0.515628,
+    "best_mean_pnl": 8.8938,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__OURegimeEnv.yaml"
+  },
+  "InventoryShiftAgent__OUVanillaEnv": {
+    "agent": "InventoryShiftAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 3,
+    "best_sharpe": 0.705316,
+    "best_mean_pnl": 12.0828,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventoryShiftAgent__OUVanillaEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__ABMJumpEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 32,
+    "best_sharpe": 0.681135,
+    "best_mean_pnl": 12.4065,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__ABMJumpEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__ABMJumpRegimeEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 24,
+    "best_sharpe": 0.565552,
+    "best_mean_pnl": 11.1351,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__ABMRegimeEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 15,
+    "best_sharpe": 0.750896,
+    "best_mean_pnl": 12.6125,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__ABMRegimeEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__ABMVanillaEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 8,
+    "best_sharpe": 0.875636,
+    "best_mean_pnl": 13.4179,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__ABMVanillaEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__GBMJumpEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 48,
+    "best_sharpe": 0.530861,
+    "best_mean_pnl": 8.1853,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__GBMJumpEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__GBMJumpRegimeEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 45,
+    "best_sharpe": 0.516405,
+    "best_mean_pnl": 12.9985,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__GBMRegimeEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 47,
+    "best_sharpe": 0.429887,
+    "best_mean_pnl": 15.8841,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__GBMRegimeEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__GBMVanillaEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 28,
+    "best_sharpe": 0.60465,
+    "best_mean_pnl": 10.1343,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__GBMVanillaEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__OUJumpEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 23,
+    "best_sharpe": 0.858488,
+    "best_mean_pnl": 9.345,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__OUJumpEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__OUJumpRegimeEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 24,
+    "best_sharpe": 0.675992,
+    "best_mean_pnl": 12.2633,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__OUJumpRegimeEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__OURegimeEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 39,
+    "best_sharpe": 0.558779,
+    "best_mean_pnl": 9.5872,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__OURegimeEnv.yaml"
+  },
+  "InventorySpreadScalerAgent__OUVanillaEnv": {
+    "agent": "InventorySpreadScalerAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 29,
+    "best_sharpe": 0.659358,
+    "best_mean_pnl": 9.7525,
+    "yaml_path": "tuning_results/tuned_v1/best_params/InventorySpreadScalerAgent__OUVanillaEnv.yaml"
+  },
+  "LSTMPPOAgent__ABMJumpEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 9,
+    "best_sharpe": 1.138928,
+    "best_mean_pnl": 17.2056,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__ABMJumpEnv.yaml"
+  },
+  "LSTMPPOAgent__ABMJumpRegimeEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 12,
+    "best_sharpe": 1.797159,
+    "best_mean_pnl": 8.0947,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "LSTMPPOAgent__ABMRegimeEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 13,
+    "best_sharpe": 1.653746,
+    "best_mean_pnl": 34.4115,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__ABMRegimeEnv.yaml"
+  },
+  "LSTMPPOAgent__ABMVanillaEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 11,
+    "best_sharpe": 1.041283,
+    "best_mean_pnl": 14.3646,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__ABMVanillaEnv.yaml"
+  },
+  "LSTMPPOAgent__GBMJumpEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 21,
+    "best_sharpe": 1.370184,
+    "best_mean_pnl": 11.1091,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__GBMJumpEnv.yaml"
+  },
+  "LSTMPPOAgent__GBMJumpRegimeEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 18,
+    "best_sharpe": 1.262103,
+    "best_mean_pnl": 18.5682,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "LSTMPPOAgent__GBMRegimeEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 3,
+    "best_sharpe": 0.957033,
+    "best_mean_pnl": 8.7563,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__GBMRegimeEnv.yaml"
+  },
+  "LSTMPPOAgent__GBMVanillaEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 20,
+    "best_sharpe": 1.081579,
+    "best_mean_pnl": 11.1153,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__GBMVanillaEnv.yaml"
+  },
+  "LSTMPPOAgent__OUJumpEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 2,
+    "best_sharpe": 1.030449,
+    "best_mean_pnl": 25.3565,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__OUJumpEnv.yaml"
+  },
+  "LSTMPPOAgent__OUJumpRegimeEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 17,
+    "best_sharpe": 1.467491,
+    "best_mean_pnl": 4.6024,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__OUJumpRegimeEnv.yaml"
+  },
+  "LSTMPPOAgent__OURegimeEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 8,
+    "best_sharpe": 1.519059,
+    "best_mean_pnl": 19.3491,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__OURegimeEnv.yaml"
+  },
+  "LSTMPPOAgent__OUVanillaEnv": {
+    "agent": "LSTMPPOAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 27,
+    "best_sharpe": 1.459889,
+    "best_mean_pnl": 5.0042,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMPPOAgent__OUVanillaEnv.yaml"
+  },
+  "LSTMSACAgent__ABMJumpEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 26,
+    "best_sharpe": 1.221756,
+    "best_mean_pnl": 10.9329,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__ABMJumpEnv.yaml"
+  },
+  "LSTMSACAgent__ABMJumpRegimeEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 12,
+    "best_sharpe": 1.209694,
+    "best_mean_pnl": 18.5748,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "LSTMSACAgent__ABMRegimeEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 11,
+    "best_sharpe": 1.436805,
+    "best_mean_pnl": 11.2128,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__ABMRegimeEnv.yaml"
+  },
+  "LSTMSACAgent__ABMVanillaEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 14,
+    "best_sharpe": 1.568524,
+    "best_mean_pnl": 7.2814,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__ABMVanillaEnv.yaml"
+  },
+  "LSTMSACAgent__GBMJumpEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 6,
+    "best_sharpe": 2.976426,
+    "best_mean_pnl": 6.5796,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__GBMJumpEnv.yaml"
+  },
+  "LSTMSACAgent__GBMJumpRegimeEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 26,
+    "best_sharpe": 1.511197,
+    "best_mean_pnl": 14.2053,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "LSTMSACAgent__GBMRegimeEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 3,
+    "best_sharpe": 1.653752,
+    "best_mean_pnl": 19.6103,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__GBMRegimeEnv.yaml"
+  },
+  "LSTMSACAgent__GBMVanillaEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 23,
+    "best_sharpe": 1.208945,
+    "best_mean_pnl": 8.9908,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__GBMVanillaEnv.yaml"
+  },
+  "LSTMSACAgent__OUJumpEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 17,
+    "best_sharpe": 2.445798,
+    "best_mean_pnl": 10.1153,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__OUJumpEnv.yaml"
+  },
+  "LSTMSACAgent__OUJumpRegimeEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 15,
+    "best_sharpe": 0.953906,
+    "best_mean_pnl": 14.9079,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__OUJumpRegimeEnv.yaml"
+  },
+  "LSTMSACAgent__OURegimeEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 22,
+    "best_sharpe": 1.667991,
+    "best_mean_pnl": 16.9311,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__OURegimeEnv.yaml"
+  },
+  "LSTMSACAgent__OUVanillaEnv": {
+    "agent": "LSTMSACAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 22,
+    "best_sharpe": 1.320725,
+    "best_mean_pnl": 12.0476,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LSTMSACAgent__OUVanillaEnv.yaml"
+  },
+  "LastLookAgent__ABMJumpEnv": {
+    "agent": "LastLookAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 44,
+    "best_sharpe": 0.692299,
+    "best_mean_pnl": 10.51,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__ABMJumpEnv.yaml"
+  },
+  "LastLookAgent__ABMJumpRegimeEnv": {
+    "agent": "LastLookAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 19,
+    "best_sharpe": 0.504892,
+    "best_mean_pnl": 9.5183,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "LastLookAgent__ABMRegimeEnv": {
+    "agent": "LastLookAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 13,
+    "best_sharpe": 0.617575,
+    "best_mean_pnl": 15.4367,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__ABMRegimeEnv.yaml"
+  },
+  "LastLookAgent__ABMVanillaEnv": {
+    "agent": "LastLookAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 43,
+    "best_sharpe": 0.83678,
+    "best_mean_pnl": 22.6373,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__ABMVanillaEnv.yaml"
+  },
+  "LastLookAgent__GBMJumpEnv": {
+    "agent": "LastLookAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 48,
+    "best_sharpe": 0.79343,
+    "best_mean_pnl": 9.5636,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__GBMJumpEnv.yaml"
+  },
+  "LastLookAgent__GBMJumpRegimeEnv": {
+    "agent": "LastLookAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 30,
+    "best_sharpe": 0.595673,
+    "best_mean_pnl": 11.7989,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "LastLookAgent__GBMRegimeEnv": {
+    "agent": "LastLookAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 42,
+    "best_sharpe": 0.641552,
+    "best_mean_pnl": 17.314,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__GBMRegimeEnv.yaml"
+  },
+  "LastLookAgent__GBMVanillaEnv": {
+    "agent": "LastLookAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 15,
+    "best_sharpe": 0.86275,
+    "best_mean_pnl": 17.358,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__GBMVanillaEnv.yaml"
+  },
+  "LastLookAgent__OUJumpEnv": {
+    "agent": "LastLookAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 36,
+    "best_sharpe": 0.76312,
+    "best_mean_pnl": 11.5202,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__OUJumpEnv.yaml"
+  },
+  "LastLookAgent__OUJumpRegimeEnv": {
+    "agent": "LastLookAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 18,
+    "best_sharpe": 0.52887,
+    "best_mean_pnl": 11.5036,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__OUJumpRegimeEnv.yaml"
+  },
+  "LastLookAgent__OURegimeEnv": {
+    "agent": "LastLookAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 38,
+    "best_sharpe": 0.553527,
+    "best_mean_pnl": 8.7452,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__OURegimeEnv.yaml"
+  },
+  "LastLookAgent__OUVanillaEnv": {
+    "agent": "LastLookAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 40,
+    "best_sharpe": 0.672983,
+    "best_mean_pnl": 8.1012,
+    "yaml_path": "tuning_results/tuned_v1/best_params/LastLookAgent__OUVanillaEnv.yaml"
+  },
+  "MidPriceFollowAgent__ABMJumpEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 7,
+    "best_sharpe": 0.716178,
+    "best_mean_pnl": 9.5649,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__ABMJumpEnv.yaml"
+  },
+  "MidPriceFollowAgent__ABMJumpRegimeEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 13,
+    "best_sharpe": 0.587855,
+    "best_mean_pnl": 8.5704,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "MidPriceFollowAgent__ABMRegimeEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 24,
+    "best_sharpe": 0.775753,
+    "best_mean_pnl": 12.6019,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__ABMRegimeEnv.yaml"
+  },
+  "MidPriceFollowAgent__ABMVanillaEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 11,
+    "best_sharpe": 0.577534,
+    "best_mean_pnl": 11.4413,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__ABMVanillaEnv.yaml"
+  },
+  "MidPriceFollowAgent__GBMJumpEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 37,
+    "best_sharpe": 0.471436,
+    "best_mean_pnl": 10.1127,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__GBMJumpEnv.yaml"
+  },
+  "MidPriceFollowAgent__GBMJumpRegimeEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 13,
+    "best_sharpe": 0.663134,
+    "best_mean_pnl": 21.3903,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "MidPriceFollowAgent__GBMRegimeEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 6,
+    "best_sharpe": 0.493559,
+    "best_mean_pnl": 8.9577,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__GBMRegimeEnv.yaml"
+  },
+  "MidPriceFollowAgent__GBMVanillaEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 49,
+    "best_sharpe": 0.696145,
+    "best_mean_pnl": 8.0719,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__GBMVanillaEnv.yaml"
+  },
+  "MidPriceFollowAgent__OUJumpEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 50,
+    "best_trial": 6,
+    "best_sharpe": 0.620919,
+    "best_mean_pnl": 7.2626,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__OUJumpEnv.yaml"
+  },
+  "MidPriceFollowAgent__OUJumpRegimeEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 3,
+    "best_sharpe": 0.754006,
+    "best_mean_pnl": 10.4834,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__OUJumpRegimeEnv.yaml"
+  },
+  "MidPriceFollowAgent__OURegimeEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 50,
+    "best_trial": 28,
+    "best_sharpe": 0.620933,
+    "best_mean_pnl": 12.2662,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__OURegimeEnv.yaml"
+  },
+  "MidPriceFollowAgent__OUVanillaEnv": {
+    "agent": "MidPriceFollowAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 50,
+    "best_trial": 32,
+    "best_sharpe": 0.701495,
+    "best_mean_pnl": 8.6803,
+    "yaml_path": "tuning_results/tuned_v1/best_params/MidPriceFollowAgent__OUVanillaEnv.yaml"
+  },
+  "PPOAgent__ABMJumpEnv": {
+    "agent": "PPOAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 6,
+    "best_sharpe": 0.976781,
+    "best_mean_pnl": 13.6947,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__ABMJumpEnv.yaml"
+  },
+  "PPOAgent__ABMJumpRegimeEnv": {
+    "agent": "PPOAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 1,
+    "best_sharpe": 1.322895,
+    "best_mean_pnl": 21.965,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "PPOAgent__ABMRegimeEnv": {
+    "agent": "PPOAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 17,
+    "best_sharpe": 1.551495,
+    "best_mean_pnl": 24.9947,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__ABMRegimeEnv.yaml"
+  },
+  "PPOAgent__ABMVanillaEnv": {
+    "agent": "PPOAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 10,
+    "best_sharpe": 1.52506,
+    "best_mean_pnl": 15.2989,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__ABMVanillaEnv.yaml"
+  },
+  "PPOAgent__GBMJumpEnv": {
+    "agent": "PPOAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 0,
+    "best_sharpe": 1.968951,
+    "best_mean_pnl": 16.9163,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__GBMJumpEnv.yaml"
+  },
+  "PPOAgent__GBMJumpRegimeEnv": {
+    "agent": "PPOAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 8,
+    "best_sharpe": 1.422706,
+    "best_mean_pnl": 12.1773,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "PPOAgent__GBMRegimeEnv": {
+    "agent": "PPOAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 5,
+    "best_sharpe": 1.353904,
+    "best_mean_pnl": 33.6368,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__GBMRegimeEnv.yaml"
+  },
+  "PPOAgent__GBMVanillaEnv": {
+    "agent": "PPOAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 6,
+    "best_sharpe": 1.245718,
+    "best_mean_pnl": 11.1489,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__GBMVanillaEnv.yaml"
+  },
+  "PPOAgent__OUJumpEnv": {
+    "agent": "PPOAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 21,
+    "best_sharpe": 1.243204,
+    "best_mean_pnl": 9.8177,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__OUJumpEnv.yaml"
+  },
+  "PPOAgent__OUJumpRegimeEnv": {
+    "agent": "PPOAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 24,
+    "best_sharpe": 0.814491,
+    "best_mean_pnl": 14.071,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__OUJumpRegimeEnv.yaml"
+  },
+  "PPOAgent__OURegimeEnv": {
+    "agent": "PPOAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 12,
+    "best_sharpe": 1.349789,
+    "best_mean_pnl": 8.2454,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__OURegimeEnv.yaml"
+  },
+  "PPOAgent__OUVanillaEnv": {
+    "agent": "PPOAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 26,
+    "best_sharpe": 1.639911,
+    "best_mean_pnl": 19.1024,
+    "yaml_path": "tuning_results/tuned_v1/best_params/PPOAgent__OUVanillaEnv.yaml"
+  },
+  "SACAgent__ABMJumpEnv": {
+    "agent": "SACAgent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 20,
+    "best_sharpe": 1.502128,
+    "best_mean_pnl": 12.7241,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__ABMJumpEnv.yaml"
+  },
+  "SACAgent__ABMJumpRegimeEnv": {
+    "agent": "SACAgent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 10,
+    "best_sharpe": 1.836929,
+    "best_mean_pnl": 12.7357,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__ABMJumpRegimeEnv.yaml"
+  },
+  "SACAgent__ABMRegimeEnv": {
+    "agent": "SACAgent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 2,
+    "best_sharpe": 1.138446,
+    "best_mean_pnl": 16.3451,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__ABMRegimeEnv.yaml"
+  },
+  "SACAgent__ABMVanillaEnv": {
+    "agent": "SACAgent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 21,
+    "best_sharpe": 1.350835,
+    "best_mean_pnl": 12.8504,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__ABMVanillaEnv.yaml"
+  },
+  "SACAgent__GBMJumpEnv": {
+    "agent": "SACAgent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 18,
+    "best_sharpe": 1.711423,
+    "best_mean_pnl": 16.1628,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__GBMJumpEnv.yaml"
+  },
+  "SACAgent__GBMJumpRegimeEnv": {
+    "agent": "SACAgent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 11,
+    "best_sharpe": 1.370572,
+    "best_mean_pnl": 32.0801,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__GBMJumpRegimeEnv.yaml"
+  },
+  "SACAgent__GBMRegimeEnv": {
+    "agent": "SACAgent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 15,
+    "best_sharpe": 1.590716,
+    "best_mean_pnl": 21.7649,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__GBMRegimeEnv.yaml"
+  },
+  "SACAgent__GBMVanillaEnv": {
+    "agent": "SACAgent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 17,
+    "best_sharpe": 1.244194,
+    "best_mean_pnl": 18.5692,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__GBMVanillaEnv.yaml"
+  },
+  "SACAgent__OUJumpEnv": {
+    "agent": "SACAgent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 28,
+    "best_sharpe": 2.823811,
+    "best_mean_pnl": 8.3755,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__OUJumpEnv.yaml"
+  },
+  "SACAgent__OUJumpRegimeEnv": {
+    "agent": "SACAgent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 26,
+    "best_sharpe": 2.438372,
+    "best_mean_pnl": 21.8669,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__OUJumpRegimeEnv.yaml"
+  },
+  "SACAgent__OURegimeEnv": {
+    "agent": "SACAgent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 8,
+    "best_sharpe": 2.051393,
+    "best_mean_pnl": 17.6223,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__OURegimeEnv.yaml"
+  },
+  "SACAgent__OUVanillaEnv": {
+    "agent": "SACAgent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 14,
+    "best_sharpe": 1.65296,
+    "best_mean_pnl": 10.8026,
+    "yaml_path": "tuning_results/tuned_v1/best_params/SACAgent__OUVanillaEnv.yaml"
+  },
+  "TD3Agent__ABMJumpEnv": {
+    "agent": "TD3Agent",
+    "env": "ABMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 12,
+    "best_sharpe": 1.171381,
+    "best_mean_pnl": 5.5588,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__ABMJumpEnv.yaml"
+  },
+  "TD3Agent__ABMJumpRegimeEnv": {
+    "agent": "TD3Agent",
+    "env": "ABMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 16,
+    "best_sharpe": 2.081156,
+    "best_mean_pnl": 15.1652,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__ABMJumpRegimeEnv.yaml"
+  },
+  "TD3Agent__ABMRegimeEnv": {
+    "agent": "TD3Agent",
+    "env": "ABMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 14,
+    "best_sharpe": 1.33104,
+    "best_mean_pnl": 26.6105,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__ABMRegimeEnv.yaml"
+  },
+  "TD3Agent__ABMVanillaEnv": {
+    "agent": "TD3Agent",
+    "env": "ABMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 28,
+    "best_sharpe": 1.457569,
+    "best_mean_pnl": 26.3689,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__ABMVanillaEnv.yaml"
+  },
+  "TD3Agent__GBMJumpEnv": {
+    "agent": "TD3Agent",
+    "env": "GBMJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 5,
+    "best_sharpe": 1.486442,
+    "best_mean_pnl": 17.8625,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__GBMJumpEnv.yaml"
+  },
+  "TD3Agent__GBMJumpRegimeEnv": {
+    "agent": "TD3Agent",
+    "env": "GBMJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 17,
+    "best_sharpe": 2.150164,
+    "best_mean_pnl": 42.07,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__GBMJumpRegimeEnv.yaml"
+  },
+  "TD3Agent__GBMRegimeEnv": {
+    "agent": "TD3Agent",
+    "env": "GBMRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 13,
+    "best_sharpe": 0.885773,
+    "best_mean_pnl": 19.2743,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__GBMRegimeEnv.yaml"
+  },
+  "TD3Agent__GBMVanillaEnv": {
+    "agent": "TD3Agent",
+    "env": "GBMVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 26,
+    "best_sharpe": 1.941208,
+    "best_mean_pnl": 7.8017,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__GBMVanillaEnv.yaml"
+  },
+  "TD3Agent__OUJumpEnv": {
+    "agent": "TD3Agent",
+    "env": "OUJumpEnv",
+    "n_trials_completed": 30,
+    "best_trial": 20,
+    "best_sharpe": 1.786511,
+    "best_mean_pnl": 15.9656,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__OUJumpEnv.yaml"
+  },
+  "TD3Agent__OUJumpRegimeEnv": {
+    "agent": "TD3Agent",
+    "env": "OUJumpRegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 28,
+    "best_sharpe": 1.478749,
+    "best_mean_pnl": 17.4982,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__OUJumpRegimeEnv.yaml"
+  },
+  "TD3Agent__OURegimeEnv": {
+    "agent": "TD3Agent",
+    "env": "OURegimeEnv",
+    "n_trials_completed": 30,
+    "best_trial": 6,
+    "best_sharpe": 1.004339,
+    "best_mean_pnl": 14.4465,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__OURegimeEnv.yaml"
+  },
+  "TD3Agent__OUVanillaEnv": {
+    "agent": "TD3Agent",
+    "env": "OUVanillaEnv",
+    "n_trials_completed": 30,
+    "best_trial": 3,
+    "best_sharpe": 1.105762,
+    "best_mean_pnl": 16.3912,
+    "yaml_path": "tuning_results/tuned_v1/best_params/TD3Agent__OUVanillaEnv.yaml"
+  }
+}

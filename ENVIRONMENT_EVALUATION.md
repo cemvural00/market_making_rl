@@ -304,4 +304,36 @@ self.S = self.S + self.kappa * (self.mu - self.S) * self.dt + self.sigma * dW
 | ABMVanillaEnv | ✅ | ✅ | None |
 | ABMJumpEnv | ✅ | ✅ | None |
 | ABMRegimeEnv | ✅ | ✅ | None |
-| ABMJ
+| ABMJumpRegimeEnv | ✅ | ✅ | None |
+| GBMVanillaEnv | ✅ | ⚠️ | Different σ scale (percentage vs absolute) |
+| GBMJumpEnv | ✅ | ⚠️ | Different σ/jump scales (percentage vs absolute) |
+| GBMRegimeEnv | ✅ | ⚠️ | Different σ scale (percentage vs absolute) |
+| GBMJumpRegimeEnv | ✅ | ⚠️ | Different σ/jump scales (percentage vs absolute) |
+| OUVanillaEnv | ✅ | ✅ | None |
+| OUJumpEnv | ✅ | ✅ | None |
+| OURegimeEnv | ✅ | ✅ | None |
+| OUJumpRegimeEnv | ✅ | ✅ | None |
+
+**Overall Status:**
+- ✅ **12/12 environments are mathematically correct**
+- ✅ **All critical bugs have been fixed** (GBM jumps now multiplicative)
+- ⚠️ **Parameter comparability:** GBM uses percentage scales while ABM/OU use absolute scales (only comparable at S0≈100)
+
+---
+
+## Next Steps
+
+1. ✅ **Completed:** Fixed GBM jump bugs (multiplicative jumps implemented)
+2. ✅ **Completed:** Parameter documentation in code (volatility and jump scales)
+3. **Short-term:** Add unit tests for mathematical correctness
+4. **Medium-term:** Add parameter validation (S0 > 0, jump_std > 0, etc.)
+5. **Long-term:** Consider parameter standardization for better comparability (optional)
+
+---
+
+## Update History
+
+- **2026-01-10:** Updated document to reflect fixes to GBM jump implementations
+  - GBM jumps now correctly multiplicative (log-normal)
+  - Updated jump_std defaults from 1.0 to 0.05 for GBM environments
+  - All environments now mathematically correct

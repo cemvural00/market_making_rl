@@ -1,0 +1,29 @@
+agent: LSTMPPOAgent
+env: ABMVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 11
+best_sharpe: 1.041283
+best_mean_pnl: 14.3646
+best_std_pnl: 13.7951
+search_budget_steps: 30000
+params:
+  learning_rate: 1.17678384992153e-05
+  n_steps: 512
+  batch_size: 256
+  n_epochs: 4
+  gamma: 0.9356474648617592
+  ent_coef: 0.0024018071064684904
+  clip_range: 0.1
+  gae_lambda: 0.9212189882674642
+  total_timesteps: 200000
+  policy_kwargs:
+    lstm_hidden_size: 128
+    n_lstm_layers: 2
+    shared_lstm: false
+    net_arch:
+    - 32
+    - 32
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0

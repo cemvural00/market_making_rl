@@ -1,3 +1,5 @@
+from collections import deque
+
 import numpy as np
 import gymnasium as gym
 from gymnasium import spaces
@@ -27,6 +29,9 @@ class MarketMakingBaseEnv(gym.Env, ABC):
     """
 
     metadata = {"render_modes": []}
+
+    # GBM subclasses set this to True so lag returns normalise by S_t instead of S_0
+    _normalize_lags_by_current_price: bool = False
 
     def __init__(
         self,
@@ -68,11 +73,10 @@ class MarketMakingBaseEnv(gym.Env, ABC):
             dtype=np.float32,
         )
 
-        # ----- Observation space -----
-        # [normalized_time, S/S0, dS, q/max_inventory]
+        # ----- Observation space (16 features) -----
         self.observation_space = spaces.Box(
-            low=np.array([0.0, 0.0, -np.inf, -1.0], dtype=np.float32),
-            high=np.array([1.0, np.inf,  np.inf,   1.0], dtype=np.float32),
+            low=-np.inf * np.ones(16, dtype=np.float32),
+            high= np.inf * np.ones(16, dtype=np.float32),
             dtype=np.float32,
         )
 
@@ -83,6 +87,17 @@ class MarketMakingBaseEnv(gym.Env, ABC):
         self.q = None
         self.X = None
         self.done = False
+
+        # sigma_0 for vol normalisation — set lazily in reset() after child __init__ runs
+        self.sigma_0 = None
+
+        # Ring buffers — initialised in reset()
+        self.price_buffer = deque([S0] * 201, maxlen=201)
+        self.q_buffer = deque([0] * 21, maxlen=21)
+        self.bid_fill_buffer = deque([0] * 100, maxlen=100)
+        self.ask_fill_buffer = deque([0] * 100, maxlen=100)
+        self.t_since_last_bid_fill = 0
+        self.t_since_last_ask_fill = 0
 
     # ============================================================
     # ===============  ABSTRACT PRICE UPDATE  =====================
@@ -107,11 +122,62 @@ class MarketMakingBaseEnv(gym.Env, ABC):
     # ============================================================
 
     def _get_obs(self):
+        # --- Existing 4 features ---
         norm_time = self.t_index / self.n_steps
-        S_norm = self.S / self.S0
-        dS = self.S - self.S_prev
-        q_norm = self.q / self.max_inventory
-        return np.array([norm_time, S_norm, dS, q_norm], dtype=np.float32)
+        S_norm    = self.S / self.S0
+        dS        = self.S - self.S_prev
+        q_norm    = self.q / self.max_inventory
+
+        # --- Price array from buffer (len 201) ---
+        price_arr = np.asarray(self.price_buffer, dtype=np.float64)
+
+        # --- Features 5-6: Realized volatility ---
+        dS_short = np.diff(price_arr[-51:])   # 50 squared price increments
+        dS_long  = np.diff(price_arr)          # 200 squared price increments
+        rv_short = np.sqrt(np.mean(dS_short ** 2))
+        rv_long  = np.sqrt(np.mean(dS_long  ** 2))
+        sigma_0  = self.sigma_0 if self.sigma_0 is not None else 1.0
+        rv_short_norm = rv_short / (sigma_0 + 1e-8)
+        rv_long_norm  = rv_long  / (sigma_0 + 1e-8)
+
+        # --- Feature 7: Volatility ratio (dimensionless regime proxy) ---
+        vol_ratio = rv_short / (rv_long + 1e-8)
+
+        # --- Feature 8: Fill imbalance over last 100 steps ---
+        bid_sum = float(np.sum(self.bid_fill_buffer))
+        ask_sum = float(np.sum(self.ask_fill_buffer))
+        fill_imbalance = (bid_sum - ask_sum) / (bid_sum + ask_sum + 1e-8)
+
+        # --- Features 9-10: Time since last fill (normalised to [0, 1]) ---
+        time_since_bid = self.t_since_last_bid_fill / self.n_steps
+        time_since_ask = self.t_since_last_ask_fill / self.n_steps
+
+        # --- Features 11-13: Lagged returns ---
+        # GBM: normalise by current S (multiplicative process); others: normalise by S0
+        lag_denom = self.S if self._normalize_lags_by_current_price else self.S0
+        lag_ret_5   = (self.S - price_arr[-6])   / (lag_denom + 1e-8)
+        lag_ret_20  = (self.S - price_arr[-21])  / (lag_denom + 1e-8)
+        lag_ret_100 = (self.S - price_arr[-101]) / (lag_denom + 1e-8)
+
+        # --- Feature 14: Inventory × time-remaining (AS reservation price term) ---
+        inv_time = q_norm * (1.0 - norm_time)
+
+        # --- Feature 15: Inventory velocity over last 20 steps ---
+        q_arr = np.asarray(self.q_buffer, dtype=np.float64)   # len 21
+        inv_velocity = (self.q - q_arr[0]) / self.max_inventory
+
+        # --- Feature 16: Jump indicator ---
+        # rv_long is already the per-step RMS (≈ sigma * sqrt(dt)), so the
+        # 3-sigma threshold for a single price increment is 3 * rv_long directly.
+        jump_flag = 1.0 if abs(dS) > 3.0 * rv_long else 0.0
+
+        return np.array([
+            norm_time, S_norm, dS, q_norm,
+            rv_short_norm, rv_long_norm, vol_ratio,
+            fill_imbalance, time_since_bid, time_since_ask,
+            lag_ret_5, lag_ret_20, lag_ret_100,
+            inv_time, inv_velocity, jump_flag,
+        ], dtype=np.float32)
 
     # ============================================================
     # ===================== FILL MODEL ============================
@@ -136,6 +202,24 @@ class MarketMakingBaseEnv(gym.Env, ABC):
         self.q = 0
         self.X = 0.0
         self.done = False
+
+        # Detect sigma_0 once — child __init__ sets self.sigma / self.sigma_low
+        # before or after super().__init__, so reset() is the safe detection point.
+        if self.sigma_0 is None:
+            if hasattr(self, 'sigma'):
+                self.sigma_0 = self.sigma
+            elif hasattr(self, 'sigma_low'):
+                self.sigma_0 = self.sigma_low
+            else:
+                self.sigma_0 = 1.0
+
+        # Re-initialise ring buffers
+        self.price_buffer = deque([self.S0] * 201, maxlen=201)
+        self.q_buffer = deque([0] * 21, maxlen=21)
+        self.bid_fill_buffer = deque([0] * 100, maxlen=100)
+        self.ask_fill_buffer = deque([0] * 100, maxlen=100)
+        self.t_since_last_bid_fill = 0
+        self.t_since_last_ask_fill = 0
 
         return self._get_obs(), {}
 
@@ -175,16 +259,30 @@ class MarketMakingBaseEnv(gym.Env, ABC):
         S_old = self.S
 
         # ----- Inventory & cash updates -----
+        actual_bid_fill = False
         if filled_bid and self.q < self.max_inventory:
             self.q += 1
             self.X -= bid
+            actual_bid_fill = True
 
+        actual_ask_fill = False
         if filled_ask and self.q > -self.max_inventory:
             self.q -= 1
             self.X += ask
+            actual_ask_fill = True
+
+        # ----- Update fill buffers & time-since-fill counters -----
+        self.bid_fill_buffer.append(int(actual_bid_fill))
+        self.ask_fill_buffer.append(int(actual_ask_fill))
+        self.t_since_last_bid_fill = 0 if actual_bid_fill else self.t_since_last_bid_fill + 1
+        self.t_since_last_ask_fill = 0 if actual_ask_fill else self.t_since_last_ask_fill + 1
 
         # ----- Price update (child defines logic) -----
         self._update_price()
+
+        # ----- Update price & inventory buffers -----
+        self.price_buffer.append(self.S)
+        self.q_buffer.append(self.q)
 
         # ----- Reward -----
         pnl_old = X_old + q_old * S_old

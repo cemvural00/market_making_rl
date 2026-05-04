@@ -1,0 +1,21 @@
+agent: PPOAgent
+env: OUJumpEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 21
+best_sharpe: 1.243204
+best_mean_pnl: 9.8177
+best_std_pnl: 7.8971
+search_budget_steps: 30000
+params:
+  learning_rate: 0.004298093299527248
+  n_steps: 512
+  batch_size: 512
+  n_epochs: 7
+  gamma: 0.9734769717183557
+  ent_coef: 0.001396288805075142
+  clip_range: 0.1
+  gae_lambda: 0.816389452330516
+  total_timesteps: 150000
+  use_vec_env: false
+  verbose: 0

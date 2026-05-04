@@ -1,0 +1,21 @@
+agent: PPOAgent
+env: GBMRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 5
+best_sharpe: 1.353904
+best_mean_pnl: 33.6368
+best_std_pnl: 24.8443
+search_budget_steps: 30000
+params:
+  learning_rate: 0.0015382308040279
+  n_steps: 512
+  batch_size: 128
+  n_epochs: 2
+  gamma: 0.9310982321715663
+  ent_coef: 0.0009452571391072313
+  clip_range: 0.3
+  gae_lambda: 0.8944429850323898
+  total_timesteps: 150000
+  use_vec_env: false
+  verbose: 0

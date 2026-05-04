@@ -1,0 +1,14 @@
+agent: FixedSpreadAgent
+env: OUVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 18
+best_sharpe: 0.575921
+best_mean_pnl: 6.5045
+best_std_pnl: 11.2941
+search_budget_steps: unknown
+params:
+  fixed_multiplier: 2.5435852195963635
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

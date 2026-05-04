@@ -71,11 +71,13 @@ RL_AGENTS = {
 }
 
 
-def train_single(env_class, env_config_key, agent_class, agent_config_key, 
-                 n_eval_episodes=100, skip_if_exists=True):
+def train_single(env_class, env_config_key, agent_class, agent_config_key,
+                 n_eval_episodes=100, skip_if_exists=True,
+                 results_base="results", models_base="models",
+                 tuned_params_dir=None):
     """
     Train a single agent on a single environment.
-    
+
     Parameters
     ----------
     env_class : class
@@ -90,30 +92,51 @@ def train_single(env_class, env_config_key, agent_class, agent_config_key,
         Number of episodes for evaluation after training
     skip_if_exists : bool
         Skip training if model already exists
+    results_base : str
+        Root directory for saving results (e.g. "results" or "results/v2")
+    models_base : str
+        Root directory for saving models (e.g. "models" or "models/v2")
+    tuned_params_dir : str or None
+        Path to a directory containing tuned YAML files
+        (e.g. "tuning_results/tuned_v1/best_params").
+        When set, loads "{AgentName}__{EnvName}.yaml" from this directory
+        and overlays its "params" block onto the default agent config.
     """
     env_name = env_class.__name__
     agent_name = agent_class.__name__
-    
+
     # Check if model already exists
     if skip_if_exists:
         from experiments.model_loader import model_exists
-        if model_exists(env_name, agent_name):
+        if model_exists(env_name, agent_name, model_save_path=models_base):
             print(f"⏭️  Skipping {agent_name} on {env_name} (model already exists)")
             return True
-    
+
     try:
         # Load configs
         all_env_configs = load_config("configs/env_configs.yaml")
         all_agent_configs = load_config("configs/agent_configs.yaml")
-        
+
         env_config = all_env_configs.get(env_config_key, {})
         agent_config = all_agent_configs.get(agent_config_key, {})
-        
+
+        # Overlay tuned hyperparameters when --tuned-params-dir is provided
+        if tuned_params_dir:
+            import yaml
+            tuned_yaml = os.path.join(tuned_params_dir, f"{agent_name}__{env_name}.yaml")
+            if os.path.exists(tuned_yaml):
+                with open(tuned_yaml) as f:
+                    tuned = yaml.safe_load(f)
+                agent_config.update(tuned.get("params", {}))
+                print(f"  ↳ Loaded tuned params from: {tuned_yaml}")
+            else:
+                print(f"  ⚠  No tuned params found at {tuned_yaml}, using defaults")
+
         # Run training experiment
         print(f"\n{'='*60}")
         print(f"Training: {agent_name} on {env_name}")
         print(f"{'='*60}")
-        
+
         run_experiment(
             env_class=env_class,
             agent_class=agent_class,
@@ -121,13 +144,13 @@ def train_single(env_class, env_config_key, agent_class, agent_config_key,
             agent_config=agent_config,
             train=True,
             n_eval_episodes=n_eval_episodes,
-            save_path="results",
+            save_path=results_base,
             save_model=True,
-            model_save_path="models"
+            model_save_path=models_base
         )
-        
+
         return True
-        
+
     except Exception as e:
         print(f"❌ Error training {agent_name} on {env_name}: {e}")
         import traceback
@@ -135,54 +158,72 @@ def train_single(env_class, env_config_key, agent_class, agent_config_key,
         return False
 
 
-def train_all(skip_if_exists=True, n_eval_episodes=100):
+def train_all(skip_if_exists=True, n_eval_episodes=100, run_id="",
+              tuned_params_dir=None):
     """
     Train all RL agents on all environments.
-    
+
     Parameters
     ----------
     skip_if_exists : bool
         Skip training if model already exists
     n_eval_episodes : int
         Number of episodes for evaluation after training
+    run_id : str
+        Optional run identifier. When set, outputs go to
+        results/{run_id}/ and models/{run_id}/ so previous
+        runs are never overwritten.
+    tuned_params_dir : str or None
+        Path to a tuning best_params directory (see train_single).
+        When set, tuned hyperparameters override YAML defaults for each combo.
     """
+    results_base = f"results/{run_id}" if run_id else "results"
+    models_base = f"models/{run_id}" if run_id else "models"
+
     total = len(ENVIRONMENTS) * len(RL_AGENTS)
     current = 0
     successful = 0
     failed = 0
     skipped = 0
-    
+
     print(f"\n{'='*60}")
     print(f"TRAINING ALL RL AGENTS ON ALL ENVIRONMENTS")
     print(f"Total combinations: {total}")
+    if run_id:
+        print(f"Run ID: {run_id}  →  results: {results_base}/  models: {models_base}/")
+    if tuned_params_dir:
+        print(f"Tuned params: {tuned_params_dir}/")
     print(f"{'='*60}\n")
-    
+
     for env_name, (env_class, env_config_key) in ENVIRONMENTS.items():
         for agent_name, (agent_class, agent_config_key) in RL_AGENTS.items():
             current += 1
             print(f"\n[{current}/{total}] Processing: {agent_name} on {env_name}")
-            
+
             # Check if should skip
             if skip_if_exists:
                 from experiments.model_loader import model_exists
-                if model_exists(env_name, agent_name):
+                if model_exists(env_name, agent_name, model_save_path=models_base):
                     skipped += 1
                     print(f"⏭️  Skipped (model exists)")
                     continue
-            
+
             # Train
             success = train_single(
                 env_class, env_config_key,
                 agent_class, agent_config_key,
                 n_eval_episodes=n_eval_episodes,
-                skip_if_exists=False  # Already checked above
+                skip_if_exists=False,  # Already checked above
+                results_base=results_base,
+                models_base=models_base,
+                tuned_params_dir=tuned_params_dir,
             )
-            
+
             if success:
                 successful += 1
             else:
                 failed += 1
-    
+
     # Summary
     print(f"\n{'='*60}")
     print(f"TRAINING SUMMARY")
@@ -198,14 +239,25 @@ if __name__ == "__main__":
     import argparse
     
     parser = argparse.ArgumentParser(description="Train all RL agents on all environments")
-    parser.add_argument("--no-skip", action="store_true", 
+    parser.add_argument("--no-skip", action="store_true",
                        help="Retrain even if model exists")
     parser.add_argument("--eval-episodes", type=int, default=100,
                        help="Number of evaluation episodes after training")
-    
+    parser.add_argument("--run-id", type=str, default="",
+                       help="Run identifier (e.g. 'v2'). Outputs go to "
+                            "results/<run-id>/ and models/<run-id>/ so old "
+                            "runs are never overwritten.")
+    parser.add_argument("--tuned-params-dir", type=str, default=None,
+                       help="Path to a tuning best_params directory "
+                            "(e.g. tuning_results/tuned_v1/best_params). "
+                            "When set, tuned hyperparameters override YAML "
+                            "defaults for each agent x environment combo.")
+
     args = parser.parse_args()
-    
+
     train_all(
         skip_if_exists=not args.no_skip,
-        n_eval_episodes=args.eval_episodes
+        n_eval_episodes=args.eval_episodes,
+        run_id=args.run_id,
+        tuned_params_dir=args.tuned_params_dir,
     )

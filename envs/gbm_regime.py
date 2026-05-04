@@ -11,6 +11,8 @@ class GBMRegimeEnv(MarketMakingBaseEnv):
         S <- S * exp( (mu - 0.5*sigma_regime^2)*dt + sigma_regime*sqrt(dt)*N(0,1) )
     """
 
+    _normalize_lags_by_current_price = True
+
     def __init__(
         self,
         sigma_low=0.01,

@@ -21,7 +21,7 @@ class InventoryShiftAgent(BaseAgent):
         self.max_inv = self.config.get("max_inventory", 20)
 
     def act(self, obs, info=None):
-        norm_time, S_norm, dS, q_norm = obs
+        norm_time, S_norm, dS, q_norm = obs[:4]
         q = q_norm * self.max_inv
 
         # Keep spread fixed

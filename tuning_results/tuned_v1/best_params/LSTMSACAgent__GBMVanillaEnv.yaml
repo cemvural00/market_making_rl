@@ -1,0 +1,26 @@
+agent: LSTMSACAgent
+env: GBMVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 23
+best_sharpe: 1.208945
+best_mean_pnl: 8.9908
+best_std_pnl: 7.4369
+search_budget_steps: 10000
+params:
+  learning_rate: 0.0007623956781690545
+  buffer_size: 50000
+  batch_size: 128
+  tau: 0.0048925174313232565
+  gamma: 0.9594869277818912
+  train_freq: 4
+  total_timesteps: 200000
+  policy_kwargs:
+    net_arch:
+    - 256
+    - 256
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0
+  ent_coef: auto
+  learning_starts: 100

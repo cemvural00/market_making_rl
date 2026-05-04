@@ -1,0 +1,17 @@
+agent: ASSimpleHeuristicAgent
+env: OUJumpEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 31
+best_sharpe: 0.504841
+best_mean_pnl: 6.2732
+best_std_pnl: 12.4261
+search_budget_steps: unknown
+params:
+  gamma: 0.10139434086077087
+  min_spread_factor: 0.33158925307448417
+  max_spread_factor: 0.5968509183117285
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

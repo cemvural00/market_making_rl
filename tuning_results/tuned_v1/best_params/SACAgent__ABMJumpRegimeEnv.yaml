@@ -1,0 +1,21 @@
+agent: SACAgent
+env: ABMJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 10
+best_sharpe: 1.836929
+best_mean_pnl: 12.7357
+best_std_pnl: 6.9332
+search_budget_steps: 10000
+params:
+  learning_rate: 0.0009123468538913895
+  buffer_size: 50000
+  batch_size: 64
+  tau: 0.0010727948694969763
+  gamma: 0.9502531217674797
+  train_freq: 2
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  ent_coef: auto
+  learning_starts: 100

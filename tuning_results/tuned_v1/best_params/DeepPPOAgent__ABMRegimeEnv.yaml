@@ -1,0 +1,27 @@
+agent: DeepPPOAgent
+env: ABMRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 4
+best_sharpe: 1.473593
+best_mean_pnl: 16.7372
+best_std_pnl: 11.3581
+search_budget_steps: 30000
+params:
+  learning_rate: 0.0020597335357437196
+  n_steps: 1024
+  batch_size: 64
+  n_epochs: 4
+  gamma: 0.9325183322026748
+  ent_coef: 0.015446089075047083
+  clip_range: 0.2
+  gae_lambda: 0.8239188491876603
+  total_timesteps: 200000
+  policy_kwargs:
+    net_arch:
+    - 256
+    - 256
+    - 256
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0

@@ -1,0 +1,15 @@
+agent: InventorySpreadScalerAgent
+env: GBMVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 28
+best_sharpe: 0.60465
+best_mean_pnl: 10.1343
+best_std_pnl: 16.7607
+search_budget_steps: unknown
+params:
+  alpha: 0.03503455601582922
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

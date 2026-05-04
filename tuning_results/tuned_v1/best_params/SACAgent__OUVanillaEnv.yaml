@@ -1,0 +1,21 @@
+agent: SACAgent
+env: OUVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 14
+best_sharpe: 1.65296
+best_mean_pnl: 10.8026
+best_std_pnl: 6.5353
+search_budget_steps: 10000
+params:
+  learning_rate: 0.0012690764532532696
+  buffer_size: 200000
+  batch_size: 64
+  tau: 0.0019052208490734025
+  gamma: 0.9557333760581195
+  train_freq: 2
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  ent_coef: auto
+  learning_starts: 100

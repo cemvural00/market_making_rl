@@ -1,0 +1,15 @@
+agent: MidPriceFollowAgent
+env: OUJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 3
+best_sharpe: 0.754006
+best_mean_pnl: 10.4834
+best_std_pnl: 13.9036
+search_budget_steps: unknown
+params:
+  trend_sensitivity: 0.22134665589618843
+  max_skew: 0.8795585311974417
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

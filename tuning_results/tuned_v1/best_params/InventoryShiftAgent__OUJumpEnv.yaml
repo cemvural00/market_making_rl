@@ -1,0 +1,15 @@
+agent: InventoryShiftAgent
+env: OUJumpEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 44
+best_sharpe: 0.692261
+best_mean_pnl: 5.7019
+best_std_pnl: 8.2366
+search_budget_steps: unknown
+params:
+  beta: 0.008134621474983885
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

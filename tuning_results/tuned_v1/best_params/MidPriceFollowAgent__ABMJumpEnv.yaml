@@ -1,0 +1,15 @@
+agent: MidPriceFollowAgent
+env: ABMJumpEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 7
+best_sharpe: 0.716178
+best_mean_pnl: 9.5649
+best_std_pnl: 13.3555
+search_budget_steps: unknown
+params:
+  trend_sensitivity: 0.5863836532609469
+  max_skew: 0.2650640588680904
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

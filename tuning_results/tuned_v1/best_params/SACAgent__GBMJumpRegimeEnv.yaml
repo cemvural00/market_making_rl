@@ -1,0 +1,21 @@
+agent: SACAgent
+env: GBMJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 11
+best_sharpe: 1.370572
+best_mean_pnl: 32.0801
+best_std_pnl: 23.4063
+search_budget_steps: 10000
+params:
+  learning_rate: 0.000375826107126534
+  buffer_size: 100000
+  batch_size: 128
+  tau: 0.028085983042191662
+  gamma: 0.9408388857797587
+  train_freq: 2
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  ent_coef: auto
+  learning_starts: 100

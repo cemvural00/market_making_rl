@@ -24,7 +24,7 @@ class InventorySpreadScalerAgent(BaseAgent):
         """
         obs = [norm_time, S_norm, dS, q_norm]
         """
-        norm_time, S_norm, dS, q_norm = obs
+        norm_time, S_norm, dS, q_norm = obs[:4]
         q = q_norm * self.max_inv
 
         # retrieve base_delta

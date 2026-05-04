@@ -178,32 +178,44 @@ def create_markdown_report(df, summary, output_path):
                 f.write(f"- **{agent_name}**: {best['Environment']} (mean PnL: {best['mean']:.4f})\n")
 
 
-def main():
-    """Main function to aggregate results."""
+def main(results_dir=None, output_dir=None):
+    """Main function to aggregate results.
+
+    Parameters
+    ----------
+    results_dir : str, optional
+        Directory containing results. When None, read from CLI args.
+    output_dir : str, optional
+        Directory to save aggregated results. When None, read from CLI args.
+    """
     import argparse
-    
-    parser = argparse.ArgumentParser(description="Aggregate experiment results")
-    parser.add_argument("--results-dir", type=str, default="results",
-                       help="Directory containing results")
-    parser.add_argument("--output-dir", type=str, default="results",
-                       help="Directory to save aggregated results")
-    
-    args = parser.parse_args()
-    
+
+    if results_dir is None or output_dir is None:
+        parser = argparse.ArgumentParser(description="Aggregate experiment results")
+        parser.add_argument("--results-dir", type=str, default="results",
+                           help="Directory containing results")
+        parser.add_argument("--output-dir", type=str, default="results",
+                           help="Directory to save aggregated results")
+        args = parser.parse_args()
+        if results_dir is None:
+            results_dir = args.results_dir
+        if output_dir is None:
+            output_dir = args.output_dir
+
     print("Loading results...")
-    results = load_all_metrics(args.results_dir)
-    
+    results = load_all_metrics(results_dir)
+
     if not results:
         print("No results found.")
         return
-    
+
     print(f"Found results for {len(results)} environments")
     total_experiments = sum(len(agents) for agents in results.values())
     print(f"Total experiments: {total_experiments}")
-    
+
     print("\nCreating comparison tables...")
-    df, summary = create_comparison_table(results, args.output_dir)
-    
+    df, summary = create_comparison_table(results, output_dir)
+
     print("\n✓ Aggregation complete!")
 
 

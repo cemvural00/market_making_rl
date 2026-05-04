@@ -1,0 +1,15 @@
+agent: InventorySpreadScalerAgent
+env: OUVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 29
+best_sharpe: 0.659358
+best_mean_pnl: 9.7525
+best_std_pnl: 14.7908
+search_budget_steps: unknown
+params:
+  alpha: 0.024443235562079845
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

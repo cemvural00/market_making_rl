@@ -1,0 +1,18 @@
+agent: ASClosedFormAgent
+env: OUVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 47
+best_sharpe: 0.534047
+best_mean_pnl: 4.1803
+best_std_pnl: 7.8276
+search_budget_steps: unknown
+params:
+  gamma: 0.12622311438484157
+  k: 3.802172034368514
+  sigma: 20.0
+  base_delta: 1.0
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

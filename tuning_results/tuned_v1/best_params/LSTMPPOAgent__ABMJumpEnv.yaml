@@ -1,0 +1,29 @@
+agent: LSTMPPOAgent
+env: ABMJumpEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 9
+best_sharpe: 1.138928
+best_mean_pnl: 17.2056
+best_std_pnl: 15.1068
+search_budget_steps: 30000
+params:
+  learning_rate: 1.7882156647879485e-05
+  n_steps: 512
+  batch_size: 256
+  n_epochs: 2
+  gamma: 0.9160808051417498
+  ent_coef: 0.0010709022406253555
+  clip_range: 0.1
+  gae_lambda: 0.9424358442695072
+  total_timesteps: 200000
+  policy_kwargs:
+    lstm_hidden_size: 128
+    n_lstm_layers: 2
+    shared_lstm: false
+    net_arch:
+    - 32
+    - 32
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0

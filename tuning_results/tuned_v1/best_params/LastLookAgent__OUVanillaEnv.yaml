@@ -1,0 +1,14 @@
+agent: LastLookAgent
+env: OUVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 40
+best_sharpe: 0.672983
+best_mean_pnl: 8.1012
+best_std_pnl: 12.0378
+search_budget_steps: unknown
+params:
+  trend_sensitivity: 1.3424839940988469
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

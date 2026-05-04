@@ -1,0 +1,23 @@
+agent: TD3Agent
+env: ABMRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 14
+best_sharpe: 1.33104
+best_mean_pnl: 26.6105
+best_std_pnl: 19.9922
+search_budget_steps: 10000
+params:
+  learning_rate: 0.008138170026409495
+  buffer_size: 100000
+  batch_size: 128
+  tau: 0.0061884700823499
+  gamma: 0.9413414099692713
+  train_freq: 2
+  policy_delay: 2
+  target_policy_noise: 0.39318855950136916
+  target_noise_clip: 0.5819708330406043
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  learning_starts: 100

@@ -35,7 +35,7 @@ class ASSimpleHeuristicAgent(BaseAgent):
         """
         obs: [norm_time, S_norm, dS, q_norm]
         """
-        norm_time, S_norm, dS, q_norm = obs
+        norm_time, S_norm, dS, q_norm = obs[:4]
 
         time_left = 1.0 - float(norm_time)
 
@@ -177,7 +177,7 @@ class ASClosedFormAgent(BaseAgent):
         action : np.ndarray
             [spread_factor, skew_factor] in [-1, 1]^2
         """
-        norm_time, S_norm, dS, q_norm = obs
+        norm_time, S_norm, dS, q_norm = obs[:4]
 
         # Continuous AS time left: τ = T - t
         # Here norm_time ∈ [0,1] is t/T, so t = norm_time * T → τ = T*(1 - norm_time)

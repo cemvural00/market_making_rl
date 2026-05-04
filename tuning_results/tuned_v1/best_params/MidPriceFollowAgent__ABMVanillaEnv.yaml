@@ -1,0 +1,15 @@
+agent: MidPriceFollowAgent
+env: ABMVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 11
+best_sharpe: 0.577534
+best_mean_pnl: 11.4413
+best_std_pnl: 19.8106
+search_budget_steps: unknown
+params:
+  trend_sensitivity: 2.910134476824204
+  max_skew: 0.1257193320651041
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

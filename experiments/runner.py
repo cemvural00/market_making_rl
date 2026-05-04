@@ -1,12 +1,25 @@
-def evaluate_agent(env, agent, n_episodes=100):
+def evaluate_agent(env, agent, n_episodes=100, eval_seed=None):
+    """
+    Evaluate an agent for n_episodes and return PnL and terminal inventory arrays.
+
+    Parameters
+    ----------
+    eval_seed : int or None
+        Base seed for evaluation episodes. Episode i uses seed (eval_seed + i),
+        making evaluation fully reproducible. When None, each reset draws a fresh
+        random seed (old behaviour — non-reproducible).
+        Use env_config["seed"] + 1000 for final evaluation so all agents on the
+        same environment see identical price paths.
+    """
     pnls = []
     qs = []
 
-    for _ in range(n_episodes):
-        obs, info = env.reset()
+    for ep in range(n_episodes):
+        ep_seed = (eval_seed + ep) if eval_seed is not None else None
+        obs, info = env.reset(seed=ep_seed)
         done = False
         last = info
-        
+
         # Reset LSTM memory at start of each episode (for fair evaluation)
         if hasattr(agent, 'reset_memory'):
             agent.reset_memory()
@@ -148,8 +161,11 @@ def run_experiment(
     # -----------------------
     # Evaluation
     # -----------------------
+    # eval_seed = base_seed + 1000 ensures all agents on the same environment
+    # are evaluated on identical price paths (reproducible, separated from training).
+    eval_seed = env_config.get("seed", 123) + 1000
     eval_env = env_class(**env_config)
-    pnls, qs = evaluate_agent(eval_env, agent, n_eval_episodes)
+    pnls, qs = evaluate_agent(eval_env, agent, n_eval_episodes, eval_seed=eval_seed)
 
     metrics = compute_basic_metrics(pnls)
     metrics["avg_inventory"] = abs(qs).mean()

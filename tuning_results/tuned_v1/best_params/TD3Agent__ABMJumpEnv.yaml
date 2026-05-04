@@ -1,0 +1,23 @@
+agent: TD3Agent
+env: ABMJumpEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 12
+best_sharpe: 1.171381
+best_mean_pnl: 5.5588
+best_std_pnl: 4.7455
+search_budget_steps: 10000
+params:
+  learning_rate: 0.000159754267808109
+  buffer_size: 200000
+  batch_size: 128
+  tau: 0.0010293787880976842
+  gamma: 0.9325370050277112
+  train_freq: 2
+  policy_delay: 4
+  target_policy_noise: 0.11007576548034165
+  target_noise_clip: 0.5993720127840978
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  learning_starts: 100

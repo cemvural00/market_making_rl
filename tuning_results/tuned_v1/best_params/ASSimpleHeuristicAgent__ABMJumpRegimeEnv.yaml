@@ -1,0 +1,17 @@
+agent: ASSimpleHeuristicAgent
+env: ABMJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 8
+best_sharpe: 0.491245
+best_mean_pnl: 8.2058
+best_std_pnl: 16.7041
+search_budget_steps: unknown
+params:
+  gamma: 0.08168455894760163
+  min_spread_factor: 0.3140703845572055
+  max_spread_factor: 0.5998368910791798
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

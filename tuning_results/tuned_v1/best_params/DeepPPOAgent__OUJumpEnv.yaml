@@ -1,0 +1,26 @@
+agent: DeepPPOAgent
+env: OUJumpEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 9
+best_sharpe: 1.046501
+best_mean_pnl: 9.7748
+best_std_pnl: 9.3405
+search_budget_steps: 30000
+params:
+  learning_rate: 1.1214075785991125e-05
+  n_steps: 2048
+  batch_size: 512
+  n_epochs: 3
+  gamma: 0.9341066351050259
+  ent_coef: 0.00021898812429056914
+  clip_range: 0.1
+  gae_lambda: 0.9319968092068358
+  total_timesteps: 200000
+  policy_kwargs:
+    net_arch:
+    - 128
+    - 128
+    activation_fn: ReLU
+  use_vec_env: false
+  verbose: 0

@@ -124,11 +124,12 @@ def get_agent_config(agent_name, env_config_key, all_agent_configs):
         return {}
 
 
-def compare_single(env_class, env_config_key, agent_class, agent_name, 
-                  agent_config, n_eval_episodes=100, skip_if_exists=True):
+def compare_single(env_class, env_config_key, agent_class, agent_name,
+                   agent_config, n_eval_episodes=100, skip_if_exists=True,
+                   results_base="results", models_base="models"):
     """
     Compare a single agent on a single environment.
-    
+
     Parameters
     ----------
     env_class : class
@@ -145,36 +146,40 @@ def compare_single(env_class, env_config_key, agent_class, agent_name,
         Number of episodes for evaluation
     skip_if_exists : bool
         Skip if results already exist
+    results_base : str
+        Root directory for results (e.g. "results" or "results/v2")
+    models_base : str
+        Root directory for models (e.g. "models" or "models/v2")
     """
     env_name = env_class.__name__
-    
+
     # Check if results already exist
     if skip_if_exists:
-        results_dir = os.path.join("results", env_name, agent_name)
+        results_dir = os.path.join(results_base, env_name, agent_name)
         metrics_file = os.path.join(results_dir, "metrics.json")
         if os.path.exists(metrics_file):
             print(f"⏭️  Skipping {agent_name} on {env_name} (results already exist)")
             return True
-    
+
     try:
         # Load environment config
         all_env_configs = load_config("configs/env_configs.yaml")
         env_config = all_env_configs.get(env_config_key, {})
-        
+
         # For RL agents, load trained model
         if agent_name in RL_AGENTS:
-            # Check if model exists
-            if not model_exists(env_name, agent_name):
+            # Check if model exists under the versioned path
+            if not model_exists(env_name, agent_name, model_save_path=models_base):
                 print(f"⚠️  Model not found for {agent_name} on {env_name}. Skipping.")
                 return False
-            
+
             # Create environment
             env = env_class(**env_config)
-            
+
             # Load trained agent
-            model_path = os.path.join("models", env_name, agent_name, "model")
+            model_path = os.path.join(models_base, env_name, agent_name, "model")
             agent = load_trained_agent(agent_class, env, model_path, agent_config)
-            
+
             # Run evaluation (no training)
             run_experiment(
                 env_class=env_class,
@@ -183,7 +188,7 @@ def compare_single(env_class, env_config_key, agent_class, agent_name,
                 agent_config=agent_config,
                 train=False,  # Already trained
                 n_eval_episodes=n_eval_episodes,
-                save_path="results",
+                save_path=results_base,
                 save_model=False
             )
         else:
@@ -195,12 +200,12 @@ def compare_single(env_class, env_config_key, agent_class, agent_name,
                 agent_config=agent_config,
                 train=False,  # No training needed
                 n_eval_episodes=n_eval_episodes,
-                save_path="results",
+                save_path=results_base,
                 save_model=False
             )
-        
+
         return True
-        
+
     except Exception as e:
         print(f"❌ Error comparing {agent_name} on {env_name}: {e}")
         import traceback
@@ -208,10 +213,11 @@ def compare_single(env_class, env_config_key, agent_class, agent_name,
         return False
 
 
-def compare_all(n_eval_episodes=100, skip_if_exists=True, rl_only=False, heuristic_only=False):
+def compare_all(n_eval_episodes=100, skip_if_exists=True, rl_only=False,
+                heuristic_only=False, run_id=""):
     """
     Compare all agents on all environments.
-    
+
     Parameters
     ----------
     n_eval_episodes : int
@@ -222,62 +228,73 @@ def compare_all(n_eval_episodes=100, skip_if_exists=True, rl_only=False, heurist
         Only compare RL agents
     heuristic_only : bool
         Only compare heuristic agents
+    run_id : str
+        Optional run identifier matching the one used during training.
+        When set, loads models from models/{run_id}/ and saves results
+        to results/{run_id}/.
     """
+    results_base = f"results/{run_id}" if run_id else "results"
+    models_base = f"models/{run_id}" if run_id else "models"
+
     # Determine which agents to use
     agents_to_compare = {}
     if not heuristic_only:
         agents_to_compare.update(RL_AGENTS)
     if not rl_only:
         agents_to_compare.update(HEURISTIC_AGENTS)
-    
+
     total = len(ENVIRONMENTS) * len(agents_to_compare)
     current = 0
     successful = 0
     failed = 0
     skipped = 0
-    
+
     print(f"\n{'='*60}")
     print(f"COMPARING ALL AGENTS ON ALL ENVIRONMENTS")
     print(f"Total combinations: {total}")
     print(f"RL agents: {len(RL_AGENTS) if not heuristic_only else 0}")
     print(f"Heuristic agents: {len(HEURISTIC_AGENTS) if not rl_only else 0}")
+    if run_id:
+        print(f"Run ID: {run_id}  →  results: {results_base}/  models: {models_base}/")
     print(f"{'='*60}\n")
-    
+
     # Load all configs once
     all_env_configs = load_config("configs/env_configs.yaml")
     all_agent_configs = load_config("configs/agent_configs.yaml")
-    
+
     for env_name, (env_class, env_config_key) in ENVIRONMENTS.items():
         for agent_name, (agent_class, _) in agents_to_compare.items():
             current += 1
             print(f"\n[{current}/{total}] Comparing: {agent_name} on {env_name}")
-            
+
             # Check if should skip (before calling compare_single)
             if skip_if_exists:
-                results_dir = os.path.join("results", env_name, agent_name)
+                results_dir = os.path.join(results_base, env_name, agent_name)
                 metrics_file = os.path.join(results_dir, "metrics.json")
                 if os.path.exists(metrics_file):
                     skipped += 1
                     print(f"⏭️  Skipped (results already exist)")
                     continue
-            
+
             # Get agent config
             agent_config = get_agent_config(agent_name, env_config_key, all_agent_configs)
-            
+
             # Compare
             success = compare_single(
                 env_class, env_config_key,
                 agent_class, agent_name,
                 agent_config,
                 n_eval_episodes=n_eval_episodes,
-                skip_if_exists=False  # Already checked above
+                skip_if_exists=False,  # Already checked above
+                results_base=results_base,
+                models_base=models_base,
             )
-            
+
             if success:
                 successful += 1
             else:
                 failed += 1
-    
+
     # Summary
     print(f"\n{'='*60}")
     print(f"COMPARISON SUMMARY")
@@ -301,12 +318,17 @@ if __name__ == "__main__":
                        help="Only compare RL agents")
     parser.add_argument("--heuristic-only", action="store_true",
                        help="Only compare heuristic agents")
-    
+    parser.add_argument("--run-id", type=str, default="",
+                       help="Run identifier matching the one used during training "
+                            "(e.g. 'v2'). Loads models from models/<run-id>/ and "
+                            "saves results to results/<run-id>/.")
+
     args = parser.parse_args()
-    
+
     compare_all(
         n_eval_episodes=args.eval_episodes,
         skip_if_exists=not args.no_skip,
         rl_only=args.rl_only,
-        heuristic_only=args.heuristic_only
+        heuristic_only=args.heuristic_only,
+        run_id=args.run_id,
     )

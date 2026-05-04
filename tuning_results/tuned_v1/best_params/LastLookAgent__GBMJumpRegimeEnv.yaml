@@ -1,0 +1,14 @@
+agent: LastLookAgent
+env: GBMJumpRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 30
+best_sharpe: 0.595673
+best_mean_pnl: 11.7989
+best_std_pnl: 19.8076
+search_budget_steps: unknown
+params:
+  trend_sensitivity: 0.33721246153014084
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

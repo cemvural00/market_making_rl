@@ -24,7 +24,7 @@ This project provides:
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone <https://github.com/cemvural00/market_making_rl>
 cd market_making_rl
 ```
 

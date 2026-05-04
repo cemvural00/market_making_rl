@@ -1,0 +1,23 @@
+agent: TD3Agent
+env: OURegimeEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 6
+best_sharpe: 1.004339
+best_mean_pnl: 14.4465
+best_std_pnl: 14.3841
+search_budget_steps: 10000
+params:
+  learning_rate: 8.569331925053983e-05
+  buffer_size: 100000
+  batch_size: 64
+  tau: 0.01961331382415545
+  gamma: 0.9561277197569497
+  train_freq: 4
+  policy_delay: 2
+  target_policy_noise: 0.25681984881459824
+  target_noise_clip: 0.4710164073434198
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  learning_starts: 100

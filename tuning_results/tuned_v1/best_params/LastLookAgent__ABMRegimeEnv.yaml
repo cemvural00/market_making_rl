@@ -1,0 +1,14 @@
+agent: LastLookAgent
+env: ABMRegimeEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 13
+best_sharpe: 0.617575
+best_mean_pnl: 15.4367
+best_std_pnl: 24.9957
+search_budget_steps: unknown
+params:
+  trend_sensitivity: 2.9186684734396544
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

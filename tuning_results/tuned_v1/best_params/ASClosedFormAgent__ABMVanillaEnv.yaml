@@ -1,0 +1,18 @@
+agent: ASClosedFormAgent
+env: ABMVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 50
+best_trial: 20
+best_sharpe: 0.587772
+best_mean_pnl: 4.0787
+best_std_pnl: 6.9392
+search_budget_steps: unknown
+params:
+  gamma: 0.0611778258693677
+  k: 0.6242098735844663
+  sigma: 20.0
+  base_delta: 1.0
+  max_inventory: 20
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0

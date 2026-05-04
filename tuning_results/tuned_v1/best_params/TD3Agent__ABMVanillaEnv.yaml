@@ -1,0 +1,23 @@
+agent: TD3Agent
+env: ABMVanillaEnv
+run_id: tuned_v1
+n_trials_completed: 30
+best_trial: 28
+best_sharpe: 1.457569
+best_mean_pnl: 26.3689
+best_std_pnl: 18.091
+search_budget_steps: 10000
+params:
+  learning_rate: 0.008351622710745403
+  buffer_size: 200000
+  batch_size: 128
+  tau: 0.0023104553803660255
+  gamma: 0.9897405649423894
+  train_freq: 3
+  policy_delay: 2
+  target_policy_noise: 0.34434512107884613
+  target_noise_clip: 0.4671169101221936
+  total_timesteps: 200000
+  use_vec_env: false
+  verbose: 0
+  learning_starts: 100

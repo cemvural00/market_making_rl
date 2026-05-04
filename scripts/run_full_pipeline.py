@@ -64,7 +64,11 @@ Examples:
                        help="Only compare RL agents")
     parser.add_argument("--heuristic-only", action="store_true",
                        help="Only compare heuristic agents")
-    
+    parser.add_argument("--run-id", type=str, default="",
+                       help="Run identifier (e.g. 'v2'). All outputs go to "
+                            "results/<run-id>/ and models/<run-id>/ so previous "
+                            "runs are never overwritten.")
+
     args = parser.parse_args()
     
     # If --full is specified, run everything
@@ -78,6 +82,9 @@ Examples:
         parser.print_help()
         return
     
+    results_base = f"results/{args.run_id}" if args.run_id else "results"
+    models_base = f"models/{args.run_id}" if args.run_id else "models"
+
     # Training phase
     if args.train:
         print("\n" + "="*60)
@@ -85,9 +92,10 @@ Examples:
         print("="*60)
         train_all(
             skip_if_exists=not args.no_skip_train,
-            n_eval_episodes=args.train_eval_episodes
+            n_eval_episodes=args.train_eval_episodes,
+            run_id=args.run_id,
         )
-    
+
     # Comparison phase
     if args.compare:
         print("\n" + "="*60)
@@ -97,23 +105,24 @@ Examples:
             n_eval_episodes=args.compare_eval_episodes,
             skip_if_exists=not args.no_skip_compare,
             rl_only=args.rl_only,
-            heuristic_only=args.heuristic_only
+            heuristic_only=args.heuristic_only,
+            run_id=args.run_id,
         )
-    
+
     # Aggregation phase
     if args.aggregate:
         print("\n" + "="*60)
         print("PHASE 3: AGGREGATING RESULTS")
         print("="*60)
-        aggregate_results()
-    
+        aggregate_results(results_dir=results_base, output_dir=results_base)
+
     print("\n" + "="*60)
     print("PIPELINE COMPLETE!")
     print("="*60)
     print("\nResults saved to:")
-    print("  - Models: models/")
-    print("  - Results: results/")
-    print("  - Comparison tables: results/comparison_*.csv/json/md")
+    print(f"  - Models: {models_base}/")
+    print(f"  - Results: {results_base}/")
+    print(f"  - Comparison tables: {results_base}/comparison_*.csv/json/md")
     print("="*60 + "\n")
 
 

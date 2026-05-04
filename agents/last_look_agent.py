@@ -24,7 +24,7 @@ class LastLookAgent(BaseAgent):
         self.beta = self.config.get("trend_sensitivity", 0.5)
 
     def act(self, obs, info=None):
-        norm_time, S_norm, dS, q_norm = obs
+        norm_time, S_norm, dS, q_norm = obs[:4]
 
         # spread stays mostly normal
         spread_factor = 0.0
